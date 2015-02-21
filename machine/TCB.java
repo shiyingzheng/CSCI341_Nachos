@@ -203,8 +203,7 @@ public final class TCB {
      * @return	<tt>true</tt> if the current JVM thread is a Nachos thread.
      */
     public static boolean isNachosThread() {
-	return (currentTCB != null &&
-		Thread.currentThread() == currentTCB.javaThread);
+		return (currentTCB != null && Thread.currentThread() == currentTCB.javaThread);
     }
 
     private void threadroot() {
