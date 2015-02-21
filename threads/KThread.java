@@ -275,6 +275,19 @@ public class KThread {
     public void join() {
     	Lib.debug(dbgThread, "Joining to thread: " + toString());  
 
+        /**
+        * From Cynthia:
+        * join does the same thing as the wait() call we discussed in class 
+        *     - it suspends the calling thread until the thread it's called on is finished.
+        * Say we have two threads, T0 and T1.  In the code run by T0 it calls T1.join().  
+        * When this call happens, T0 will give up the CPU and not run again until T1 exits.
+        * So in general, you need to alter the join call so that it causes the current thread (T0) 
+        *     (NOT the thread it's called on (T1)) to give up the CPU, 
+        *     and in the thread it's called on (T1), you need to save which thread called join (T0).  
+        * Then when T1 exits, you need to make sure it moves T0 back to the ready queue.
+        * The methods sleep() and ready() will probably be very useful to you. 
+        */
+
     	Lib.assertTrue(this != currentThread);
 
     }
