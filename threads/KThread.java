@@ -286,6 +286,9 @@ public class KThread {
         *     and in the thread it's called on (T1), you need to save which thread called join (T0).  
         * Then when T1 exits, you need to make sure it moves T0 back to the ready queue.
         * The methods sleep() and ready() will probably be very useful to you. 
+        *
+        * Things in this file that we might need to modify:
+        *   currentThread, readyQueue, idleThread
         */
 
     	Lib.assertTrue(this != currentThread);
