@@ -275,23 +275,14 @@ public class KThread {
     public void join() {
     	Lib.debug(dbgThread, "Joining to thread: " + toString());  
 
-        /**
-        * From Cynthia:
-        * join does the same thing as the wait() call we discussed in class 
-        *     - it suspends the calling thread until the thread it's called on is finished.
-        * Say we have two threads, T0 and T1.  In the code run by T0 it calls T1.join().  
-        * When this call happens, T0 will give up the CPU and not run again until T1 exits.
-        * So in general, you need to alter the join call so that it causes the current thread (T0) 
-        *     (NOT the thread it's called on (T1)) to give up the CPU, 
-        *     and in the thread it's called on (T1), you need to save which thread called join (T0).  
-        * Then when T1 exits, you need to make sure it moves T0 back to the ready queue.
-        * The methods sleep() and ready() will probably be very useful to you. 
-        *
-        * Things in this file that we might need to modify:
-        *   currentThread, readyQueue, idleThread
-        */
+        KThread thread = currentThread;
+        currentThread.sleep();
+        currentThread = this;
+        currentThread.run();
+        currentThread = thread;
+        currentThread.ready();
 
-    	Lib.assertTrue(this != currentThread);
+    	//Lib.assertTrue(this != currentThread);
 
     }
 
@@ -412,6 +403,32 @@ public class KThread {
     	private int which;
     }
 
+    private static class JoinTest implements Runnable {
+        int which;
+
+        JoinTest(int which) {
+            this.which = which;
+        }
+
+        public void run() {
+            for (int i=0; i<3; i++) {
+                System.out.println("*** thread " + which + " looped "
+                                   + i + " times");
+                currentThread.yield();
+            }
+            KThread x = new KThread(new PingTest(4));
+            x.fork();
+            x.join();
+
+            for (int i=0; i<3; i++) {
+                System.out.println("*** thread " + which + " looped "
+                                   + i + " times");
+                currentThread.yield();
+            }
+
+        }
+    }
+
     /**
      * Tests whether this module is working.
      */
@@ -421,6 +438,8 @@ public class KThread {
     	new KThread(new PingTest(1)).setName("forked thread").fork();
     	new KThread(new PingTest(2)).setName("shiying having fun").fork();
     	new PingTest(0).run();
+
+        new JoinTest(1).run();
     }
 
     private static final char dbgThread = 't';
@@ -461,3 +480,5 @@ public class KThread {
     private static KThread toBeDestroyed = null;
     private static KThread idleThread = null;
 }
+
+
