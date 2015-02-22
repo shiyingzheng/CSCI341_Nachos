@@ -275,15 +275,19 @@ public class KThread {
     public void join() {
     	Lib.debug(dbgThread, "Joining to thread: " + toString());  
 
+        Lib.assertTrue(this != currentThread);
+
+        Machine.interrupt().disable(); 
+
         KThread thread = currentThread;
-        currentThread.sleep();
         currentThread = this;
-        currentThread.run();
+        thread.sleep();
+        currentThread.ready();
+        currentThread.run(); 
         currentThread = thread;
         currentThread.ready();
 
-    	//Lib.assertTrue(this != currentThread);
-
+        Machine.interrupt().enable();
     }
 
     /**
@@ -439,7 +443,7 @@ public class KThread {
     	new KThread(new PingTest(2)).setName("shiying having fun").fork();
     	new PingTest(0).run();
 
-        new JoinTest(1).run();
+        //new JoinTest(1).run();
     }
 
     private static final char dbgThread = 't';
