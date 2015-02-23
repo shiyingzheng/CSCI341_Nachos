@@ -185,7 +185,7 @@ public class KThread {
     	Lib.debug(dbgThread, "Finishing thread: " + currentThread.toString());
     	
     	Machine.interrupt().disable(); 
-
+        release();
     	Machine.autoGrader().finishingCurrentThread(); 
 
     	Lib.assertTrue(toBeDestroyed == null);
@@ -278,16 +278,20 @@ public class KThread {
         Lib.assertTrue(this != currentThread);
 
         Machine.interrupt().disable(); 
-
-        KThread thread = currentThread;
-        thread.sleep();
-        currentThread = this;
-        currentThread.run(); 
-        currentThread = thread;
-        currentThread.ready();
+        if(this.status == statusFinished){ return; }
+        nextThread = currentThread;
+        nextThread.sleep();
         Machine.interrupt().enable();
+        
+        
     }
-
+    public void release(){
+        if(nextThread != null){
+            nextThread.ready();
+        }
+    }
+    // method release() that takes the nextthread variable and sets it to ready
+    //call it from finish
     /**
      * Create the idle thread. Whenever there are no threads ready to be run,
      * and <tt>runNextThread()</tt> is called, it will run the idle thread. The
@@ -481,6 +485,7 @@ public class KThread {
     private static KThread currentThread = null;
     private static KThread toBeDestroyed = null;
     private static KThread idleThread = null;
+    private KThread nextThread = null;
 }
 
 
