@@ -280,13 +280,11 @@ public class KThread {
         Machine.interrupt().disable(); 
 
         KThread thread = currentThread;
-        currentThread = this;
         thread.sleep();
-        currentThread.ready();
+        currentThread = this;
         currentThread.run(); 
         currentThread = thread;
         currentThread.ready();
-
         Machine.interrupt().enable();
     }
 
@@ -443,7 +441,7 @@ public class KThread {
     	new KThread(new PingTest(2)).setName("shiying having fun").fork();
     	new PingTest(0).run();
 
-        //new JoinTest(1).run();
+        new JoinTest(1).run();
     }
 
     private static final char dbgThread = 't';
