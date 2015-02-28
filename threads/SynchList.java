@@ -42,8 +42,10 @@ public class SynchList {
 		Object o;	
 
 		lock.acquire();
-		while (list.isEmpty())
+		while (list.isEmpty()){
 		    listEmpty.sleep();
+		    System.out.println("Sleeping");
+		}
 		o = list.removeFirst();
 		lock.release();	
 
@@ -57,8 +59,12 @@ public class SynchList {
 		}
 		
 		public void run() {
-		    for (int i=0; i<10; i++)
-			pong.add(ping.removeFirst());
+		    for (int i=0; i<10; i++){
+		    	Object first = ping.removeFirst(); // remove from ping list
+		    	System.out.println("from ping remove " + first);
+				pong.add(first); //add to pong list
+				System.out.println("to pong add " + first);
+			}
 		}	
 
 		private SynchList ping;
@@ -76,8 +82,11 @@ public class SynchList {
 
 		for (int i=0; i<10; i++) {
 		    Integer o = new Integer(i);
-		    ping.add(o);
-		    Lib.assertTrue(pong.removeFirst() == o);
+		    System.out.println("main adding " + i + " to ping");
+		    ping.add(o); //add int to ping list
+		    Object first = pong.removeFirst();
+		    Lib.assertTrue(first == o); //remove from pong list
+		    System.out.println("main remove " + first + " from pong");
 		}
     }
 

@@ -37,6 +37,9 @@ public class Semaphore {
     public void P() {
 		boolean intStatus = Machine.interrupt().disable();	
 
+		//uncomment following line to get value printed out
+		//System.out.println("before P " + value);
+
 		if (value == 0) {
 		    waitQueue.waitForAccess(KThread.currentThread());
 		    KThread.sleep();
@@ -44,6 +47,9 @@ public class Semaphore {
 		else {
 		    value--;
 		}	
+
+		//uncomment following line to get value printed out
+		//System.out.println("after P " + value);
 
 		Machine.interrupt().restore(intStatus);
     }
@@ -55,6 +61,9 @@ public class Semaphore {
     public void V() {
 		boolean intStatus = Machine.interrupt().disable();	
 
+		//uncomment following line to get value printed out
+		//System.out.println("before V " + value);
+
 		KThread thread = waitQueue.nextThread();
 		if (thread != null) {
 		    thread.ready();
@@ -62,6 +71,9 @@ public class Semaphore {
 		else {
 		    value++;
 		}
+
+		//uncomment following line to get value printed out
+		//System.out.println("after V " + value);
 		
 		Machine.interrupt().restore(intStatus);
     }
@@ -74,8 +86,9 @@ public class Semaphore {
 		
 		public void run() {
 		    for (int i=0; i<10; i++) {
-			ping.P();
-			pong.V();
+				System.out.println("Ping P Pong V iteration " + i);
+				ping.P();
+				pong.V();
 		    }
 		}	
 
@@ -93,6 +106,7 @@ public class Semaphore {
 		new KThread(new PingTest(ping, pong)).setName("ping").fork();	
 
 		for (int i=0; i<10; i++) {
+			System.out.println("Ping V Pong P iteration " + i);
 		    ping.V();
 		    pong.P();
 		}
