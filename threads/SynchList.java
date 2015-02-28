@@ -14,7 +14,7 @@ public class SynchList {
     public SynchList() {
 		list = new LinkedList<Object>();
 		lock = new Lock();
-		listEmpty = new Condition(lock);
+		listEmpty = new Condition2(lock);
     }
 
     /**
@@ -92,6 +92,6 @@ public class SynchList {
 
     private LinkedList<Object> list;
     private Lock lock;
-    private Condition listEmpty;
+    private Condition2 listEmpty;
 }
 

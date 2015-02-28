@@ -61,6 +61,7 @@ public class Condition {
     public Condition(Lock conditionLock) {
     	this.conditionLock = conditionLock;    
 
+        // A list of semaphores, unbounded
     	waitQueue = new LinkedList<Semaphore>();
     }
 
