@@ -71,7 +71,32 @@ public class SynchList {
 		private SynchList pong;
     }
 
-    /**
+    public void addAll(Object o, int numThreads) {
+    	Lib.assertTrue(o != null);
+
+    	lock.acquire();
+    	for(int i = 0; i < numThreads; i++)
+    	    list.add(o);
+    	listEmpty.wakeAll();
+    	lock.release();
+    }
+
+    private static class AddAllTest implements Runnable {
+    	AddAllTest(String name, SynchList monitor) {
+    	    this.monitor = monitor;
+    	    this.name = name;
+    	}
+
+	    public void run() {
+	        System.out.println(name + " is running.");
+	        System.out.println(name + " has removed " + monitor.removeFirst() + " from the list ");
+	    }
+
+    	private SynchList monitor;
+    	private String name;
+    }
+    
+	/**
      * Test that this module is working.
      */
     public static void selfTest() {
@@ -88,6 +113,14 @@ public class SynchList {
 		    Lib.assertTrue(first == o); //remove from pong list
 		    System.out.println("main remove " + first + " from pong");
 		}
+
+		SynchList addAllList = new SynchList();
+	    for (int i=1; i<5; i++)
+	        new KThread(new AddAllTest("Grabber test " + Integer.toString(i), addAllList)).setName("Grabber thread " + Integer.toString(i)).fork();
+	    System.out.println("We've added everything!");
+	    KThread.currentThread().yield(); // Make sure all of our GrabberTest threads get to call removeFirst() before we advance
+	    addAllList.addAll(new Integer(69), new Integer(3));
+	    KThread.currentThread().yield(); // Make sure all of our GrabberTest threads get to be woken up after our call to addAll
     }
 
     private LinkedList<Object> list;
