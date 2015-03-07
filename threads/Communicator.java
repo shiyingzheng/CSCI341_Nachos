@@ -12,12 +12,13 @@ import nachos.machine.*;
 public class Communicator {
     Lock lock;
     Condition cond;
+    int mailbox;
+
     /**
      * Allocate a new communicator.
      */
     public Communicator() {
         lock = new Lock();
-        int mailbox;
         cond = new Condition(lock);
     }
 
@@ -51,22 +52,53 @@ public class Communicator {
        lock.acquire();
        int received = mailbox;
        lock.release();
-       return recieved;
+       return received;
     }
 
-    private static class CommunicateTest implements Runnable {
-        CommunicateTest() {
+    private static class SpeakTest implements Runnable {
+        String name;
+        Communicator communicator;
+
+        SpeakTest(String name, Communicator communicator) {
+            this.name = name;
+            this.communicator = communicator;
         }
         
         public void run() {
-
+            for (int i = 0; i < 3; i++){
+                //this.communicator.speak(i);
+                System.out.println(this.name + " says " + i);
+            }
+            
         }   
     }
+
+    private static class ListenTest implements Runnable {
+        String name;
+        Communicator communicator;
+        ListenTest(String name, Communicator communicator) {
+            this.name = name;
+            this.communicator = communicator;
+        }
+        
+        public void run() {
+            for (int i = 0; i < 3; i++){
+                //int message = this.communicator.listen();
+                //System.out.println(this.name + " hears " + message);
+                System.out.println("listentest running");
+            }
+        }   
+    }    
 
     /**
      * Test if this module is working.
      */
     public static void selfTest() {
+        Communicator communicator = new Communicator();
 
+        new KThread(new SpeakTest("Speak Test 1", communicator)).fork();
+        new KThread(new SpeakTest("Speak Test 2", communicator)).fork();
+        new KThread(new ListenTest("Listen Test 1", communicator)).fork();
+        new ListenTest("Listen Test 2", communicator).run();
     }
 }
