@@ -38,4 +38,20 @@ public class Communicator {
     public int listen() {
 	return 0;
     }
+
+    private static class CommunicateTest implements Runnable {
+        CommunicateTest() {
+        }
+        
+        public void run() {
+
+        }   
+    }
+
+    /**
+     * Test if this module is working.
+     */
+    public static void selfTest() {
+
+    }
 }
