@@ -10,10 +10,15 @@ import nachos.machine.*;
  * threads can be paired off at this point.
  */
 public class Communicator {
+    Lock lock;
+    Condition cond;
     /**
      * Allocate a new communicator.
      */
     public Communicator() {
+        lock = new Lock();
+        int mailbox;
+        cond = new Condition(lock);
     }
 
     /**
@@ -27,6 +32,11 @@ public class Communicator {
      * @param	word	the integer to transfer.
      */
     public void speak(int word) {
+        cond.sleep();
+        lock.acquire();
+        mailbox = word;
+        lock.release();
+        cond.wake();
     }
 
     /**
@@ -36,6 +46,11 @@ public class Communicator {
      * @return	the integer transferred.
      */    
     public int listen() {
-	return 0;
+	   cond.wake();
+       cond.sleep();
+       lock.acquire();
+       int received = mailbox;
+       lock.release();
+       return recieved;
     }
 }
