@@ -11,7 +11,8 @@ import nachos.machine.*;
  */
 public class Communicator {
     Lock lock;
-    Condition cond;
+    Condition speaking;
+    Condition listening;
     int mailbox;
 
     /**
@@ -19,7 +20,8 @@ public class Communicator {
      */
     public Communicator() {
         lock = new Lock();
-        cond = new Condition(lock);
+        speaking = new Condition(lock);
+        listening = new Condition(lock);
     }
 
     /**
@@ -33,11 +35,11 @@ public class Communicator {
      * @param	word	the integer to transfer.
      */
     public void speak(int word) {
-        cond.sleep();
+        speaking.sleep();
         lock.acquire();
         mailbox = word;
         lock.release();
-        cond.wake();
+        listening.wake();
     }
 
     /**
@@ -47,8 +49,8 @@ public class Communicator {
      * @return	the integer transferred.
      */    
     public int listen() {
-	   cond.wake();
-       cond.sleep();
+	   speaking.wake();
+       listening.sleep();
        lock.acquire();
        int received = mailbox;
        lock.release();
@@ -66,7 +68,7 @@ public class Communicator {
         
         public void run() {
             for (int i = 0; i < 3; i++){
-                //this.communicator.speak(i);
+                this.communicator.speak(i);
                 System.out.println(this.name + " says " + i);
             }
             
@@ -83,9 +85,9 @@ public class Communicator {
         
         public void run() {
             for (int i = 0; i < 3; i++){
-                //int message = this.communicator.listen();
-                //System.out.println(this.name + " hears " + message);
-                System.out.println("listentest running");
+                int message = this.communicator.listen();
+                System.out.println(this.name + " hears " + message);
+                //System.out.println("listentest running");
             }
         }   
     }    
