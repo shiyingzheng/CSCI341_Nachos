@@ -53,4 +53,20 @@ public class Communicator {
        lock.release();
        return recieved;
     }
+
+    private static class CommunicateTest implements Runnable {
+        CommunicateTest() {
+        }
+        
+        public void run() {
+
+        }   
+    }
+
+    /**
+     * Test if this module is working.
+     */
+    public static void selfTest() {
+
+    }
 }
