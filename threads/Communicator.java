@@ -35,11 +35,13 @@ public class Communicator {
      * @param	word	the integer to transfer.
      */
     public void speak(int word) {
-        speaking.sleep();
         lock.acquire();
+        speaking.sleep();
+        
         mailbox = word;
-        lock.release();
+        
         listening.wake();
+        lock.release();
     }
 
     /**
@@ -49,12 +51,13 @@ public class Communicator {
      * @return	the integer transferred.
      */    
     public int listen() {
-	   speaking.wake();
-       listening.sleep();
-       lock.acquire();
-       int received = mailbox;
-       lock.release();
-       return received;
+        lock.acquire();
+	    speaking.wake();
+        listening.sleep();
+       
+        int received = mailbox;
+        lock.release();
+        return received;
     }
 
     private static class SpeakTest implements Runnable {
@@ -84,10 +87,9 @@ public class Communicator {
         }
         
         public void run() {
-            for (int i = 0; i < 3; i++){
+            for (int i = 0; i < 5; i++){
                 int message = this.communicator.listen();
                 System.out.println(this.name + " hears " + message);
-                //System.out.println("listentest running");
             }
         }   
     }    
