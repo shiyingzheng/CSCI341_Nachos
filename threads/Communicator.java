@@ -13,6 +13,7 @@ public class Communicator {
     Lock lock;
     Condition speaking;
     Condition listening;
+    Boolean written;
     int mailbox;
 
     /**
@@ -22,6 +23,7 @@ public class Communicator {
         lock = new Lock();
         speaking = new Condition(lock);
         listening = new Condition(lock);
+        written = false;
     }
 
     /**
@@ -31,16 +33,23 @@ public class Communicator {
      * <p>
      * Does not return until this thread is paired up with a listening thread.
      * Exactly one listener should receive <i>word</i>.
-     *
+     * 
      * @param	word	the integer to transfer.
      */
     public void speak(int word) {
         lock.acquire();
-        speaking.sleep();
+        while (written){
+            //System.out.println(KThread.currentThread().getName() + " speak bedtime");
+            listening.wake();
+            speaking.sleep();
+            //System.out.println(KThread.currentThread().getName() + " speak woke up");
+        }
         
         mailbox = word;
         
-        listening.wake();
+        written = true;
+
+        listening.wakeAll();
         lock.release();
     }
 
@@ -52,10 +61,19 @@ public class Communicator {
      */    
     public int listen() {
         lock.acquire();
-	    speaking.wake();
-        listening.sleep();
+	    speaking.wakeAll();
+
+        while (!written){
+            //System.out.println(KThread.currentThread().getName() + " listen bedtime");
+            speaking.wake();
+            listening.sleep();
+            //System.out.println(KThread.currentThread().getName() + " listen woke up");
+        }
        
         int received = mailbox;
+
+        written = false;
+
         lock.release();
         return received;
     }
@@ -87,7 +105,7 @@ public class Communicator {
         }
         
         public void run() {
-            for (int i = 0; i < 5; i++){
+            for (int i = 0; i < 3; i++){
                 int message = this.communicator.listen();
                 System.out.println(this.name + " hears " + message);
             }
@@ -100,9 +118,14 @@ public class Communicator {
     public static void selfTest() {
         Communicator communicator = new Communicator();
 
-        new KThread(new SpeakTest("Speak Test 1", communicator)).fork();
-        new KThread(new SpeakTest("Speak Test 2", communicator)).fork();
-        new KThread(new ListenTest("Listen Test 1", communicator)).fork();
-        new ListenTest("Listen Test 2", communicator).run();
+        new KThread(new SpeakTest("Speak Test 1", communicator)).setName("Speak Test 1").fork();
+        new KThread(new SpeakTest("Speak Test 2", communicator)).setName("Speak Test 2").fork();
+        new KThread(new ListenTest("Listen Test 1", communicator)).setName("Listen Test 1").fork();
+        new KThread(new ListenTest("Listen Test 2", communicator)).setName("Listen Test 2").fork();
+
+        for (int i = 0; i < 20; i++){
+            KThread.currentThread().yield();
+            //System.out.println("main thread "+ i);
+        }
     }
 }

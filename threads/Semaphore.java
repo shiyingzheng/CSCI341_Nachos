@@ -63,7 +63,7 @@ public class Semaphore {
 
 		//uncomment following line to get value printed out
 		//System.out.println("before V " + value);
-
+		
 		KThread thread = waitQueue.nextThread();
 		if (thread != null) {
 		    thread.ready();

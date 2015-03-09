@@ -81,7 +81,7 @@ public final class Interrupt {
      * @param	status	<tt>true</tt> to enable interrupts.
      */
     public void restore(boolean status) {
-	setStatus(status);
+		setStatus(status);
     }
 
     /**
@@ -96,8 +96,9 @@ public final class Interrupt {
 	boolean oldStatus = enabled;
 	enabled = status;
 	
-	if (oldStatus == false && status == true)
-	    tick(true);
+	if (oldStatus == false && status == true){
+		tick(true);
+	}
 
 	return oldStatus;
     }
@@ -168,7 +169,7 @@ public final class Interrupt {
 	    return;
 
 	Lib.debug(dbgInt, "Invoking interrupt handlers at time = " + time);
-	
+
 	while (!pending.isEmpty() &&
 	       ((PendingInterrupt) pending.first()).time <= time) {
 	    PendingInterrupt next = (PendingInterrupt) pending.first();
@@ -180,7 +181,7 @@ public final class Interrupt {
 		privilege.processor.flushPipe();
 
 	    Lib.debug(dbgInt, "  " + next.type);
-			
+
 	    next.handler.run();
 	}
 

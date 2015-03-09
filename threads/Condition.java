@@ -95,8 +95,13 @@ public class Condition {
     public void wake() {
     	Lib.assertTrue(conditionLock.isHeldByCurrentThread()); 
 
-    	if (!waitQueue.isEmpty())
-    	    ((Semaphore) waitQueue.removeFirst()).V();
+    	if (!waitQueue.isEmpty()){
+            ((Semaphore) waitQueue.removeFirst()).V();
+            //System.out.println("wake up");
+
+        }
+
+        //System.out.println("Woke");
     }
 
     /**
@@ -106,8 +111,11 @@ public class Condition {
     public void wakeAll() {
     	Lib.assertTrue(conditionLock.isHeldByCurrentThread()); 
 
-    	while (!waitQueue.isEmpty())
-    	    wake();
+    	while (!waitQueue.isEmpty()){
+            wake(); 
+            //System.out.println("Wake all");
+        }
+    	    
     }
 
     private Lock conditionLock;
