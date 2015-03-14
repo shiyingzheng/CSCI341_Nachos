@@ -5,6 +5,7 @@ import nachos.machine.*;
 import java.util.TreeSet;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * A scheduler that chooses threads based on their priorities.
@@ -128,6 +129,7 @@ public class PriorityScheduler extends Scheduler {
     protected class PriorityQueue extends ThreadQueue {
 		PriorityQueue(boolean transferPriority) {
 		    this.transferPriority = transferPriority;
+		    queue = new LinkedList<KThread>();
 		}
 
 		public void waitForAccess(KThread thread) {
@@ -142,8 +144,8 @@ public class PriorityScheduler extends Scheduler {
 
 		public KThread nextThread() {
 		    Lib.assertTrue(Machine.interrupt().disabled());
-		    // implement me
-		    return null;
+		    // maybe we need to modify the state of the thread here before returning
+		    return pickNextThread().thread;
 		}
 
 		/**
@@ -154,13 +156,24 @@ public class PriorityScheduler extends Scheduler {
 		 *		return.
 		 */
 		protected ThreadState pickNextThread() {
-		    // implement me
-		    return null;
+			KThread bestThread = null;
+			int highestPriority = -1;
+			for (KThread t : queue){
+				int tPriority = getPriority(t);
+				if (tPriority > highestPriority){
+					highestPriority = tPriority;
+					bestThread = t;
+				}
+			}
+			if (bestThread == null){
+				return null;
+			}
+		    return getThreadState(bestThread);
 		}
 	
 		public void print() {
 		    Lib.assertTrue(Machine.interrupt().disabled());
-		    // implement me (if you want)
+		    // implement me (if you want) No I don't
 		}	
 
 		/**
@@ -168,6 +181,11 @@ public class PriorityScheduler extends Scheduler {
 		 * threads to the owning thread.
 		 */
 		public boolean transferPriority;
+
+		/**
+		* Underlying storage for the priority queue.
+		*/
+		LinkedList<KThread> queue;
 	}
 
     /**
