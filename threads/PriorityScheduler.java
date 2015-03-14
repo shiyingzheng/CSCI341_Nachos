@@ -144,8 +144,10 @@ public class PriorityScheduler extends Scheduler {
 
 		public KThread nextThread() {
 		    Lib.assertTrue(Machine.interrupt().disabled());
+		    ThreadState t = pickNextThread();
 		    // maybe we need to modify the state of the thread here before returning
-		    return pickNextThread().thread;
+		    // we need to deal with the lock stuff, and change back the priority 
+		    return t.thread;
 		}
 
 		/**
@@ -275,5 +277,7 @@ public class PriorityScheduler extends Scheduler {
 		protected KThread thread;
 		/** The priority of the associated thread. */
 		protected int priority;
+		/** The effective priority of the thread */
+		int effectivePriority;
     }
 }
