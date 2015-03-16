@@ -144,6 +144,7 @@ public class PriorityScheduler extends Scheduler {
 
 		public KThread nextThread() {
 		    Lib.assertTrue(Machine.interrupt().disabled());
+		    
 		    ThreadState t = pickNextThread();
 		    // maybe we need to modify the state of the thread here before returning
 		    // we need to deal with the lock stuff, and change back the priority 
@@ -161,7 +162,7 @@ public class PriorityScheduler extends Scheduler {
 			KThread bestThread = null;
 			int highestPriority = -1;
 			for (KThread t : queue){
-				int tPriority = getPriority(t);
+				int tPriority = getEffectivePriority(t);
 				if (tPriority > highestPriority){
 					highestPriority = tPriority;
 					bestThread = t;
@@ -188,6 +189,8 @@ public class PriorityScheduler extends Scheduler {
 		* Underlying storage for the priority queue.
 		*/
 		LinkedList<KThread> queue;
+
+		KThread lockHolder;
 	}
 
     /**
@@ -225,7 +228,7 @@ public class PriorityScheduler extends Scheduler {
 		 * @return	the effective priority of the associated thread.
 		 */
 		public int getEffectivePriority() {
-		    // implement me
+		    // implement me; no thx
 		    return priority;
 		}	
 
@@ -236,7 +239,7 @@ public class PriorityScheduler extends Scheduler {
 		 */
 		public void setPriority(int priority) {
 		    if (this.priority == priority)
-			return;
+				return;
 		    
 		    this.priority = priority;
 		    
@@ -256,7 +259,9 @@ public class PriorityScheduler extends Scheduler {
 		 * @see	nachos.threads.ThreadQueue#waitForAccess
 		 */
 		public void waitForAccess(PriorityQueue waitQueue) {
+			//Lib.assertTrue(Machine.interrupt().disabled());
 		    // implement me
+		    waitQueue.add(thread);
 		}	
 
 		/**
@@ -271,6 +276,21 @@ public class PriorityScheduler extends Scheduler {
 		 */
 		public void acquire(PriorityQueue waitQueue) {
 		    // implement me
+		   	// no
+			//Lib.assertTrue(Machine.interrupt().disabled());
+			
+		   	waitQueue.waitQueue.remove(thread);
+		   	waitQueue.lockHolder = this;
+		   	int maxPriority = this.effectivePriority;
+		   	for(KThread t:waitQueue.queue){
+		   		if (t.effectivePriority > maxPriority){
+		   			maxPriority = t.effectivePriority;
+		   		}
+		   	}
+		   	this.effectivePriority = maxPriority;
+
+		   	//Lib.assertTrue(waitQueue.isEmpty());
+
 		}		
 
 		/** The thread with which this object is associated. */	   
