@@ -144,8 +144,12 @@ public class PriorityScheduler extends Scheduler {
 
 		public KThread nextThread() {
 		    Lib.assertTrue(Machine.interrupt().disabled());
-		    
+		    if (lockHolder != null) {
+		    	lockHolder.effectivePriority = lockHolder.getPriority();
+		    }
 		    ThreadState t = pickNextThread();
+		    //lockHolder = t;
+		    acquire(t.thread);
 		    // maybe we need to modify the state of the thread here before returning
 		    // we need to deal with the lock stuff, and change back the priority 
 		    return t.thread;
@@ -171,12 +175,24 @@ public class PriorityScheduler extends Scheduler {
 			if (bestThread == null){
 				return null;
 			}
+			print();
 		    return getThreadState(bestThread);
 		}
 	
 		public void print() {
 		    Lib.assertTrue(Machine.interrupt().disabled());
-		    // implement me (if you want) No I don't
+		    //System.out.println("Priority Queue, P for priority, EP for effective priority");
+		    boolean printed = false;
+		    for (KThread th:queue){
+		    	ThreadState state = getThreadState(th);
+		    	if (printed){
+		    		System.out.print(" --> ");
+		    	}
+		    	System.out.print("[" + th + ", P " + state.priority + ", EP " + 
+		    	state.effectivePriority + "]");
+		    	printed = true;
+		    }
+		    System.out.println();
 		}	
 
 		/**
@@ -190,7 +206,10 @@ public class PriorityScheduler extends Scheduler {
 		*/
 		LinkedList<KThread> queue;
 
-		KThread lockHolder;
+		/**
+		* Current lock holder in the queue.
+		*/
+		ThreadState lockHolder;
 	}
 
     /**
@@ -228,8 +247,7 @@ public class PriorityScheduler extends Scheduler {
 		 * @return	the effective priority of the associated thread.
 		 */
 		public int getEffectivePriority() {
-		    // implement me; no thx
-		    return priority;
+		    return effectivePriority;
 		}	
 
 		/**
@@ -259,9 +277,9 @@ public class PriorityScheduler extends Scheduler {
 		 * @see	nachos.threads.ThreadQueue#waitForAccess
 		 */
 		public void waitForAccess(PriorityQueue waitQueue) {
-			//Lib.assertTrue(Machine.interrupt().disabled());
-		    // implement me
-		    waitQueue.add(thread);
+			Lib.assertTrue(Machine.interrupt().disabled());
+		    
+		    waitQueue.queue.add(thread);
 		}	
 
 		/**
@@ -275,22 +293,19 @@ public class PriorityScheduler extends Scheduler {
 		 * @see	nachos.threads.ThreadQueue#nextThread
 		 */
 		public void acquire(PriorityQueue waitQueue) {
-		    // implement me
-		   	// no
-			//Lib.assertTrue(Machine.interrupt().disabled());
-			
-		   	waitQueue.waitQueue.remove(thread);
+		   	waitQueue.queue.remove(thread);
 		   	waitQueue.lockHolder = this;
-		   	int maxPriority = this.effectivePriority;
+		   	/*
+		   	int maxPriority = this.getEffectivePriority();
 		   	for(KThread t:waitQueue.queue){
-		   		if (t.effectivePriority > maxPriority){
-		   			maxPriority = t.effectivePriority;
+		   		ThreadState state = getThreadState(t);
+		   		int p = state.getEffectivePriority();
+		   		if (p > maxPriority){
+		   			maxPriority = p;
 		   		}
 		   	}
 		   	this.effectivePriority = maxPriority;
-
-		   	//Lib.assertTrue(waitQueue.isEmpty());
-
+		   	*/
 		}		
 
 		/** The thread with which this object is associated. */	   
@@ -299,5 +314,37 @@ public class PriorityScheduler extends Scheduler {
 		protected int priority;
 		/** The effective priority of the thread */
 		int effectivePriority;
+		/** All donations received **/
+		LinkedList<PriorityQueue> donations = new LinkedList<PriorityQueue>();
+    }
+
+    private static class SchedulerTest implements Runnable {
+        String name;
+
+        SchedulerTest(String name) {
+            this.name = name;
+        }
+        
+        public void run() {
+            for (int i = 0; i < 3; i++){
+                System.out.println(name + " meows " + i + " times");
+            }
+        }   
+    }    
+
+    /**
+     * Test if this module is working.
+     */
+    public static void selfTest() {
+		KThread x = new KThread(new SchedulerTest("Test 1")).setName("Test 1");
+		ThreadedKernel.scheduler.setPriority(x,5);
+		x.fork();
+        KThread y = new KThread(new SchedulerTest("Test 2")).setName("Test 2");
+        ThreadedKernel.scheduler.setPriority(x,2);
+        y.fork();
+
+        for (int i = 0; i < 30; i++){
+            KThread.currentThread().yield();
+        }
     }
 }
