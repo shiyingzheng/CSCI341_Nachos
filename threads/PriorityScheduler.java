@@ -63,7 +63,7 @@ public class PriorityScheduler extends Scheduler {
 			       
 		Lib.assertTrue(priority >= priorityMinimum &&
 			   priority <= priorityMaximum);
-		
+
 		getThreadState(thread).setPriority(priority);
     }
 
@@ -175,7 +175,7 @@ public class PriorityScheduler extends Scheduler {
 			if (bestThread == null){
 				return null;
 			}
-			print();
+			//print(); //uncomment to print the queue for debugging purposes
 		    return getThreadState(bestThread);
 		}
 	
@@ -228,7 +228,7 @@ public class PriorityScheduler extends Scheduler {
 		 */
 		public ThreadState(KThread thread) {
 		    this.thread = thread;
-		    
+
 		    setPriority(priorityDefault);
 		}	
 
@@ -260,6 +260,7 @@ public class PriorityScheduler extends Scheduler {
 				return;
 		    
 		    this.priority = priority;
+		    this.effectivePriority = priority;
 		    
 		    // implement me
 		}	
@@ -337,11 +338,18 @@ public class PriorityScheduler extends Scheduler {
      */
     public static void selfTest() {
 		KThread x = new KThread(new SchedulerTest("Test 1")).setName("Test 1");
-		ThreadedKernel.scheduler.setPriority(x,5);
+		KThread y = new KThread(new SchedulerTest("Test 2")).setName("Test 2");
+		KThread z = new KThread(new SchedulerTest("Test 3")).setName("Test 3");
+		
+		Machine.interrupt().disable();
+		ThreadedKernel.scheduler.setPriority(x,2);
+		ThreadedKernel.scheduler.setPriority(y,5);
+		ThreadedKernel.scheduler.setPriority(z,2);
+		Machine.interrupt().enable();
+
 		x.fork();
-        KThread y = new KThread(new SchedulerTest("Test 2")).setName("Test 2");
-        ThreadedKernel.scheduler.setPriority(x,2);
-        y.fork();
+		y.fork();
+		z.fork();
 
         for (int i = 0; i < 30; i++){
             KThread.currentThread().yield();
