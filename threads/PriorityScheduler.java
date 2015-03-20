@@ -296,7 +296,7 @@ public class PriorityScheduler extends Scheduler {
 		public void acquire(PriorityQueue waitQueue) {
 		   	waitQueue.queue.remove(thread);
 		   	waitQueue.lockHolder = this;
-		   	/*
+		   	
 		   	int maxPriority = this.getEffectivePriority();
 		   	for(KThread t:waitQueue.queue){
 		   		ThreadState state = getThreadState(t);
@@ -306,7 +306,7 @@ public class PriorityScheduler extends Scheduler {
 		   		}
 		   	}
 		   	this.effectivePriority = maxPriority;
-		   	*/
+		   	
 		}		
 
 		/** The thread with which this object is associated. */	   
@@ -321,14 +321,24 @@ public class PriorityScheduler extends Scheduler {
 
     private static class SchedulerTest implements Runnable {
         String name;
+        Lock lock;
+        final boolean invert; //whether we attempt to acquire the lock 
 
-        SchedulerTest(String name) {
+        SchedulerTest(String name, Lock lock, boolean invert) {
             this.name = name;
+            this.lock = lock;
+            this.invert = invert;
         }
         
         public void run() {
+        	if (invert){
+        		lock.acquire();
+        	}
             for (int i = 0; i < 3; i++){
                 System.out.println(name + " meows " + i + " times");
+            }
+            if (invert){
+            	lock.release();
             }
         }   
     }    
@@ -337,14 +347,16 @@ public class PriorityScheduler extends Scheduler {
      * Test if this module is working.
      */
     public static void selfTest() {
-		KThread x = new KThread(new SchedulerTest("Test 1")).setName("Test 1");
-		KThread y = new KThread(new SchedulerTest("Test 2")).setName("Test 2");
-		KThread z = new KThread(new SchedulerTest("Test 3")).setName("Test 3");
+		Lock l = new Lock();
+
+		KThread x = new KThread(new SchedulerTest("Test 1", l, true)).setName("Test 1");
+		KThread y = new KThread(new SchedulerTest("Test 2", l, true)).setName("Test 2");
+		KThread z = new KThread(new SchedulerTest("Test 3", l, false)).setName("Test 3");
 		
 		Machine.interrupt().disable();
 		ThreadedKernel.scheduler.setPriority(x,2);
-		ThreadedKernel.scheduler.setPriority(y,5);
-		ThreadedKernel.scheduler.setPriority(z,2);
+		ThreadedKernel.scheduler.setPriority(y,7);
+		ThreadedKernel.scheduler.setPriority(z,5);
 		Machine.interrupt().enable();
 
 		x.fork();
@@ -356,3 +368,7 @@ public class PriorityScheduler extends Scheduler {
         }
     }
 }
+
+//questions: 1. uh, it just doesn't work with priority inversion?
+//           2. when the priorities are the same, do we finish everything in the earlier 
+//              process before the later process?
