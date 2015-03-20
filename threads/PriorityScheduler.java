@@ -148,10 +148,10 @@ public class PriorityScheduler extends Scheduler {
 		    	lockHolder.effectivePriority = lockHolder.getPriority();
 		    }
 		    ThreadState t = pickNextThread();
-		    //lockHolder = t;
+		    if (t == null){
+		    	return null;
+		    }
 		    acquire(t.thread);
-		    // maybe we need to modify the state of the thread here before returning
-		    // we need to deal with the lock stuff, and change back the priority 
 		    return t.thread;
 		}
 
@@ -165,6 +165,7 @@ public class PriorityScheduler extends Scheduler {
 		protected ThreadState pickNextThread() {
 			KThread bestThread = null;
 			int highestPriority = -1;
+			//print();
 			for (KThread t : queue){
 				int tPriority = getEffectivePriority(t);
 				if (tPriority > highestPriority){
@@ -175,14 +176,15 @@ public class PriorityScheduler extends Scheduler {
 			if (bestThread == null){
 				return null;
 			}
-			//print(); //uncomment to print the queue for debugging purposes
 		    return getThreadState(bestThread);
 		}
 	
 		public void print() {
 		    Lib.assertTrue(Machine.interrupt().disabled());
-		    //System.out.println("Priority Queue, P for priority, EP for effective priority");
 		    boolean printed = false;
+		    if (queue.isEmpty()){
+		    	System.out.println("Queue is empty. Sad.");
+		    }
 		    for (KThread th:queue){
 		    	ThreadState state = getThreadState(th);
 		    	if (printed){
@@ -261,8 +263,6 @@ public class PriorityScheduler extends Scheduler {
 		    
 		    this.priority = priority;
 		    this.effectivePriority = priority;
-		    
-		    // implement me
 		}	
 
 		/**
@@ -305,8 +305,7 @@ public class PriorityScheduler extends Scheduler {
 		   			maxPriority = p;
 		   		}
 		   	}
-		   	this.effectivePriority = maxPriority;
-		   	
+		   	this.effectivePriority = maxPriority;	   	
 		}		
 
 		/** The thread with which this object is associated. */	   
@@ -322,53 +321,117 @@ public class PriorityScheduler extends Scheduler {
     private static class SchedulerTest implements Runnable {
         String name;
         Lock lock;
-        final boolean invert; //whether we attempt to acquire the lock 
 
-        SchedulerTest(String name, Lock lock, boolean invert) {
+        SchedulerTest(String name, Lock lock) {
             this.name = name;
             this.lock = lock;
-            this.invert = invert;
+        }
+
+        public void acquireLock(){
+        	lock.acquire();
+        }
+
+        public void releaseLock(){
+        	lock.release();
         }
         
         public void run() {
-        	if (invert){
-        		lock.acquire();
-        	}
+        	SchedulerTest1 test2 = new SchedulerTest1("Test 2", lock);
+        	SchedulerTest2 test3 = new SchedulerTest2("Test 3", lock);
+        	KThread y = new KThread(test2).setName("Test 2");
+        	KThread z = new KThread(test3).setName("Test 3");
+        	y.fork();
+        	z.fork();
+        	Machine.interrupt().disable();
+            ThreadedKernel.scheduler.setPriority(y,6);
+			ThreadedKernel.scheduler.setPriority(z,5);
+			Machine.interrupt().enable();
+        	acquireLock();
             for (int i = 0; i < 3; i++){
                 System.out.println(name + " meows " + i + " times");
+                KThread.yield();
             }
-            if (invert){
-            	lock.release();
+            releaseLock();
+            
+        }
+    }
+    private static class SchedulerTest1 implements Runnable {
+        String name;
+        Lock lock;
+
+        SchedulerTest1(String name, Lock lock) {
+            this.name = name;
+            this.lock = lock;
+        }
+
+        public void acquireLock(){
+        	lock.acquire();
+        }
+
+        public void releaseLock(){
+        	lock.release();
+        }
+        
+        public void run() {
+        	acquireLock();
+            for (int i = 0; i < 3; i++){
+                System.out.println(name + " meows " + i + " times");
+                KThread.yield();
             }
-        }   
-    }    
+            releaseLock();
+        }
+    }
+    private static class SchedulerTest2 implements Runnable {
+        String name;
+        Lock lock;
+
+        SchedulerTest2(String name, Lock lock) {
+            this.name = name;
+            this.lock = lock;
+        }
+
+        public void acquireLock(){
+        	lock.acquire();
+        }
+
+        public void releaseLock(){
+        	lock.release();
+        }
+        
+        public void run() {
+            for (int i = 0; i < 3; i++){
+                System.out.println(name + " meows " + i + " times");
+                KThread.yield();
+            }
+        }
+    }
 
     /**
      * Test if this module is working.
+     * in run: acquire lock, create 2 threads
+     * they have to have different run methods
+     * one run method acquires the lock, the other is normal
      */
     public static void selfTest() {
+		System.out.println("Test 1 has priority 2 and acquires the lock, then forks " + 
+			"Test 2 with priority 7 and Test 3 with priority 5. Test 2 attempts to " +
+			"acquire the lock.");
+
 		Lock l = new Lock();
 
-		KThread x = new KThread(new SchedulerTest("Test 1", l, true)).setName("Test 1");
-		KThread y = new KThread(new SchedulerTest("Test 2", l, true)).setName("Test 2");
-		KThread z = new KThread(new SchedulerTest("Test 3", l, false)).setName("Test 3");
+		SchedulerTest t1 = new SchedulerTest("Test 1", l);
+
+		KThread x = new KThread(t1).setName("Test 1");
 		
 		Machine.interrupt().disable();
 		ThreadedKernel.scheduler.setPriority(x,2);
-		ThreadedKernel.scheduler.setPriority(y,7);
-		ThreadedKernel.scheduler.setPriority(z,5);
 		Machine.interrupt().enable();
 
 		x.fork();
-		y.fork();
-		z.fork();
 
         for (int i = 0; i < 30; i++){
             KThread.currentThread().yield();
         }
+
     }
 }
-
-//questions: 1. uh, it just doesn't work with priority inversion?
-//           2. when the priorities are the same, do we finish everything in the earlier 
-//              process before the later process?
