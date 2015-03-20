@@ -279,7 +279,7 @@ public class PriorityScheduler extends Scheduler {
 		 */
 		public void waitForAccess(PriorityQueue waitQueue) {
 			Lib.assertTrue(Machine.interrupt().disabled());
-		    
+		    System.out.println("adding "+thread);
 		    waitQueue.queue.add(thread);
 		}	
 
@@ -301,10 +301,12 @@ public class PriorityScheduler extends Scheduler {
 		   	for(KThread t:waitQueue.queue){
 		   		ThreadState state = getThreadState(t);
 		   		int p = state.getEffectivePriority();
+				System.out.println("Priority on queue of " + p);
 		   		if (p > maxPriority){
 		   			maxPriority = p;
 		   		}
 		   	}
+		   	System.out.println(thread.getName() + " has effective priority "+maxPriority);
 		   	this.effectivePriority = maxPriority;	   	
 		}		
 
@@ -336,17 +338,18 @@ public class PriorityScheduler extends Scheduler {
         }
         
         public void run() {
+        	acquireLock();
         	SchedulerTest1 test2 = new SchedulerTest1("Test 2", lock);
         	SchedulerTest2 test3 = new SchedulerTest2("Test 3", lock);
         	KThread y = new KThread(test2).setName("Test 2");
         	KThread z = new KThread(test3).setName("Test 3");
-        	y.fork();
-        	z.fork();
         	Machine.interrupt().disable();
             ThreadedKernel.scheduler.setPriority(y,6);
 			ThreadedKernel.scheduler.setPriority(z,5);
 			Machine.interrupt().enable();
-        	acquireLock();
+			y.fork();
+        	z.fork();
+        	
             for (int i = 0; i < 3; i++){
                 System.out.println(name + " meows " + i + " times");
                 KThread.yield();
