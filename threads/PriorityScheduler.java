@@ -281,6 +281,7 @@ public class PriorityScheduler extends Scheduler {
 			Lib.assertTrue(Machine.interrupt().disabled());
 		    System.out.println("adding "+thread);
 		    waitQueue.queue.add(thread);
+		    calculatePriority(waitQueue);
 		}	
 
 		/**
@@ -297,7 +298,10 @@ public class PriorityScheduler extends Scheduler {
 		   	waitQueue.queue.remove(thread);
 		   	waitQueue.lockHolder = this;
 		   	
-		   	int maxPriority = this.getEffectivePriority();
+		   	calculatePriority(waitQueue);
+		}		
+		private void calculatePriority(PriorityQueue waitQueue){
+			int maxPriority = waitQueue.lockHolder.getEffectivePriority();
 		   	for(KThread t:waitQueue.queue){
 		   		ThreadState state = getThreadState(t);
 		   		int p = state.getEffectivePriority();
@@ -306,10 +310,9 @@ public class PriorityScheduler extends Scheduler {
 		   			maxPriority = p;
 		   		}
 		   	}
-		   	System.out.println(thread.getName() + " has effective priority "+maxPriority);
-		   	this.effectivePriority = maxPriority;	   	
-		}		
-
+		   	waitQueue.lockHolder.effectivePriority = maxPriority;
+		   	System.out.println(waitQueue.lockHolder.thread.getName() + " has effective priority "+maxPriority);
+		}
 		/** The thread with which this object is associated. */	   
 		protected KThread thread;
 		/** The priority of the associated thread. */
@@ -340,7 +343,7 @@ public class PriorityScheduler extends Scheduler {
         public void run() {
         	acquireLock();
         	SchedulerTest1 test2 = new SchedulerTest1("Test 2", lock);
-        	SchedulerTest2 test3 = new SchedulerTest2("Test 3", lock);
+        	SchedulerTest2 test3 = new SchedulerTest2("Test 3");
         	KThread y = new KThread(test2).setName("Test 2");
         	KThread z = new KThread(test3).setName("Test 3");
         	Machine.interrupt().disable();
@@ -386,19 +389,9 @@ public class PriorityScheduler extends Scheduler {
     }
     private static class SchedulerTest2 implements Runnable {
         String name;
-        Lock lock;
 
-        SchedulerTest2(String name, Lock lock) {
+        SchedulerTest2(String name) {
             this.name = name;
-            this.lock = lock;
-        }
-
-        public void acquireLock(){
-        	lock.acquire();
-        }
-
-        public void releaseLock(){
-        	lock.release();
         }
         
         public void run() {
