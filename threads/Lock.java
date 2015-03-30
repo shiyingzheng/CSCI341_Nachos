@@ -38,6 +38,7 @@ public class Lock {
 
 	if (lockHolder != null) {
 	    waitQueue.waitForAccess(thread);
+        //waitQueue.print();
 	    KThread.sleep();
 	}
 	else {
@@ -58,9 +59,10 @@ public class Lock {
 
 	boolean intStatus = Machine.interrupt().disable();
 
-	if ((lockHolder = waitQueue.nextThread()) != null)
+	if ((lockHolder = waitQueue.nextThread()) != null){
+        //waitQueue.print();
 	    lockHolder.ready();
-	
+	}
 	Machine.interrupt().restore(intStatus);
     }
 

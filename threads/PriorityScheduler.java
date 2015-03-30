@@ -145,7 +145,7 @@ public class PriorityScheduler extends Scheduler {
 		public KThread nextThread() {
 		    Lib.assertTrue(Machine.interrupt().disabled());
 		    if (lockHolder != null) {
-		    	lockHolder.effectivePriority = lockHolder.getPriority();
+		    	lockHolder.calculatePriority(this);
 		    }
 		    ThreadState t = pickNextThread();
 		    if (t == null){
@@ -183,7 +183,7 @@ public class PriorityScheduler extends Scheduler {
 		    Lib.assertTrue(Machine.interrupt().disabled());
 		    boolean printed = false;
 		    if (queue.isEmpty()){
-		    	System.out.println("Queue is empty. Sad.");
+		    	//System.out.println("Queue is empty. Sad.");
 		    }
 		    for (KThread th:queue){
 		    	ThreadState state = getThreadState(th);
@@ -279,7 +279,7 @@ public class PriorityScheduler extends Scheduler {
 		 */
 		public void waitForAccess(PriorityQueue waitQueue) {
 			Lib.assertTrue(Machine.interrupt().disabled());
-		    System.out.println("adding "+thread);
+		    //System.out.println("adding "+thread);
 		    waitQueue.queue.add(thread);
 		    calculatePriority(waitQueue);
 		}	
@@ -305,13 +305,11 @@ public class PriorityScheduler extends Scheduler {
 		   	for(KThread t:waitQueue.queue){
 		   		ThreadState state = getThreadState(t);
 		   		int p = state.getEffectivePriority();
-				System.out.println("Priority on queue of " + p);
 		   		if (p > maxPriority){
 		   			maxPriority = p;
 		   		}
 		   	}
 		   	waitQueue.lockHolder.effectivePriority = maxPriority;
-		   	System.out.println(waitQueue.lockHolder.thread.getName() + " has effective priority "+maxPriority);
 		}
 		/** The thread with which this object is associated. */	   
 		protected KThread thread;
