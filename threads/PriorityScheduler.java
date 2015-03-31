@@ -301,15 +301,17 @@ public class PriorityScheduler extends Scheduler {
 		   	calculatePriority(waitQueue);
 		}		
 		private void calculatePriority(PriorityQueue waitQueue){
-			int maxPriority = waitQueue.lockHolder.getEffectivePriority();
-		   	for(KThread t:waitQueue.queue){
-		   		ThreadState state = getThreadState(t);
-		   		int p = state.getEffectivePriority();
-		   		if (p > maxPriority){
-		   			maxPriority = p;
-		   		}
-		   	}
-		   	waitQueue.lockHolder.effectivePriority = maxPriority;
+			if (waitQueue.lockHolder != null) {
+				int maxPriority = waitQueue.lockHolder.getEffectivePriority();
+			   	for(KThread t:waitQueue.queue){
+			   		ThreadState state = getThreadState(t);
+			   		int p = state.getEffectivePriority();
+			   		if (p > maxPriority){
+			   			maxPriority = p;
+			   		}
+			   	}
+			   	waitQueue.lockHolder.effectivePriority = maxPriority;
+		   }
 		}
 		/** The thread with which this object is associated. */	   
 		protected KThread thread;
