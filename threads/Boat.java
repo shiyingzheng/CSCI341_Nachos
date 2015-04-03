@@ -22,34 +22,35 @@ public class Boat {
 		// variable to be accessible by children.
 		bg = b;
 
+
 		// Instantiate global variables here
 		
 		// Create threads here. See section 3.4 of the Nachos for Java
 		// Walkthrough linked from the projects page.
 
-		Runnable c = new Runnable() {
-		    public void run() {
-	            ChildItinerary();
-	        }
-	    };
-
-		Runnable a = new Runnable() {
-		    public void run() {
-	            AdultItinerary();
-	        }
-	    };
+		
 
 	    //KThread t = new KThread(r);
 	    //t.setName("Sample Boat Thread");
 	    //t.fork();
 
 	    for (int i = 0; i < children; i++) {
+	    	Runnable c = new Runnable() {
+		    	public void run() {
+	        	    ChildItinerary();
+	        	}
+	    	};
 	    	KThread k = new KThread(c);
 	    	k.setName("c" + i);
 	    	k.fork();
 	    }
 
-	    for (int i = 0; i < adult; i++) {
+	    for (int i = 0; i < adults; i++) {
+	    	Runnable a = new Runnable() {
+		    	public void run() {
+	        	    AdultItinerary();
+	        	}
+	    	};
 	    	KThread k = new KThread(a);
 	    	k.setName("a" + i);
 	    	k.fork();
