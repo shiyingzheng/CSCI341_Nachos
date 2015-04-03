@@ -3,6 +3,11 @@ import nachos.ag.BoatGrader;
 
 public class Boat {
     static BoatGrader bg;
+    static Lock childLock;
+    static Lock adultLock;
+    static KThread child1; // should these be threads?
+    static KThread child2;
+    static KThread adult;
     
     public static void selfTest() {
 		BoatGrader b = new BoatGrader();
@@ -21,6 +26,9 @@ public class Boat {
 		// Store the externally generated autograder in a class
 		// variable to be accessible by children.
 		bg = b;
+
+		childLock = new Lock();
+		adultLock = new Lock();
 
 
 		// Instantiate global variables here
@@ -65,10 +73,25 @@ public class Boat {
 		       bg.AdultRowToMolokai();
 		   indicates that an adult has rowed the boat across to Molokai
 		*/
+		adultLock.acquire();
+		//do stuff here
+		adultLock.release();
     }
 
-    static void ChildItinerary() {
-
+    static void ChildItinerary() { // what are we doing here???
+		childLock.acquire();
+		if (child1 == null){
+			child1 = KThread.currentThread();
+			//do stuff here?
+			child1 = null;
+			childLock.release();
+		}
+		else if (child2 == null){
+			child2 = KThread.currentThread();
+			//do stuff here?
+			child2 = null;
+		}
+		childLock.release();
     }
 
     static void SampleItinerary() {
