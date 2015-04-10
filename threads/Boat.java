@@ -8,18 +8,27 @@ public class Boat {
     static KThread child1; // should these be threads?
     static KThread child2;
     static KThread adult;
-    
+    static Semaphore childSem;
+    static Semaphore adultSem;
+    static int adultTotal;
+    static int childTotal;
+    static int adultCount;
+    static int childCount;
+    static Semaphore done;
     public static void selfTest() {
 		BoatGrader b = new BoatGrader();
 		
-		System.out.println("\n ***Testing Boats with only 2 children***");
-		begin(0, 2, b);
+		//System.out.println("\n ***Testing Boats with only 2 children***");
+		//begin(0, 2, b);
 
-		//	System.out.println("\n ***Testing Boats with 2 children, 1 adult***");
-		//  	begin(1, 2, b);
+		//System.out.println("\n ***Testing Boats with 2 children, 1 adult***");
+		//begin(1, 2, b);
 
-		//  	System.out.println("\n ***Testing Boats with 3 children, 3 adults***");
-		//  	begin(3, 3, b);
+	  	//System.out.println("\n ***Testing Boats with 3 children, 3 adults***");
+	  	//begin(3, 3, b);
+
+	  	//System.out.println("\n ***Testing Boats with 100 children, 100 adults***");
+	  	//begin(100, 100, b);
     }
 
     public static void begin( int adults, int children, BoatGrader b ) {
@@ -29,7 +38,16 @@ public class Boat {
 
 		childLock = new Lock();
 		adultLock = new Lock();
-
+		childSem = new Semaphore(0);
+		adultSem = new Semaphore(0);
+		child1 = null;
+		child2 = null;
+		adult = null;
+		adultCount = 0;
+		childCount = 0;
+		adultTotal = adults;
+		childTotal = children;
+		done = new Semaphore(0);
 
 		// Instantiate global variables here
 		
@@ -63,6 +81,8 @@ public class Boat {
 	    	k.setName("a" + i);
 	    	k.fork();
 	    }
+	    done.P();
+	    //for (int i = 0; i < 5555; i++) { KThread.currentThread().yield(); }
 
     }
 
@@ -74,24 +94,93 @@ public class Boat {
 		   indicates that an adult has rowed the boat across to Molokai
 		*/
 		adultLock.acquire();
-		//do stuff here
+		adultSem.P();
+		bg.AdultRowToMolokai();
+		adultCount ++;
+		System.out.println("There are now "+ adultCount + " Adults on Molokai");
+		childSem.V();
 		adultLock.release();
     }
 
     static void ChildItinerary() { // what are we doing here???
-		childLock.acquire();
-		if (child1 == null){
-			child1 = KThread.currentThread();
-			//do stuff here?
-			child1 = null;
-			childLock.release();
+    	boolean isAtDest = false;
+    	boolean everyoneIsDone = false;
+    	while(!isAtDest){
+			childLock.acquire();
+			//System.out.println(adultCount + " " + adultTotal);
+			if(adultCount < adultTotal){
+				if (child1 == null){
+					child1 = KThread.currentThread();
+					childLock.release();
+
+				}
+				else if (child2 == null){
+					child2 = KThread.currentThread();
+					bg.ChildRowToMolokai();
+					bg.ChildRideToMolokai();
+					childCount += 2;
+					bg.ChildRowToOahu();
+					childCount--;
+					adultSem.V();
+					childSem.P();
+					bg.ChildRowToOahu();
+					childCount--;
+					//do stuff here?
+					child1 = null;
+					child2 = null;
+					childLock.release();
+				}
+				else{
+					System.out.println("Hedgehog is mad because error in case 1!");
+				}
+			}
+			else{// if(childCount < childTotal - 1) {
+				if(child1 == null){
+					child1 = KThread.currentThread();
+					isAtDest = true;
+					childLock.release();
+				}
+				else if (child2 == null){
+					child2 = KThread.currentThread();
+					bg.ChildRowToMolokai();
+					bg.ChildRideToMolokai();
+					childCount += 2;
+					System.out.println("There are now "+ childCount + " Children on Molokai");
+					if(childCount < childTotal){
+						bg.ChildRowToOahu();
+						childCount--;
+					}
+					else{
+						isAtDest = true;
+						everyoneIsDone = true;
+					}
+					//do stuff here?
+					child1 = null;
+					child2 = null;
+					childLock.release();
+				}
+				else{
+					System.out.println("Kitten is mad because error in case 2!");
+				}
+			}
+			/*
+			else{
+				if(child1 == null){
+					child1 = KThread.currentThread();
+					bg.ChildRowToMolokai();
+					isAtDest = true;
+					childCount++;
+				}
+				else{
+					System.out.println("Puppy is mad because error in case 3!");
+				}
+				childLock.release();
+			}
+			*/
 		}
-		else if (child2 == null){
-			child2 = KThread.currentThread();
-			//do stuff here?
-			child2 = null;
+		if(everyoneIsDone){
+			done.V();
 		}
-		childLock.release();
     }
 
     static void SampleItinerary() {
