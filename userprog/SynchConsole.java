@@ -63,7 +63,7 @@ public class SynchConsole {
      * @return	a file that can read this console.
      */
     public OpenFile openForReading() {
-		return new File(true, false);
+    	return new File(true, false);
     }
 
     private void receiveInterrupt() {
@@ -89,11 +89,11 @@ public class SynchConsole {
      * @return	a file that can write this console.
      */
     public OpenFile openForWriting() {
-		return new File(false, true);
+    	return new File(false, true);
     }
 
     private void sendInterrupt() {
-		writeWait.V();
+    	writeWait.V();
     }
 
     private boolean charAvailable = false;
