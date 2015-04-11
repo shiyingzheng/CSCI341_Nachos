@@ -28,8 +28,8 @@ public interface SerialConsole {
      * @param	sendInterruptHandler	the callback to call when another byte
      *					can be sent.
      */
-    public void setInterruptHandlers(Runnable receiveInterruptHandler,
-				     Runnable sendInterruptHandler);
+    public void setInterruptHandlers(Runnable receiveInterruptHandler, 
+        Runnable sendInterruptHandler);
 
     /**
      * Return the next unsigned byte received (in the range <tt>0</tt> through
