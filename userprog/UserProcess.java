@@ -348,9 +348,9 @@ public class UserProcess {
     * Handle the creat() system call.
     */
     private int handleCreat(int a0){
-        byte[] data = new byte[256];
+        byte[] data = new byte[1024];
         readVirtualMemory(a0, data);
-        for (int i = 0; i < 256; i++){
+        for (int i = 0; i < 1024; i++){
             System.out.print((char)data[i]);
         }
         return a0;
