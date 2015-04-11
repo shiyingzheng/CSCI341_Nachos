@@ -348,11 +348,8 @@ public class UserProcess {
     * Handle the creat() system call.
     */
     private int handleCreat(int a0){
-        byte[] data = new byte[1024];
-        readVirtualMemory(a0, data);
-        for (int i = 0; i < 1024; i++){
-            System.out.print((char)data[i]);
-        }
+        String fileName = readVirtualMemoryString(a0, 256);
+        System.out.println(fileName);
         return a0;
     }
 
