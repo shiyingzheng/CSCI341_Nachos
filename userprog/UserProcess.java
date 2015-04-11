@@ -420,7 +420,7 @@ public class UserProcess {
      * Handle a user exception. Called by
      * <tt>UserKernel.exceptionHandler()</tt>. The
      * <i>cause</i> argument identifies which exception occurred; see the
-     * <tt>Processor.exceptionZZZ</tt> constants.
+     * <tt>Processor.exception</tt> constants.
      *
      * @param	cause	the user exception that occurred.
      */
