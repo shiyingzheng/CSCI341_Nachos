@@ -350,7 +350,8 @@ public class UserProcess {
     private int handleCreat(int a0){
         byte[] data = new byte[256];
         readVirtualMemory(a0, data);
-        System.out.println(data);
+        for (int i = 0; i < 256; i++)
+            System.out.println(data[i]);
         return a0;
     }
 
