@@ -5,6 +5,7 @@ import nachos.threads.*;
 import nachos.userprog.*;
 
 import java.io.EOFException;
+import java.util.HashMap;
 
 /**
  * Encapsulates the state of a user process that is not contained in its
@@ -343,6 +344,14 @@ public class UserProcess {
     	return 0;
     }
 
+    /*
+    * Handle the creat() system call.
+    */
+    private int handleCreat(int a0){
+        System.out.println(a0);
+        return 0;
+    }
+
 
     private static final int
     syscallHalt = 0,
@@ -389,7 +398,7 @@ public class UserProcess {
             case syscallHalt: 
                 return handleHalt();   
             case syscallCreate:
-                return 0;
+                return handleCreat(a0);
             case syscallOpen:
                 return 0;
             case syscallRead:
@@ -453,4 +462,6 @@ public class UserProcess {
 	
     private static final int pageSize = Processor.pageSize;
     private static final char dbgProcess = 'a';
+
+    private HashMap<Integer, OpenFile> fileOpenTable;
 }
