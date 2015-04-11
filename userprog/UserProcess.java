@@ -348,7 +348,8 @@ public class UserProcess {
     * Handle the creat() system call.
     */
     private int handleCreat(int a0){
-        //TODO
+        byte[] data = new byte[256];
+        readVirtualMemory(a0, data);
         return a0;
     }
 
