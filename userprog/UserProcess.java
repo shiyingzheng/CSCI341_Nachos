@@ -449,7 +449,7 @@ public class UserProcess {
                 return handleJoin(a0, a1); 
             case syscallCreate:
                 int fd = handleCreat(a0);
-                System.out.println(fd);
+                //System.out.println(fd);
                 return fd;
             case syscallOpen:
                 return handleOpen(a0);
