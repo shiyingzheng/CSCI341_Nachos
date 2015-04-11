@@ -396,7 +396,13 @@ public class UserProcess {
     public int handleSyscall(int syscall, int a0, int a1, int a2, int a3) {
     	switch (syscall) {
             case syscallHalt: 
-                return handleHalt();   
+                return handleHalt();
+            case syscallExit:
+                return 0;
+            case syscallExec:
+                return 0;
+            case syscallJoin:
+                return 0; 
             case syscallCreate:
                 return handleCreat(a0);
             case syscallOpen:
