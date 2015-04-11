@@ -349,8 +349,7 @@ public class UserProcess {
     */
     private int handleCreat(int a0){
         //TODO
-        System.out.println(a0);
-        return 0;
+        return a0;
     }
 
     private int handleExit(int a0){
