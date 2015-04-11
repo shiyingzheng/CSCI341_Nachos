@@ -28,7 +28,7 @@ public class UserProcess {
     	pageTable = new TranslationEntry[numPhysPages];
     	for (int i=0; i<numPhysPages; i++)
     	    pageTable[i] = new TranslationEntry(i,i, true,false,false,false);
-        HashMap<Integer, OpenFile> fileOpenTable = new HashMap<Integer, OpenFile>();
+        fileOpenTable = new HashMap<Integer, OpenFile>();
         nextFileDescriptor=3;
     }
     
@@ -352,8 +352,6 @@ public class UserProcess {
     private int handleCreat(int a0){
         String fileName = readVirtualMemoryString(a0, 256);
         OpenFile file = ThreadedKernel.fileSystem.open(fileName, true);
-        System.out.println(file);
-        System.out.println(fileOpenTable);
         fileOpenTable.put(nextFileDescriptor, file);
         return nextFileDescriptor++;
     }
