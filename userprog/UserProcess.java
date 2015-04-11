@@ -348,7 +348,48 @@ public class UserProcess {
     * Handle the creat() system call.
     */
     private int handleCreat(int a0){
+        //TODO
         System.out.println(a0);
+        return 0;
+    }
+
+    private int handleExit(int a0){
+        //TODO
+        return 0;
+    }
+
+    private int handleExec(int a0, int a1, int a2){
+        //TODO
+        return 0;
+    }
+
+    private int handleJoin(int a0, int a1){
+        //TODO
+        return 0;
+    }
+
+    private int handleOpen(int a0){
+        //TODO
+        return 0;
+    }
+
+    private int handleRead(int a0, int a1, int a2){
+        //TODO
+        return 0;
+    }
+
+    private int handleWrite(int a0, int a1, int a2){
+        //TODO
+        return 0;
+    }
+
+    private int handleClose(int a0){
+        //TODO
+        return 0;
+    }
+
+    private int handleUnlink(int a0){
+        //TODO
         return 0;
     }
 
@@ -398,23 +439,23 @@ public class UserProcess {
             case syscallHalt: 
                 return handleHalt();
             case syscallExit:
-                return 0;
+                return handleExit(a0);
             case syscallExec:
-                return 0;
+                return handleExec(a0, a1, a2);
             case syscallJoin:
-                return 0; 
+                return handleJoin(a0, a1); 
             case syscallCreate:
                 return handleCreat(a0);
             case syscallOpen:
-                return 0;
+                return handleOpen(a0);
             case syscallRead:
-                return 0;
+                return handleRead(a0, a1, a2);
             case syscallWrite:
-                return 0;
+                return handleWrite(a0, a1, a2);
             case syscallClose:
-                return 0;
+                return handleClose(a0);
             case syscallUnlink:
-                return 0;
+                return handleUnlink(a0);
             default:
         	    Lib.debug(dbgProcess, "Unknown syscall " + syscall);
         	    Lib.assertNotReached("Unknown system call!");
