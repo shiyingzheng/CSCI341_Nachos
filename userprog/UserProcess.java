@@ -350,6 +350,7 @@ public class UserProcess {
     private int handleCreat(int a0){
         byte[] data = new byte[256];
         readVirtualMemory(a0, data);
+        System.out.println(data);
         return a0;
     }
 
@@ -439,7 +440,7 @@ public class UserProcess {
             case syscallHalt: 
                 return handleHalt();
             case syscallExit:
-                return handleHalt(); //return handleExit(a0);
+                return handleHalt(); //return handleExit(a0); //TODO
             case syscallExec:
                 return handleExec(a0, a1, a2);
             case syscallJoin:
