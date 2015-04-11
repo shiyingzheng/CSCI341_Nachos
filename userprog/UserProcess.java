@@ -352,6 +352,8 @@ public class UserProcess {
     private int handleCreat(int a0){
         String fileName = readVirtualMemoryString(a0, 256);
         OpenFile file = ThreadedKernel.fileSystem.open(fileName, true);
+        System.out.println(file);
+        System.out.println(fileOpenTable);
         fileOpenTable.put(nextFileDescriptor, file);
         return nextFileDescriptor++;
     }
