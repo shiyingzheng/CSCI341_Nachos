@@ -28,6 +28,8 @@ public class UserProcess {
     	pageTable = new TranslationEntry[numPhysPages];
     	for (int i=0; i<numPhysPages; i++)
     	    pageTable[i] = new TranslationEntry(i,i, true,false,false,false);
+        HashMap<Integer, OpenFile> fileOpenTable = new HashMap<Integer, OpenFile>();
+        nextFileDescriptor=3;
     }
     
     /**
@@ -349,8 +351,9 @@ public class UserProcess {
     */
     private int handleCreat(int a0){
         String fileName = readVirtualMemoryString(a0, 256);
-        System.out.println(fileName);
-        return a0;
+        OpenFile file = open(fileName, true);
+        fileOpenTable.put(nextFileDescriptor, file);
+        return nextFileDescriptor++;
     }
 
     private int handleExit(int a0){
@@ -445,7 +448,9 @@ public class UserProcess {
             case syscallJoin:
                 return handleJoin(a0, a1); 
             case syscallCreate:
-                return handleCreat(a0);
+                int fd = handleCreat(a0);
+                System.out.println(fd);
+                return fd;
             case syscallOpen:
                 return handleOpen(a0);
             case syscallRead:
@@ -511,4 +516,5 @@ public class UserProcess {
     private static final char dbgProcess = 'a';
 
     private HashMap<Integer, OpenFile> fileOpenTable;
+    private int nextFileDescriptor;
 }
