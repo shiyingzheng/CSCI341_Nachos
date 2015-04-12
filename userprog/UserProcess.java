@@ -428,8 +428,8 @@ public class UserProcess {
     if(f == null) {
       return -1;
     }
-    System.out.println("closing: " + f.name);
-    filenameOpenTable.remove(f.name);
+    System.out.println("closing: " + f.getName());
+    filenameOpenTable.remove(f.getName());
     f.close();
     return 0;
   }
