@@ -443,8 +443,33 @@ public class UserProcess {
   }
 
   private int handleRead(int a0, int a1, int a2){
-    //TODO
-    return 0;
+    int fd = a0; //file descriptor
+    int length = a2; //how much we want to read from file
+
+    //if file unopened, error
+    if (!fileOpenTable.containsKey(fd)){
+      System.out.println("cannot read unopened file");
+      return -1;
+    }
+
+    //read from file and store in buffer
+    OpenFile file = fileOpenTable.get(fd);
+    int pos = readOffsetTable.get(fd);
+    byte[] bytes = new byte[length];
+    int readLength = file.read(pos, bytes, 0, length);
+
+    if (readLength == -1){
+      System.out.println("Read " + fd + " failed");
+      return -1;
+    }
+
+    //update offset
+    readOffsetTable.put(fd, pos+readLength);
+
+    //write to virtual memory
+    int transferredLength = writeVirtualMemory(a1, bytes, 0, readLength);
+
+    return transferredLength;
   }
 
   private int handleWrite(int a0, int a1, int a2){
@@ -484,7 +509,7 @@ public class UserProcess {
     }
     System.out.println();
 
-    int writtenLength = file.write(file.tell(), bytes, 0, length);
+    int writtenLength = file.write(pos, bytes, 0, length);
 
     if (writtenLength == -1){
       System.out.println("Write to " + fd + " failed");
@@ -492,7 +517,7 @@ public class UserProcess {
     }
 
     //update offset
-    writeOffsetTable.put(fd, pos+length);
+    writeOffsetTable.put(fd, pos+writtenLength);
 
     return writtenLength;
   }
