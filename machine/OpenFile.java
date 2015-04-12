@@ -136,7 +136,6 @@ public class OpenFile {
        return -1;
     }
 
-   private FileSystem fileSystem;
-   private String name;
-   private int offset;
+    private FileSystem fileSystem;
+    private String name;
 }

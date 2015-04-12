@@ -425,8 +425,39 @@ public class UserProcess {
   }
 
   private int handleWrite(int a0, int a1, int a2){
-    //TODO
-    return 0;
+    int fd = a0; //file descriptor
+    int length = a2; //how much we want to read from buffer
+
+    //if file unopened, error
+    if (!fileOpenTable.containsKey(fd)){
+      System.out.println("cannot write to unopened file");
+      return -1;
+    }
+
+    //read from buffer
+    String buffer = readVirtualMemoryString(a1, a2);
+    if (buffer == null){
+      System.out.println("buffer is null in write");
+      return -1;
+    }
+
+    //convert buffer content to byte array
+    byte[] bytes = buffer.getBytes();
+    //if buffer content is less than specified length, error
+    if (bytes.size() < length){
+      System.out.println("read buffer content smaller than specified");
+      return -1
+    }
+
+    //write to file at offset
+    OpenFile file = fileOpenTable.get(fd);
+    int offset = writeOffsetTable.get(fd);
+    file.write(bytes, offset, length);
+
+    //update offset
+    writeOffsetTable.put(fd, offset+length);
+
+    return length;
   }
 
   private int handleClose(int a0){
