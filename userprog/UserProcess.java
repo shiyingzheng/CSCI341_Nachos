@@ -379,7 +379,7 @@ public class UserProcess {
     String fileName = readVirtualMemoryString(a0, 256);
 
     if(fileName == null) {
-      System.out.println("file name is null in create");
+      //System.out.println("file name is null in create");
       return -1;
     }
 
@@ -390,7 +390,7 @@ public class UserProcess {
     OpenFile file = ThreadedKernel.fileSystem.open(fileName, true);
 
     if(file == null) {
-      System.out.println("file " + fileName + " is null in create");
+      //System.out.println("file " + fileName + " is null in create");
       return -1;
     }
 
@@ -448,7 +448,7 @@ public class UserProcess {
 
     //if file unopened, error
     if (!fileOpenTable.containsKey(fd)){
-      System.out.println("cannot read unopened file");
+      //System.out.println("cannot read unopened file");
       return -1;
     }
 
@@ -456,20 +456,29 @@ public class UserProcess {
     OpenFile file = fileOpenTable.get(fd);
     int pos = readOffsetTable.get(fd);
     byte[] bytes = new byte[length];
-    int readLength = file.read(pos, bytes, 0, length);
-    System.out.println("should read " + length + ", read " + readLength + " bytes");
+    int readLength = -1;
+    if (fd == 0 || fd == 1){
+      readLength = file.read(bytes, 0, length);
+    }
+    else{
+      readLength = file.read(pos, bytes, 0, length);
+    }
+    
+    //System.out.println("should read " + length + ", read " + readLength + " bytes");
 
     if (readLength == -1){
-      System.out.println("Read " + fd + " failed");
+      //System.out.println("Read " + fd + " failed");
       return -1;
     }
 
     //update offset
-    readOffsetTable.put(fd, pos+readLength);
+    if(fd != 1 || fd != 0) {
+      readOffsetTable.put(fd, pos+readLength);
+    }
 
     //write to virtual memory
     int transferredLength = writeVirtualMemory(a1, bytes, 0, readLength);
-    System.out.println("transferred " + transferredLength + " bytes to virtual mem");
+    //System.out.println("transferred " + transferredLength + " bytes to virtual mem");
 
     return transferredLength;
   }
@@ -505,11 +514,10 @@ public class UserProcess {
     OpenFile file = fileOpenTable.get(fd);
 
     int writtenLength;
-    int pos;
+    int pos = writeOffsetTable.get(fd);
     if(fd == 0 || fd == 1){
       writtenLength = file.write(bytes, 0, length);
     } else {
-      pos = writeOffsetTable.get(fd);
       writtenLength = file.write(pos, bytes, 0, length);
     }
 
