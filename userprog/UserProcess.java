@@ -38,13 +38,16 @@ public class UserProcess {
   }
 
   private void setup(){
+    OpenFile stdin = UserKernel.console.openForReading();
+    OpenFile stdout = UserKernel.console.openForWriting();
+
     // initialize in the openFileTable
-    fileOpenTable.put(0, UserKernel.console.openForReading());
-    fileOpenTable.put(1, UserKernel.console.openForWriting());
+    fileOpenTable.put(0, stdin);
+    fileOpenTable.put(1, stdout);
 
     // initialize in the filenameOpenTable
-    filenameOpenTable.put("stdin", 0);
-    filenameOpenTable.put("stdout", 1);
+    filenameOpenTable.put(stdin.getName(), 0);
+    filenameOpenTable.put(stdout.getName(), 1);
 
     // initialize in the offsetTable
     readOffsetTable.put(0, 0);
