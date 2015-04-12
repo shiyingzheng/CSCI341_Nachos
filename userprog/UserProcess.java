@@ -51,8 +51,8 @@ public class UserProcess {
     readOffsetTable.put(1, 0);
 
     // initialize in the writeOffsetTable
-    writeOffsetTable(0, 0);
-    writeOffsetTable(1, 0);
+    writeOffsetTable.put(0, 0);
+    writeOffsetTable.put(1, 0);
   }
 
   /**
