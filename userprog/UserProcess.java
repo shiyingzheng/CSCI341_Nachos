@@ -351,9 +351,14 @@ public class UserProcess {
    */
   private int handleCreat(int a0){
     String fileName = readVirtualMemoryString(a0, 256);
+
+    if(fileName == null) {
+      return -1;
+    }
+
     OpenFile file = ThreadedKernel.fileSystem.open(fileName, true);
 
-    if(file == null || fileName == null) {
+    if(file == null) {
       return -1;
     }
 
@@ -377,8 +382,15 @@ public class UserProcess {
   }
 
   private int handleOpen(int a0){
-    //TODO
-    return 0;
+    String fileName = readVirtualMemoryString(a0, 256);
+    OpenFile file = ThreadedKernel.fileSystem.open(fileName, false);
+
+    if(file == null || fileName == null) {
+      return -1;
+    }
+
+    fileOpenTable.put(nextFileDescriptor, file);
+    return nextFileDescriptor++;
   }
 
   private int handleRead(int a0, int a1, int a2){
