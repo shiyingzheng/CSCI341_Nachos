@@ -31,6 +31,7 @@ public class UserProcess {
     fileOpenTable = new HashMap<Integer, OpenFile>();
     filenameOpenTable = new HashMap<String, Integer>();
     offsetTable = new HashMap<Integer, Integer>();
+    writeOffsetTable = new HashMap<Integer, Integer>();
     nextFileDescriptor=3;
   }
 
@@ -372,7 +373,8 @@ public class UserProcess {
 
     fileOpenTable.put(nextFileDescriptor, file);
     filenameOpenTable.put(fileName, nextFileDescriptor);
-    offsetTable.put(nextFileDescriptor, 0);
+    readOffsetTable.put(nextFileDescriptor, 0); 
+    writeOffsetTable.put(nextFileDescriptor, 0); 
     return nextFileDescriptor++;
   }
 
@@ -412,7 +414,8 @@ public class UserProcess {
 
     fileOpenTable.put(nextFileDescriptor, file);
     filenameOpenTable.put(fileName, nextFileDescriptor);
-    offsetTable.put(nextFileDescriptor, 0);
+    readOffsetTable.put(nextFileDescriptor, 0); 
+    writeOffsetTable.put(nextFileDescriptor, 0); 
     return nextFileDescriptor++;
   }
 
@@ -433,7 +436,8 @@ public class UserProcess {
     }
     System.out.println("closing: " + f.getName());
     filenameOpenTable.remove(f.getName());
-    offsetTable.remove(a0);
+    readOffsetTable.remove(a0);
+    writeOffsetTable.remove(a0);
     f.close();
     return 0;
   }
@@ -572,6 +576,7 @@ public class UserProcess {
 
   private HashMap<Integer, OpenFile> fileOpenTable; //fd : OpenFile object
   private HashMap<String, Integer> filenameOpenTable; //fileName : fd
-  private HashMap<Integer, Integer> offsetTable; //fd : offset
+  private HashMap<Integer, Integer> readOffsetTable; //fd : offset
+  private HashMap<Integer, Integer> writeOffsetTable; //fd : offset
   private int nextFileDescriptor;
 }
