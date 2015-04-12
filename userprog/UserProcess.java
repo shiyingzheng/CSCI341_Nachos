@@ -504,14 +504,15 @@ public class UserProcess {
     //write to file at offset
     OpenFile file = fileOpenTable.get(fd);
 
-    int offset;
+    int writtenLength;
+    int pos;
     if(fd == 0 || fd == 1){
-      offset = 0;
+      writtenLength = file.write(bytes, 0, length);
     } else {
-      offset = writeOffsetTable.get(fd);
+      pos = writeOffsetTable.get(fd);
+      writtenLength = file.write(pos, bytes, 0, length);
     }
 
-    int writtenLength = file.write(bytes, offset, length);
 
     /* System.out.println("offset " + offset); */
     /* for (int i = 0; i < bytes.length; i++){ */
@@ -524,7 +525,9 @@ public class UserProcess {
     }
 
     //update offset
-    writeOffsetTable.put(fd, offset+writtenLength);
+    if(fd != 1 || fd != 0) {
+      writeOffsetTable.put(fd, pos+writtenLength);
+    }
 
     return writtenLength;
   }
