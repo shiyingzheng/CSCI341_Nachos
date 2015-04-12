@@ -466,7 +466,7 @@ public class UserProcess {
     //if buffer content is less than specified length, error
     if (bytes.size() < length){
       System.out.println("read buffer content smaller than specified");
-      return -1
+      return -1;
     }
 
     //write to file at offset
