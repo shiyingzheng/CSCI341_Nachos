@@ -435,8 +435,16 @@ public class UserProcess {
   }
 
   private int handleUnlink(int a0){
-    //TODO
-    return 0;
+    String fileName = readVirtualMemoryString(a0, 256);
+    if(filenameOpenTable.get(fileName) != null) {
+      return -1;
+    }
+
+    if(ThreadedKernel.fileSystem.remove(fileName)){
+      return 0;
+    } else {
+      return -1;
+    }
   }
 
 
