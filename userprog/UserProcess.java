@@ -30,7 +30,7 @@ public class UserProcess {
       pageTable[i] = new TranslationEntry(i,i, true,false,false,false);
     fileOpenTable = new HashMap<Integer, OpenFile>();
     filenameOpenTable = new HashMap<String, Integer>();
-    offsetTable = new HashMap<Integer, Integer>();
+    readOffsetTable = new HashMap<Integer, Integer>();
     writeOffsetTable = new HashMap<Integer, Integer>();
 
     setup();
@@ -47,8 +47,8 @@ public class UserProcess {
     filenameOpenTable.put("stdout", 1);
 
     // initialize in the offsetTable
-    offsetTable.put(0, 0);
-    offsetTable.put(1, 0);
+    readOffsetTable.put(0, 0);
+    readOffsetTable.put(1, 0);
 
     // initialize in the writeOffsetTable
     writeOffsetTable(0, 0);
