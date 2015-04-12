@@ -39,7 +39,7 @@ all: $(patsubst %,%.coff,$(TARGETS))
 ag: grade-file.coff grade-exec.coff grade-mini.coff grade-dumb.coff
 
 clean:
-	rm -f strt.s *.o *.coff x* $(NLIB)
+	rm -f strt.s *.o *.coff x* y* $(NLIB)
 
 agclean: clean
 	rm -f f1-* f2-*
