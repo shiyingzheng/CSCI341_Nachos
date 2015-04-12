@@ -477,6 +477,13 @@ public class UserProcess {
     //write to file at offset
     OpenFile file = fileOpenTable.get(fd);
     int pos = writeOffsetTable.get(fd);
+
+    System.out.println("pos " + pos);
+    for (int i = 0; i < bytes.length; i++){
+      System.out.print(bytes[i]);
+    }
+    System.out.println();
+
     int writtenLength = file.write(pos, bytes, 0, length);
 
     if (writtenLength == -1){
