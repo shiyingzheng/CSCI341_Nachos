@@ -420,7 +420,7 @@ public class UserProcess {
     String fileName = readVirtualMemoryString(a0, 256);
 
     if(fileName == null) {
-      System.out.println("file name is null in open");
+      /* System.out.println("file name is null in open"); */
       return -1;
     }
 
@@ -431,7 +431,7 @@ public class UserProcess {
     OpenFile file = ThreadedKernel.fileSystem.open(fileName, false);
 
     if(file == null) {
-      System.out.println("file is null in open");
+      /* System.out.println("file is null in open"); */
       return -1;
     }
 
@@ -480,14 +480,14 @@ public class UserProcess {
 
     //if file unopened, error
     if (!fileOpenTable.containsKey(fd)){
-      System.out.println("cannot write to unopened file");
+      /* System.out.println("cannot write to unopened file"); */
       return -1;
     }
 
     //read from buffer
     String buffer = readVirtualMemoryString(a1, a2);
     if (buffer == null){
-      System.out.println("buffer is null in write");
+      /* System.out.println("buffer is null in write"); */
       return -1;
     }
 
@@ -495,14 +495,15 @@ public class UserProcess {
     byte[] bytes = buffer.getBytes();
     //if buffer content is less than specified length, error
     if (bytes.length < length){
-      System.out.println("bytes.length " + bytes.length);
-      System.out.println("specified length of buffer " + length);
-      System.out.println("buffer content smaller than specified");
+      /* System.out.println("bytes.length " + bytes.length); */
+      /* System.out.println("specified length of buffer " + length); */
+      /* System.out.println("buffer content smaller than specified"); */
       return -1;
     }
 
     //write to file at offset
     OpenFile file = fileOpenTable.get(fd);
+<<<<<<< HEAD
     int pos = writeOffsetTable.get(fd);
 
     System.out.println("pos " + pos);
@@ -517,6 +518,15 @@ public class UserProcess {
       System.out.println("Write to " + fd + " failed");
       return -1;
     }
+=======
+    int offset;
+    if(fd == 0 || fd == 1){
+      offset = 0;
+    } else {
+      offset = writeOffsetTable.get(fd);
+    }
+    file.write(bytes, offset, length);
+>>>>>>> fixed? write to stdout. stdout and stdin do not have offsets. this can be seen in the implementation of "File" in the SynchConsole class
 
     //update offset
     writeOffsetTable.put(fd, pos+writtenLength);
