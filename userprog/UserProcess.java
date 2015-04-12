@@ -465,7 +465,12 @@ public class UserProcess {
     byte[] bytes = buffer.getBytes();
     //if buffer content is less than specified length, error
     if (bytes.length < length){
-      System.out.println("read buffer content smaller than specified");
+      System.out.println("string" + buffer);
+      for (int i = 0; i < bytes.length; i++){
+        System.out.print(bytes[i]);
+      }
+      System.out.println();
+      System.out.println("buffer content smaller than specified");
       return -1;
     }
 
