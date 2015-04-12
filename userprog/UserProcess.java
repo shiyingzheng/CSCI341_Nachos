@@ -354,6 +354,7 @@ public class UserProcess {
     String fileName = readVirtualMemoryString(a0, 256);
 
     if(fileName == null) {
+      System.out.println("file name is null");
       return -1;
     }
 
@@ -364,6 +365,7 @@ public class UserProcess {
     OpenFile file = ThreadedKernel.fileSystem.open(fileName, true);
 
     if(file == null) {
+      System.out.println("file is null");
       return -1;
     }
 
