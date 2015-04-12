@@ -41,8 +41,6 @@ all: $(CLASSFILES)
 nachos/%.class: ../%.java
 	javac -classpath . -d . -sourcepath ../.. -g $<
 
-clean:
-	rm -f */*/*.class
 
 doc:
 	mkdir -p ../doc
