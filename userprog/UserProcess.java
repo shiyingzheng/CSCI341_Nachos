@@ -354,7 +354,7 @@ public class UserProcess {
     String fileName = readVirtualMemoryString(a0, 256);
 
     if(fileName == null) {
-      System.out.println("file name is null");
+      System.out.println("file name is null in create");
       return -1;
     }
 
@@ -365,7 +365,7 @@ public class UserProcess {
     OpenFile file = ThreadedKernel.fileSystem.open(fileName, true);
 
     if(file == null) {
-      System.out.println("file is null");
+      System.out.println("file is null in create");
       return -1;
     }
 
@@ -393,6 +393,7 @@ public class UserProcess {
     String fileName = readVirtualMemoryString(a0, 256);
 
     if(fileName == null) {
+      System.out.println("file name is null in open");
       return -1;
     }
 
@@ -403,6 +404,7 @@ public class UserProcess {
     OpenFile file = ThreadedKernel.fileSystem.open(fileName, false);
 
     if(file == null) {
+      System.out.println("file is null in open");
       return -1;
     }
 
