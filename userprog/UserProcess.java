@@ -361,10 +361,6 @@ public class UserProcess {
       return filenameOpenTable.get(fileName);
     }
 
-    if (fileOpenTable.size() >= 16){
-      return -1;
-    }
-
     OpenFile file = ThreadedKernel.fileSystem.open(fileName, true);
 
     if(file == null) {
@@ -400,10 +396,6 @@ public class UserProcess {
 
     if (filenameOpenTable.containsKey(fileName)){
       return filenameOpenTable.get(fileName);
-    }
-
-    if (fileOpenTable.size() >= 16){
-      return -1;
     }
 
     OpenFile file = ThreadedKernel.fileSystem.open(fileName, false);
