@@ -503,33 +503,28 @@ public class UserProcess {
 
     //write to file at offset
     OpenFile file = fileOpenTable.get(fd);
-<<<<<<< HEAD
-    int pos = writeOffsetTable.get(fd);
 
-    System.out.println("pos " + pos);
-    for (int i = 0; i < bytes.length; i++){
-      System.out.print((char)bytes[i]);
-    }
-    System.out.println();
-
-    int writtenLength = file.write(pos, bytes, 0, length);
-
-    if (writtenLength == -1){
-      System.out.println("Write to " + fd + " failed");
-      return -1;
-    }
-=======
     int offset;
     if(fd == 0 || fd == 1){
       offset = 0;
     } else {
       offset = writeOffsetTable.get(fd);
     }
-    file.write(bytes, offset, length);
->>>>>>> fixed? write to stdout. stdout and stdin do not have offsets. this can be seen in the implementation of "File" in the SynchConsole class
+
+    int writtenLength = file.write(bytes, offset, length);
+
+    /* System.out.println("offset " + offset); */
+    /* for (int i = 0; i < bytes.length; i++){ */
+    /*   System.out.print((char)bytes[i]); */
+    /* } */
+
+    if (writtenLength == -1){
+      System.out.println("Write to " + fd + " failed");
+      return -1;
+    }
 
     //update offset
-    writeOffsetTable.put(fd, pos+writtenLength);
+    writeOffsetTable.put(fd, offset+writtenLength);
 
     return writtenLength;
   }
