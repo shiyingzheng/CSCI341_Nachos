@@ -29,6 +29,7 @@ public class UserProcess {
     for (int i=0; i<numPhysPages; i++)
       pageTable[i] = new TranslationEntry(i,i, true,false,false,false);
     fileOpenTable = new HashMap<Integer, OpenFile>();
+    filenameOpenTable = new HashMap<String, Integer>();
     nextFileDescriptor=3;
   }
 
@@ -356,6 +357,14 @@ public class UserProcess {
       return -1;
     }
 
+    if (filenameOpenTable.containsKey(fileName)){
+      return filenameOpenTable.get(fileName);
+    }
+
+    if (fileOpenTable.size() >= 16){
+      return -1;
+    }
+
     OpenFile file = ThreadedKernel.fileSystem.open(fileName, true);
 
     if(file == null) {
@@ -363,6 +372,7 @@ public class UserProcess {
     }
 
     fileOpenTable.put(nextFileDescriptor, file);
+    filenameOpenTable.put(fileName, nextFileDescriptor);
     return nextFileDescriptor++;
   }
 
@@ -383,13 +393,27 @@ public class UserProcess {
 
   private int handleOpen(int a0){
     String fileName = readVirtualMemoryString(a0, 256);
+
+    if(fileName == null) {
+      return -1;
+    }
+
+    if (filenameOpenTable.containsKey(fileName)){
+      return filenameOpenTable.get(fileName);
+    }
+
+    if (fileOpenTable.size() >= 16){
+      return -1;
+    }
+
     OpenFile file = ThreadedKernel.fileSystem.open(fileName, false);
 
-    if(file == null || fileName == null) {
+    if(file == null) {
       return -1;
     }
 
     fileOpenTable.put(nextFileDescriptor, file);
+    filenameOpenTable.put(fileName, nextFileDescriptor);
     return nextFileDescriptor++;
   }
 
@@ -533,5 +557,6 @@ public class UserProcess {
   private static final char dbgProcess = 'a';
 
   private HashMap<Integer, OpenFile> fileOpenTable;
+  private HashMap<String, Integer> filenameOpenTable;
   private int nextFileDescriptor;
 }
