@@ -457,6 +457,7 @@ public class UserProcess {
     int pos = readOffsetTable.get(fd);
     byte[] bytes = new byte[length];
     int readLength = file.read(pos, bytes, 0, length);
+    System.out.println("read " + readLength + "bytes");
 
     if (readLength == -1){
       System.out.println("Read " + fd + " failed");
@@ -468,6 +469,7 @@ public class UserProcess {
 
     //write to virtual memory
     int transferredLength = writeVirtualMemory(a1, bytes, 0, readLength);
+    System.out.println("transferred " + transferredLength + "bytes to virtual mem");
 
     return transferredLength;
   }
