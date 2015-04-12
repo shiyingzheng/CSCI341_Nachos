@@ -32,7 +32,27 @@ public class UserProcess {
     filenameOpenTable = new HashMap<String, Integer>();
     offsetTable = new HashMap<Integer, Integer>();
     writeOffsetTable = new HashMap<Integer, Integer>();
+
+    setup();
     nextFileDescriptor=3;
+  }
+
+  private void setup(){
+    // initialize in the openFileTable
+    fileOpenTable.put(0, UserKernel.console.openForReading());
+    fileOpenTable.put(1, UserKernel.console.openForWriting());
+
+    // initialize in the filenameOpenTable
+    filenameOpenTable.put("stdin", 0);
+    filenameOpenTable.put("stdout", 1);
+
+    // initialize in the offsetTable
+    offsetTable.put(0, 0);
+    offsetTable.put(1, 0);
+
+    // initialize in the writeOffsetTable
+    writeOffsetTable(0, 0);
+    writeOffsetTable(1, 0);
   }
 
   /**
