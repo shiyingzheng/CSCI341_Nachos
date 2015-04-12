@@ -390,7 +390,7 @@ public class UserProcess {
     OpenFile file = ThreadedKernel.fileSystem.open(fileName, true);
 
     if(file == null) {
-      System.out.println("file is null in create");
+      System.out.println("file " + fileName + " is null in create");
       return -1;
     }
 
@@ -480,7 +480,7 @@ public class UserProcess {
     int writtenLength = file.write(pos, bytes, 0, length);
 
     if (writtenLength == -1){
-      System.out.println("Write failed");
+      System.out.println("Write to " + fd + " failed");
       return -1;
     }
 
