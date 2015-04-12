@@ -428,7 +428,9 @@ public class UserProcess {
     if(f == null) {
       return -1;
     }
+    System.out.println("closing: " + f.name);
     filenameOpenTable.remove(f.name);
+    f.close();
     return 0;
   }
 
