@@ -480,7 +480,7 @@ public class UserProcess {
 
     System.out.println("pos " + pos);
     for (int i = 0; i < bytes.length; i++){
-      System.out.print(bytes[i]);
+      System.out.print((char)bytes[i]);
     }
     System.out.println();
 
