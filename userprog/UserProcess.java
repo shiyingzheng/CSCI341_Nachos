@@ -424,7 +424,11 @@ public class UserProcess {
   }
 
   private int handleClose(int a0){
-    //TODO
+    OpenFile f = fileOpenTable.remove(a0);
+    if(f == null) {
+      return -1;
+    }
+    filenameOpenTable.remove(f.name);
     return 0;
   }
 
