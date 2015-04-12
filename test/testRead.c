@@ -42,7 +42,7 @@ int test1(){
 }
 int test2(){
     char x[1000];
-    int f = creat("testCreate.c");
+    int f = open("meow");
     read(f,x,20);
     int g = creat("y");
     write(g,x,20);
