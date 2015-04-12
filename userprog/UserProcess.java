@@ -353,7 +353,7 @@ public class UserProcess {
     String fileName = readVirtualMemoryString(a0, 256);
     OpenFile file = ThreadedKernel.fileSystem.open(fileName, true);
 
-    if(file == null) {
+    if(file == null || fileName == null) {
       return -1;
     }
 
