@@ -54,6 +54,18 @@ int test3(){
 	printf("You typed: %c\n",c);
     }
 }
+int test4(){
+    char buf[5];
+    int i;
+    for(i = 0;true;i++){
+	int f = open("a");
+	read(f,buf,i);
+	buf[i] = 0;
+	printf("%s\n",buf);
+	close(f);
+    }
+}
 int main(){
-    test3();
+    test4();
+    exit(0);
 }

@@ -5,6 +5,8 @@ int main(){
     int i;
     int j;
     char x[1000];
+    close(0);
+    close(1);
     for(i=0;i<50;i++){
 	for(j=0;j<i+1;j++){
 	    x[j]='x';
