@@ -1,6 +1,7 @@
 #include "syscall.h"
 #include "stdio.h"
 #include "stdlib.h"
+#define EOF -1
 int test1(){
     int i;
     int j;
@@ -28,15 +29,13 @@ int test1(){
 	    y[j]='y';
 	}
 	x[j] = 0;
-	y[j] = 0;
-	int f = creat(x);
-	int g = creat(y);
+	int f = open(x);
 	if(f == -1){
-	    printf("Unable to create file\n");
+	    printf("Unable to open file\n");
 	}
 	else{
 	    read(f,x,20);
-	    write(g,x,20);
+	    printf("%s\n",x);
 	}
     }
 }
@@ -46,7 +45,15 @@ int test2(){
     read(f,x,20);
     int g = creat("y");
     write(g,x,20);
+    read(f,x,20);
+    write(g,x,20);
+}
+int test3(){
+    int c;
+    while((c = getchar()) != EOF){
+	printf("You typed: %c\n",c);
+    }
 }
 int main(){
-    test2();
+    test3();
 }
