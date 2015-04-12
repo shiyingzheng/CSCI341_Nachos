@@ -138,4 +138,5 @@ public class OpenFile {
 
    private FileSystem fileSystem;
    private String name;
+   private int offset;
 }

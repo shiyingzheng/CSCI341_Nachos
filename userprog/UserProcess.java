@@ -30,6 +30,7 @@ public class UserProcess {
       pageTable[i] = new TranslationEntry(i,i, true,false,false,false);
     fileOpenTable = new HashMap<Integer, OpenFile>();
     filenameOpenTable = new HashMap<String, Integer>();
+    offsetTable = new HashMap<Integer, Integer>();
     nextFileDescriptor=3;
   }
 
@@ -371,6 +372,7 @@ public class UserProcess {
 
     fileOpenTable.put(nextFileDescriptor, file);
     filenameOpenTable.put(fileName, nextFileDescriptor);
+    offsetTable.put(nextFileDescriptor, 0);
     return nextFileDescriptor++;
   }
 
@@ -410,6 +412,7 @@ public class UserProcess {
 
     fileOpenTable.put(nextFileDescriptor, file);
     filenameOpenTable.put(fileName, nextFileDescriptor);
+    offsetTable.put(nextFileDescriptor, 0);
     return nextFileDescriptor++;
   }
 
@@ -430,6 +433,7 @@ public class UserProcess {
     }
     System.out.println("closing: " + f.getName());
     filenameOpenTable.remove(f.getName());
+    offsetTable.remove(a0);
     f.close();
     return 0;
   }
@@ -566,7 +570,8 @@ public class UserProcess {
   private static final int pageSize = Processor.pageSize;
   private static final char dbgProcess = 'a';
 
-  private HashMap<Integer, OpenFile> fileOpenTable;
-  private HashMap<String, Integer> filenameOpenTable;
+  private HashMap<Integer, OpenFile> fileOpenTable; //fd : OpenFile object
+  private HashMap<String, Integer> filenameOpenTable; //fileName : fd
+  private HashMap<Integer, Integer> offsetTable; //fd : offset
   private int nextFileDescriptor;
 }
