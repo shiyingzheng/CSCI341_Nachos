@@ -473,13 +473,18 @@ public class UserProcess {
 
     //write to file at offset
     OpenFile file = fileOpenTable.get(fd);
-    int offset = writeOffsetTable.get(fd);
-    file.write(bytes, offset, length);
+    int pos = writeOffsetTable.get(fd);
+    int writtenLength = file.write(pos, bytes, 0, length);
+
+    if (writtenLength == -1){
+      System.out.println("Write failed");
+      return -1;
+    }
 
     //update offset
-    writeOffsetTable.put(fd, offset+length);
+    writeOffsetTable.put(fd, pos+length);
 
-    return length;
+    return writtenLength;
   }
 
   private int handleClose(int a0){
