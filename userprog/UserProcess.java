@@ -484,7 +484,7 @@ public class UserProcess {
     }
     System.out.println();
 
-    int writtenLength = file.write(pos, bytes, 0, length);
+    int writtenLength = file.write(pos, bytes, file.tell(), length);
 
     if (writtenLength == -1){
       System.out.println("Write to " + fd + " failed");
