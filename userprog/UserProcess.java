@@ -173,7 +173,8 @@ public class UserProcess {
     int curLoc = 0;
     int rem = amount;
     for (int i = 0; i < amount/pageSize; i++){
-      System.arraycopy(memory, pageTable[vaddr].ppn, data, offset+curLoc, Math.min(pageSize, rem)); 
+      System.arraycopy(memory, pageTable[vaddr/pageSize+i].ppn, 
+        data, offset+curLoc, Math.min(pageSize, rem)); 
       curLoc += pageSize;
       rem -= pageSize;
     }
@@ -218,7 +219,14 @@ public class UserProcess {
       return 0;  
 
     int amount = Math.min(length, memory.length-vaddr);
-    System.arraycopy(data, offset, memory, vaddr, amount); 
+    int curLoc = 0;
+    int rem = amount;
+    for (int i = 0; i < amount/pageSize; i++){
+      System.arraycopy(data, offset+curLoc, memory, pageTable[vaddr/pageSize+i].ppn, 
+        Math.min(pageSize, rem)); 
+      curLoc += pageSize;
+      rem -= pageSize;
+    }
 
     return amount;
   }
@@ -334,7 +342,7 @@ public class UserProcess {
 
       for (int i=0; i<section.getLength(); i++) {
         int vpn = section.getFirstVPN()+i;    
-        section.loadPage(i, pageTable[vpn].ppn);
+        section.loadPage(i, pageTable[vpn/pageSize].ppn);
       }
     }
 
