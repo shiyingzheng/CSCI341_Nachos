@@ -102,6 +102,13 @@ public class UserProcess {
   }
 
   /**
+  * Translate a virtual address to physical address.
+  */
+  private int translate(int vaddr){
+    return -1;
+  }
+
+  /**
    * Read a null-terminated string from this process's virtual memory. Read
    * at most <tt>maxLength + 1</tt> bytes from the specified address, search
    * for the null terminator, and convert it to a <tt>java.lang.String</tt>,

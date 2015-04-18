@@ -28,7 +28,11 @@ public class UserKernel extends ThreadedKernel {
       public void run() { exceptionHandler(); }
     });
 
-    freePageList = new LinkedList<CoffSection>();
+    freePageList = new LinkedList<Integer>();
+
+    for (int i = 0; i < Machine.processor().getNumPhysPages(); i++){
+      freePageList.add(i);
+    }
   }
 
   /**
@@ -113,7 +117,7 @@ public class UserKernel extends ThreadedKernel {
   public static SynchConsole console;
 
   /** Global list of free pages */
-  public LinkedList<CoffSection> freePageList;
+  public LinkedList<Integer> freePageList;
 
   // dummy variables to make javac smarter
   private static Coff dummy1 = null;
