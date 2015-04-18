@@ -27,6 +27,8 @@ public class UserKernel extends ThreadedKernel {
     Machine.processor().setExceptionHandler(new Runnable() {
       public void run() { exceptionHandler(); }
     });
+
+    freePageList = new LinkedList<CoffSection>();
   }
 
   /**
@@ -109,6 +111,9 @@ public class UserKernel extends ThreadedKernel {
 
   /** Globally accessible reference to the synchronized console. */
   public static SynchConsole console;
+
+  /** Global list of free pages */
+  public LinkedList<CoffSection> freePageList;
 
   // dummy variables to make javac smarter
   private static Coff dummy1 = null;
