@@ -170,7 +170,13 @@ public class UserProcess {
       return 0;  
 
     int amount = Math.min(length, memory.length-vaddr);
-    System.arraycopy(memory, vaddr, data, offset, amount); 
+    int curLoc = 0;
+    int rem = amount;
+    for (int i = 0; i < amount/pageSize; i++){
+      System.arraycopy(memory, pageTable[vaddr].ppn, data, offset+curLoc, Math.min(pageSize, rem)); 
+      curLoc += pageSize;
+      rem -= pageSize;
+    }
 
     return amount;
   }
