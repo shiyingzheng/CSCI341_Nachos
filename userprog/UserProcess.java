@@ -26,8 +26,12 @@ public class UserProcess {
   public UserProcess() {
     int numPhysPages = Machine.processor().getNumPhysPages();
     pageTable = new TranslationEntry[numPhysPages];
-    for (int i=0; i<numPhysPages; i++)
-      pageTable[i] = new TranslationEntry(i,i, true,false,false,false);
+    UserKernel.pageListLock.acquire();
+    for (int i=0; i<numPhysPages; i++){
+      int paddr = UserKernel.freePageList.removeFirst();
+      pageTable[i] = new TranslationEntry(i,paddr,true,false,false,false);
+    }
+    UserKernel.pageListLock.release();
     fileOpenTable = new HashMap<Integer, OpenFile>();
     filenameOpenTable = new HashMap<String, Integer>();
     readOffsetTable = new HashMap<Integer, Integer>();
@@ -99,13 +103,6 @@ public class UserProcess {
    */
   public void restoreState() {
     Machine.processor().setPageTable(pageTable);
-  }
-
-  /**
-  * Translate a virtual address to physical address.
-  */
-  private int translate(int vaddr){
-    return -1;
   }
 
   /**
@@ -331,9 +328,7 @@ public class UserProcess {
 
       for (int i=0; i<section.getLength(); i++) {
         int vpn = section.getFirstVPN()+i;    
-
-        // for now, just assume virtual addresses=physical addresses
-        section.loadPage(i, vpn);
+        section.loadPage(i, pageTable[vpn].ppn);
       }
     }
 
@@ -344,6 +339,13 @@ public class UserProcess {
    * Release any resources allocated by <tt>loadSections()</tt>.
    */
   protected void unloadSections() {
+    int numPhysPages = Machine.processor().getNumPhysPages();
+    UserKernel.pageListLock.acquire();
+    for (int i=0; i<numPhysPages; i++){
+      int paddr = pageTable[i].ppn;
+      UserKernel.freePageList.add(paddr);
+    }
+    UserKernel.pageListLock.release();
   }    
 
   /**
@@ -621,6 +623,7 @@ public class UserProcess {
       case syscallExit:
         return handleHalt(); //return handleExit(a0); //TODO
       case syscallExec:
+        this.unloadSections();
         return handleExec(a0, a1, a2);
       case syscallJoin:
         return handleJoin(a0, a1); 

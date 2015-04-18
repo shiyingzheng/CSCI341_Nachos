@@ -30,13 +30,9 @@ public class UserKernel extends ThreadedKernel {
       public void run() { exceptionHandler(); }
     });
 
-    freePageList = new LinkedList<Integer>();
-
     for (int i = 0; i < Machine.processor().getNumPhysPages(); i++){
       freePageList.add(i);
     }
-
-    pageListLock = new Lock();
   }
 
   /**
@@ -121,10 +117,10 @@ public class UserKernel extends ThreadedKernel {
   public static SynchConsole console;
 
   /** Global list of free pages */
-  public LinkedList<Integer> freePageList;
+  public static LinkedList<Integer> freePageList = new LinkedList<Integer>();
 
   /** A lock for the free page list*/
-  public Lock pageListLock;
+  public static Lock pageListLock = new Lock();
 
   // dummy variables to make javac smarter
   private static Coff dummy1 = null;
