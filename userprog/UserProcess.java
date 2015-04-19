@@ -199,6 +199,11 @@ public class UserProcess {
       rem -= pageSize;
     }
 
+    System.out.println("read data array ");
+    for (int i = 0; i < data.length; i++){
+      System.out.println(data[i]);
+    }
+
     return amount;
   }
 
@@ -260,6 +265,11 @@ public class UserProcess {
       curLoc += pageSize;
       // decrement remaining amount of bytes by page size
       rem -= pageSize;
+    }
+
+    System.out.println("write data array ");
+    for (int i = 0; i < data.length; i++){
+      System.out.println(data[i]);
     }
 
     return amount;
