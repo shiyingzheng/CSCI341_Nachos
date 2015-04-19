@@ -172,11 +172,11 @@ public class UserProcess {
     int amount = Math.min(length, memory.length-vaddr);
     int curLoc = 0;
     int rem = amount;
-    for (int i = 0; i < amount/pageSize; i++){
+    for (int i = 0; i < amount/pageSize + 1; i++){
       System.arraycopy(memory, pageTable[vaddr/pageSize+i].ppn, 
         data, offset+curLoc, Math.min(pageSize, rem)); 
-      System.out.println("read mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
-      System.out.println("read mem, data " + offset+curLoc);
+      //System.out.println("read mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
+      //System.out.println("read mem, data " + offset+curLoc);
       pageTable[vaddr/pageSize+i].used = true;
       curLoc += pageSize;
       rem -= pageSize;
@@ -224,7 +224,7 @@ public class UserProcess {
     int amount = Math.min(length, memory.length-vaddr);
     int curLoc = 0;
     int rem = amount;
-    for (int i = 0; i < amount/pageSize; i++){
+    for (int i = 0; i < amount/pageSize + 1; i++){
       System.arraycopy(data, offset+curLoc, memory, pageTable[vaddr/pageSize+i].ppn, 
         Math.min(pageSize, rem)); 
       System.out.println("write mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
@@ -250,7 +250,6 @@ public class UserProcess {
    */
   private boolean load(String name, String[] args) {
     Lib.debug(dbgProcess, "UserProcess.load(\"" + name + "\")");
-
     OpenFile executable = ThreadedKernel.fileSystem.open(name, false);
     if (executable == null) {
       Lib.debug(dbgProcess, "\topen failed");
