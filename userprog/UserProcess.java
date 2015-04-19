@@ -132,7 +132,8 @@ public class UserProcess {
   public String readVirtualMemoryString(int vaddr, int maxLength) {
     Lib.assertTrue(maxLength >= 0);    
 
-    byte[] bytes = new byte[maxLength+1];  
+    byte[] bytes = new byte[maxLength+1]; 
+    System.out.println("num bytes " + bytes.length); 
 
     int bytesRead = readVirtualMemory(vaddr, bytes);   
 
