@@ -175,6 +175,8 @@ public class UserProcess {
     for (int i = 0; i < amount/pageSize; i++){
       System.arraycopy(memory, pageTable[vaddr/pageSize+i].ppn, 
         data, offset+curLoc, Math.min(pageSize, rem)); 
+      System.out.println("read mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
+      System.out.println("read mem, data " + offset+curLoc);
       pageTable[vaddr/pageSize+i].used = true;
       curLoc += pageSize;
       rem -= pageSize;
@@ -225,6 +227,8 @@ public class UserProcess {
     for (int i = 0; i < amount/pageSize; i++){
       System.arraycopy(data, offset+curLoc, memory, pageTable[vaddr/pageSize+i].ppn, 
         Math.min(pageSize, rem)); 
+      System.out.println("write mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
+      System.out.println("write mem, data " + offset+curLoc);
       pageTable[vaddr/pageSize+i].used = true;
       pageTable[vaddr/pageSize+i].dirty = true;
       curLoc += pageSize;
