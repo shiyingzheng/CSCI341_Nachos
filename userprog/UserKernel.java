@@ -24,6 +24,9 @@ public class UserKernel extends ThreadedKernel {
   public void initialize(String[] args) {
     super.initialize(args);    
 
+    pageListLock = new Lock();
+    freePageList = new LinkedList<Integer>();
+
     console = new SynchConsole(Machine.console());
 
     Machine.processor().setExceptionHandler(new Runnable() {
@@ -117,10 +120,10 @@ public class UserKernel extends ThreadedKernel {
   public static SynchConsole console;
 
   /** Global list of free pages */
-  public static LinkedList<Integer> freePageList = new LinkedList<Integer>();
+  public static LinkedList<Integer> freePageList;
 
   /** A lock for the free page list*/
-  public static Lock pageListLock = new Lock();
+  public static Lock pageListLock;
 
   // dummy variables to make javac smarter
   private static Coff dummy1 = null;

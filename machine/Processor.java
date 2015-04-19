@@ -583,8 +583,10 @@ public final class Processor {
     public void handle() {
       writeRegister(regCause, cause);    
 
-      if (hasBadVAddr)
+      if (hasBadVAddr){
+	System.out.println(badVAddr);
         writeRegister(regBadVAddr, badVAddr); 
+      }
 
       if (Lib.test(dbgDisassemble) || Lib.test(dbgFullDisassemble))
         System.out.println("exception: " + exceptionNames[cause]);    
