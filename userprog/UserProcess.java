@@ -188,9 +188,9 @@ public class UserProcess {
       // to data at offset + curLoc
       System.arraycopy(memory, pageTable[pageNumber+i].ppn, 
         data, offset+curLoc, Math.min(pageSize, rem)); 
-      System.out.println("read remaining " + rem + " bytes");
-      System.out.println("read mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
-      System.out.println("read mem, data " + offset+curLoc);
+      //System.out.println("read remaining " + rem + " bytes");
+      //System.out.println("read mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
+      //System.out.println("read mem, data " + offset+curLoc);
       // set used bit
       pageTable[vaddr/pageSize+i].used = true;
       // increment current location in data by page size
@@ -198,11 +198,13 @@ public class UserProcess {
       // decrement remaining number of bytes by page size
       rem -= pageSize;
     }
-
+    
+    /*
     System.out.println("read data array ");
     for (int i = 0; i < data.length; i++){
       System.out.println(data[i]);
     }
+    */
 
     return amount;
   }
@@ -255,9 +257,9 @@ public class UserProcess {
       // to memory at ppn
       System.arraycopy(data, offset+curLoc, memory, pageTable[pageNumber+i].ppn, 
         Math.min(pageSize, rem)); 
-      System.out.println("write remaining " + rem + " bytes");
-      System.out.println("write mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
-      System.out.println("write mem, data " + offset+curLoc);
+      //System.out.println("write remaining " + rem + " bytes");
+      //System.out.println("write mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
+      //System.out.println("write mem, data " + offset+curLoc);
       // set dirty bit and used bit in pageTable entry
       pageTable[vaddr/pageSize+i].used = true;
       pageTable[vaddr/pageSize+i].dirty = true;
@@ -267,11 +269,12 @@ public class UserProcess {
       rem -= pageSize;
     }
 
+    /*
     System.out.println("write data array ");
     for (int i = 0; i < data.length; i++){
       System.out.println(data[i]);
     }
-
+    */
     return amount;
   }
 
@@ -561,6 +564,7 @@ public class UserProcess {
 
     //read from buffer
     String buffer = readVirtualMemoryString(a1, a2);
+    System.out.println(buffer);
     if (buffer == null){
       /* System.out.println("buffer is null in write"); */
       return -1;
