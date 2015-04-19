@@ -342,7 +342,7 @@ public class UserProcess {
 
       for (int i=0; i<section.getLength(); i++) {
         int vpn = section.getFirstVPN()+i;    
-        section.loadPage(i, pageTable[vpn/pageSize].ppn);
+        section.loadPage(i, pageTable[vpn].ppn);
       }
     }
 
