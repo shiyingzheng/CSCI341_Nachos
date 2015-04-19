@@ -133,13 +133,15 @@ public class UserProcess {
     Lib.assertTrue(maxLength >= 0);    
 
     byte[] bytes = new byte[maxLength+1]; 
-    System.out.println("num bytes " + bytes.length); 
+    /* System.out.println("num bytes " + bytes.length);  */
 
     int bytesRead = readVirtualMemory(vaddr, bytes);   
 
     for (int length=0; length<bytesRead; length++) {
-      if (bytes[length] == 0)
+      System.out.println("HERE IAM");
+      if (bytes[length] == 0){
         return new String(bytes, 0, length);
+      }
     }  
 
     return null;
@@ -183,22 +185,25 @@ public class UserProcess {
     int amount = Math.min(length, memory.length-vaddr);
     int curLoc = 0;
     int rem = amount;
+    System.out.println("amount " +amount);
     int pageNumber = pageFromAddress(vaddr);
     for (int i = 0; i < amount/pageSize + 1; i++){
       // copy Math.min(pageSize, rem) number of bytes from memory at ppn 
       // to data at offset + curLoc
+      /* System.out.println("PANDAS"); */
       System.arraycopy(memory, pageTable[pageNumber+i].ppn, 
         data, offset+curLoc, Math.min(pageSize, rem)); 
       //System.out.println("read remaining " + rem + " bytes");
       //System.out.println("read mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
       //System.out.println("read mem, data " + offset+curLoc);
       // set used bit
-      pageTable[vaddr/pageSize+i].used = true;
+      pageTable[pageNumber+i].used = true;
       // increment current location in data by page size
       curLoc += pageSize;
       // decrement remaining number of bytes by page size
       rem -= pageSize;
     }
+    System.out.println("amount end " +amount);
     
     /*
     System.out.println("read data array ");
@@ -257,7 +262,12 @@ public class UserProcess {
       // copy Math.min(pageSize, rem) number of bytes from data at offset + curLoc
       // to memory at ppn
       System.arraycopy(data, offset+curLoc, memory, pageTable[pageNumber+i].ppn, 
-        Math.min(pageSize, rem)); 
+        Math.min(pageSize, rem));
+      String s = "";
+      for(int j = offset+curLoc;j<offset+curLoc+Math.min(pageSize,rem);j++){
+        s = s + (char)data[j];
+      }
+      System.out.println(s); 
       //System.out.println("write remaining " + rem + " bytes");
       //System.out.println("write mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
       //System.out.println("write mem, data " + offset+curLoc);
