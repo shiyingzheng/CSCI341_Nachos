@@ -106,6 +106,16 @@ public class UserProcess {
   }
 
   /**
+   * Extract the page number component from a 32-bit address.
+   *
+   * @param address the 32-bit address.
+   * @return  the page number component of the address.
+   */
+  private static int pageFromAddress(int address) {
+    return (int) (((long) address & 0xFFFFFFFFL) / pageSize);
+  }
+
+  /**
    * Read a null-terminated string from this process's virtual memory. Read
    * at most <tt>maxLength + 1</tt> bytes from the specified address, search
    * for the null terminator, and convert it to a <tt>java.lang.String</tt>,
@@ -172,10 +182,11 @@ public class UserProcess {
     int amount = Math.min(length, memory.length-vaddr);
     int curLoc = 0;
     int rem = amount;
+    int pageNumber = pageFromAddress(vaddr);
     for (int i = 0; i < amount/pageSize + 1; i++){
       // copy Math.min(pageSize, rem) number of bytes from memory at ppn 
       // to data at offset + curLoc
-      System.arraycopy(memory, pageTable[vaddr/pageSize+i].ppn, 
+      System.arraycopy(memory, pageTable[pageNumber+i].ppn, 
         data, offset+curLoc, Math.min(pageSize, rem)); 
       System.out.println("read remaining " + rem + " bytes");
       System.out.println("read mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
@@ -233,10 +244,11 @@ public class UserProcess {
     int curLoc = 0;
     // rem is the remaining number of bytes we need to copy 
     int rem = amount;
+    int pageNumber = pageFromAddress(vaddr);
     for (int i = 0; i < amount/pageSize + 1; i++){
       // copy Math.min(pageSize, rem) number of bytes from data at offset + curLoc
       // to memory at ppn
-      System.arraycopy(data, offset+curLoc, memory, pageTable[vaddr/pageSize+i].ppn, 
+      System.arraycopy(data, offset+curLoc, memory, pageTable[pageNumber+i].ppn, 
         Math.min(pageSize, rem)); 
       System.out.println("write remaining " + rem + " bytes");
       System.out.println("write mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
