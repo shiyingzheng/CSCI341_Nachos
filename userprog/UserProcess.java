@@ -173,12 +173,18 @@ public class UserProcess {
     int curLoc = 0;
     int rem = amount;
     for (int i = 0; i < amount/pageSize + 1; i++){
+      // copy Math.min(pageSize, rem) number of bytes from memory at ppn 
+      // to data at offset + curLoc
       System.arraycopy(memory, pageTable[vaddr/pageSize+i].ppn, 
         data, offset+curLoc, Math.min(pageSize, rem)); 
-      //System.out.println("read mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
-      //System.out.println("read mem, data " + offset+curLoc);
+      System.out.println("read remaining " + rem + " bytes");
+      System.out.println("read mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
+      System.out.println("read mem, data " + offset+curLoc);
+      // set used bit
       pageTable[vaddr/pageSize+i].used = true;
+      // increment current location in data by page size
       curLoc += pageSize;
+      // decrement remaining number of bytes by page size
       rem -= pageSize;
     }
 
@@ -221,17 +227,26 @@ public class UserProcess {
     if (vaddr < 0 || vaddr >= memory.length)
       return 0;  
 
+    // amount is the number of bytes we need to copy over to memory
     int amount = Math.min(length, memory.length-vaddr);
+    // curLoc is the current start location in data that we need to copy from
     int curLoc = 0;
+    // rem is the remaining number of bytes we need to copy 
     int rem = amount;
     for (int i = 0; i < amount/pageSize + 1; i++){
+      // copy Math.min(pageSize, rem) number of bytes from data at offset + curLoc
+      // to memory at ppn
       System.arraycopy(data, offset+curLoc, memory, pageTable[vaddr/pageSize+i].ppn, 
         Math.min(pageSize, rem)); 
+      System.out.println("write remaining " + rem + " bytes");
       System.out.println("write mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
       System.out.println("write mem, data " + offset+curLoc);
+      // set dirty bit and used bit in pageTable entry
       pageTable[vaddr/pageSize+i].used = true;
       pageTable[vaddr/pageSize+i].dirty = true;
+      // increment current location in data array by page size
       curLoc += pageSize;
+      // decrement remaining amount of bytes by page size
       rem -= pageSize;
     }
 
