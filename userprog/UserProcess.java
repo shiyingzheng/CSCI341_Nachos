@@ -130,7 +130,7 @@ public class UserProcess {
     int bytesRead = readVirtualMemory(vaddr, bytes);   
 
     for (int length=0; length<bytesRead; length++) {
-      System.out.println("HERE IAM");
+      /* System.out.println("HERE IAM"); */
       if (bytes[length] == 0){
         return new String(bytes, 0, length);
       }
@@ -183,13 +183,14 @@ public class UserProcess {
       // copy Math.min(pageSize, rem) number of bytes from memory at ppn 
       // to data at offset + curLoc
       /* System.out.println("PANDAS"); */
-      System.arraycopy(memory, pageTable[pageNumber+i].ppn, 
+      System.arraycopy(memory, pageTable[pageNumber+i].ppn * pageSize, 
         data, offset+curLoc, Math.min(pageSize, rem)); 
+      System.out.println(data[offset+curLoc]);
       //System.out.println("read remaining " + rem + " bytes");
       //System.out.println("read mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
       //System.out.println("read mem, data " + offset+curLoc);
       // set used bit
-      pageTable[pageNumber+i].used = true;
+      /* pageTable[pageNumber+i].used = true; */
       // increment current location in data by page size
       curLoc += pageSize;
       // decrement remaining number of bytes by page size
@@ -253,7 +254,7 @@ public class UserProcess {
     for (int i = 0; i < amount/pageSize + 1; i++){
       // copy Math.min(pageSize, rem) number of bytes from data at offset + curLoc
       // to memory at ppn
-      System.arraycopy(data, offset+curLoc, memory, pageTable[pageNumber+i].ppn, 
+      System.arraycopy(data, offset+curLoc, memory, pageTable[pageNumber+i].ppn * pageSize, 
         Math.min(pageSize, rem));
       String s = "";
       for(int j = offset+curLoc;j<offset+curLoc+Math.min(pageSize,rem);j++){
@@ -344,8 +345,10 @@ public class UserProcess {
     // and finally reserve 1 page for arguments
     numPages++;    
 
-    if (!loadSections())
-      return false;  
+    if (!loadSections()){
+      unloadSections();
+      return false; 
+    } 
 
     // store arguments in last page
     int entryOffset = (numPages-1)*pageSize;
@@ -448,7 +451,7 @@ public class UserProcess {
    */
   private int handleHalt() {
     Machine.halt();
-
+    unloadSections();
     Lib.assertNotReached("Machine.halt() did not halt machine!");
     return 0;
   }
@@ -696,7 +699,6 @@ public class UserProcess {
       case syscallExit:
         return handleHalt(); //return handleExit(a0); //TODO
       case syscallExec:
-        this.unloadSections();
         return handleExec(a0, a1, a2);
       case syscallJoin:
         return handleJoin(a0, a1); 
