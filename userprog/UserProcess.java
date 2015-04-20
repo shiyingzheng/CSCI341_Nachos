@@ -128,9 +128,13 @@ public class UserProcess {
     /* System.out.println("num bytes " + bytes.length);  */
 
     int bytesRead = readVirtualMemory(vaddr, bytes);   
+    System.out.println("ytes read: "+bytesRead);
 
     for (int length=0; length<bytesRead; length++) {
       /* System.out.println("HERE IAM"); */
+      System.out.println("length: " +length);
+      System.out.println("bytesRead: " +bytesRead);
+      System.out.println("I MA A CHAR: "+(char)bytes[length]);
       if (bytes[length] == 0){
         return new String(bytes, 0, length);
       }
@@ -185,7 +189,7 @@ public class UserProcess {
       /* System.out.println("PANDAS"); */
       System.arraycopy(memory, pageTable[pageNumber+i].ppn * pageSize, 
         data, offset+curLoc, Math.min(pageSize, rem)); 
-      System.out.println(data[offset+curLoc]);
+      /* System.out.println(data[offset+curLoc]); */
       //System.out.println("read remaining " + rem + " bytes");
       //System.out.println("read mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
       //System.out.println("read mem, data " + offset+curLoc);
@@ -256,17 +260,17 @@ public class UserProcess {
       // to memory at ppn
       System.arraycopy(data, offset+curLoc, memory, pageTable[pageNumber+i].ppn * pageSize, 
         Math.min(pageSize, rem));
-      String s = "";
-      for(int j = offset+curLoc;j<offset+curLoc+Math.min(pageSize,rem);j++){
-        s = s + (char)data[j];
-      }
-      System.out.println(s); 
+      /* String s = ""; */
+      /* for(int j = offset+curLoc;j<offset+curLoc+Math.min(pageSize,rem);j++){ */
+      /*   s = s + (char)data[j]; */
+      /* } */
+      /* System.out.println(s);  */
       //System.out.println("write remaining " + rem + " bytes");
       //System.out.println("write mem, ppn " + pageTable[vaddr/pageSize+i].ppn);
       //System.out.println("write mem, data " + offset+curLoc);
       // set dirty bit and used bit in pageTable entry
-      pageTable[vaddr/pageSize+i].used = true;
-      pageTable[vaddr/pageSize+i].dirty = true;
+      /* pageTable[vaddr/pageSize+i].used = true; */
+      /* pageTable[vaddr/pageSize+i].dirty = true; */
       // increment current location in data array by page size
       curLoc += pageSize;
       // decrement remaining amount of bytes by page size
@@ -460,10 +464,12 @@ public class UserProcess {
    * Handle the creat() system call.
    */
   private int handleCreat(int a0){
+    /* System.out.println("a0: "+a0); */
     String fileName = readVirtualMemoryString(a0, 256);
+    /* System.out.println("filename is: " +fileName + "a"); */
 
-    if(fileName == null) {
-      //System.out.println("file name is null in create");
+    if(fileName == null || fileName.equals("")) {
+      /* System.out.println("file name is null in create"); */
       return -1;
     }
 
@@ -474,7 +480,7 @@ public class UserProcess {
     OpenFile file = ThreadedKernel.fileSystem.open(fileName, true);
 
     if(file == null) {
-      //System.out.println("file " + fileName + " is null in create");
+      /* System.out.println("file " + fileName + " is null in create"); */
       return -1;
     }
 
@@ -579,7 +585,7 @@ public class UserProcess {
 
     //read from buffer
     String buffer = readVirtualMemoryString(a1, a2);
-    System.out.println(buffer);
+    /* System.out.println(buffer); */
     if (buffer == null){
       /* System.out.println("buffer is null in write"); */
       return -1;

@@ -43,10 +43,10 @@ int test2(){
     char x[1000];
     int f = open("meow");
     read(f,x,20);
-    int g = creat("y");
-    write(g,x,20);
+    /* int g = creat("y"); */
+    write(1,x,20);
     read(f,x,20);
-    write(g,x,20);
+    write(1,x,20);
 }
 int test3(){
     int c;
