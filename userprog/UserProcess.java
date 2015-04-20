@@ -107,6 +107,10 @@ public class UserProcess {
     return (int) (((long) address & 0xFFFFFFFFL) / pageSize);
   }
 
+  private static int offsetFromAddress(int address) {
+    return (int) (((long) address & 0xFFFFFFFFL) % pageSize);
+  }
+
   /**
    * Read a null-terminated string from this process's virtual memory. Read
    * at most <tt>maxLength + 1</tt> bytes from the specified address, search
@@ -128,13 +132,13 @@ public class UserProcess {
     /* System.out.println("num bytes " + bytes.length);  */
 
     int bytesRead = readVirtualMemory(vaddr, bytes);   
-    System.out.println("ytes read: "+bytesRead);
+    /* System.out.println("ytes read: "+bytesRead); */
 
     for (int length=0; length<bytesRead; length++) {
       /* System.out.println("HERE IAM"); */
-      System.out.println("length: " +length);
-      System.out.println("bytesRead: " +bytesRead);
-      System.out.println("I MA A CHAR: "+(char)bytes[length]);
+      /* System.out.println("length: " +length); */
+      /* System.out.println("bytesRead: " +bytesRead); */
+      /* System.out.println("I MA A CHAR: "+(char)bytes[length]); */
       if (bytes[length] == 0){
         return new String(bytes, 0, length);
       }
@@ -183,11 +187,12 @@ public class UserProcess {
     int rem = amount;
     /* System.out.println("amount " +amount); */
     int pageNumber = pageFromAddress(vaddr);
+    int pageOffset = offsetFromAddress(vaddr);
     for (int i = 0; i < amount/pageSize + 1; i++){
       // copy Math.min(pageSize, rem) number of bytes from memory at ppn 
       // to data at offset + curLoc
       /* System.out.println("PANDAS"); */
-      System.arraycopy(memory, pageTable[pageNumber+i].ppn * pageSize, 
+      System.arraycopy(memory, pageTable[pageNumber+i].ppn * pageSize + pageOffset, 
         data, offset+curLoc, Math.min(pageSize, rem)); 
       /* System.out.println(data[offset+curLoc]); */
       //System.out.println("read remaining " + rem + " bytes");
@@ -255,10 +260,11 @@ public class UserProcess {
     // rem is the remaining number of bytes we need to copy 
     int rem = amount;
     int pageNumber = pageFromAddress(vaddr);
+    int pageOffset = offsetFromAddress(vaddr);
     for (int i = 0; i < amount/pageSize + 1; i++){
       // copy Math.min(pageSize, rem) number of bytes from data at offset + curLoc
       // to memory at ppn
-      System.arraycopy(data, offset+curLoc, memory, pageTable[pageNumber+i].ppn * pageSize, 
+      System.arraycopy(data, offset+curLoc, memory, pageTable[pageNumber+i].ppn * pageSize + pageOffset, 
         Math.min(pageSize, rem));
       /* String s = ""; */
       /* for(int j = offset+curLoc;j<offset+curLoc+Math.min(pageSize,rem);j++){ */
