@@ -177,7 +177,7 @@ public class UserProcess {
     int amount = Math.min(length, memory.length-vaddr);
     int curLoc = 0;
     int rem = amount;
-    System.out.println("amount " +amount);
+    /* System.out.println("amount " +amount); */
     int pageNumber = pageFromAddress(vaddr);
     for (int i = 0; i < amount/pageSize + 1; i++){
       // copy Math.min(pageSize, rem) number of bytes from memory at ppn 
@@ -195,7 +195,7 @@ public class UserProcess {
       // decrement remaining number of bytes by page size
       rem -= pageSize;
     }
-    System.out.println("amount end " +amount);
+    /* System.out.println("amount end " +amount); */
     
     /*
     System.out.println("read data array ");
