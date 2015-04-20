@@ -24,14 +24,6 @@ public class UserProcess {
    * Allocate a new process.
    */
   public UserProcess() {
-    int numPhysPages = Machine.processor().getNumPhysPages();
-    pageTable = new TranslationEntry[numPhysPages];
-    UserKernel.pageListLock.acquire();
-    for (int i=0; i<numPhysPages; i++){
-      int paddr = UserKernel.freePageList.removeFirst();
-      pageTable[i] = new TranslationEntry(i,paddr,true,false,false,false);
-    }
-    UserKernel.pageListLock.release();
     fileOpenTable = new HashMap<Integer, OpenFile>();
     filenameOpenTable = new HashMap<String, Integer>();
     readOffsetTable = new HashMap<Integer, Integer>();
@@ -390,6 +382,15 @@ public class UserProcess {
       return false;
     }  
 
+    pageTable = new TranslationEntry[numPages];
+    UserKernel.pageListLock.acquire();
+    for (int i=0; i<numPages; i++){
+      int pageNumber = UserKernel.freePageList.removeFirst();
+      pageTable[i] = new TranslationEntry(i,pageNumber,true,false,false,false);
+    }
+
+    UserKernel.pageListLock.release();
+
     // load sections
     for (int s=0; s<coff.getNumSections(); s++) {
       CoffSection section = coff.getSection(s);
@@ -399,6 +400,7 @@ public class UserProcess {
 
       for (int i=0; i<section.getLength(); i++) {
         int vpn = section.getFirstVPN()+i;    
+        pageTable[vpn].readOnly = section.isReadOnly();
         section.loadPage(i, pageTable[vpn].ppn);
       }
     }
@@ -410,9 +412,8 @@ public class UserProcess {
    * Release any resources allocated by <tt>loadSections()</tt>.
    */
   protected void unloadSections() {
-    int numPhysPages = Machine.processor().getNumPhysPages();
     UserKernel.pageListLock.acquire();
-    for (int i=0; i<numPhysPages; i++){
+    for (int i=0; i<numPages; i++){
       int paddr = pageTable[i].ppn;
       UserKernel.freePageList.add(paddr);
     }
