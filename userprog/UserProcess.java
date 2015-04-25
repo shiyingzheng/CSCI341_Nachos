@@ -659,6 +659,11 @@ public class UserProcess {
     f.close();
 
     ArrayList<Integer> fileEntry = UserKernel.openFileList.get(a0);
+    /*
+    * If the current process is the only one opening the file and 
+    *  we have called unlink on the file, unlink and remove the fileEntry.
+    * Otherwise, decrease the number of files opened in the fileEntry.
+    */
     if(fileEntry.get(0) == 1 && fileEntry.get(1) == 1) {
       fileEntry.set(0, 0);
       handleUnlink(a0);
@@ -692,16 +697,16 @@ public class UserProcess {
 
 
   private static final int
-    syscallHalt = 0,
-                syscallExit = 1,
-                syscallExec = 2,
-                syscallJoin = 3,
-                syscallCreate = 4,
-                syscallOpen = 5,
-                syscallRead = 6,
-                syscallWrite = 7,
-                syscallClose = 8,
-                syscallUnlink = 9;
+  syscallHalt = 0,
+  syscallExit = 1,
+  syscallExec = 2,
+  syscallJoin = 3,
+  syscallCreate = 4,
+  syscallOpen = 5,
+  syscallRead = 6,
+  syscallWrite = 7,
+  syscallClose = 8,
+  syscallUnlink = 9;
 
   /**
    * Handle a syscall exception. Called by <tt>handleException()</tt>. The
