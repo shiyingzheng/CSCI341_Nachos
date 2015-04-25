@@ -28,6 +28,7 @@ public class UserProcess {
   public UserProcess() {
     fileOpenTable = new HashMap<Integer, OpenFile>();
     filenameOpenTable = new HashMap<String, Integer>();
+    filenameCloseTable = new HashMap<String, Integer>();
     readOffsetTable = new HashMap<Integer, Integer>();
     writeOffsetTable = new HashMap<Integer, Integer>();
 
@@ -550,6 +551,10 @@ public class UserProcess {
       return filenameOpenTable.get(fileName);
     }
 
+    if(filenameCloseTable.containsKey(fileName)) {
+      filenameCloseTable.remove(fileName);
+    }
+
     OpenFile file = ThreadedKernel.fileSystem.open(fileName, false);
 
     if(file == null) {
@@ -677,6 +682,7 @@ public class UserProcess {
       return -1;
     }
     System.out.println("closing: " + f.getName());
+    filenameCloseTable.put(f.getName(), a0);
     filenameOpenTable.remove(f.getName());
     readOffsetTable.remove(a0);
     writeOffsetTable.remove(a0);
@@ -692,7 +698,6 @@ public class UserProcess {
     if(fileEntry.get(0) == 1 && fileEntry.get(1) == 1) {
       fileEntry.set(0, 0);
       handleUnlink(a0);
-      UserKernel.openFileList.remove(a0);
     } else {
       int numOpen = fileEntry.get(0);
       fileEntry.set(0, numOpen - 1);
@@ -709,12 +714,13 @@ public class UserProcess {
     System.out.println(UserKernel.openFileList);
     System.out.println(fileName);
     System.out.println(filenameOpenTable);
-    int fd = filenameOpenTable.get(fileName);
+    int fd = filenameCloseTable.get(fileName);
     System.out.println(fd);
     ArrayList<Integer> fileEntry = UserKernel.openFileList.get(fd);
 
     if(fileEntry.get(0) == 0) {
       if(ThreadedKernel.fileSystem.remove(fileName)){
+        UserKernel.openFileList.remove(fd);
         return 0;
       } else {
         return -1;
@@ -846,6 +852,7 @@ public class UserProcess {
 
   private HashMap<Integer, OpenFile> fileOpenTable; //fd : OpenFile object
   private HashMap<String, Integer> filenameOpenTable; //fileName : fd
+  private HashMap<String, Integer> filenameCloseTable; //fileName : fd
   private HashMap<Integer, Integer> readOffsetTable; //fd : offset
   private HashMap<Integer, Integer> writeOffsetTable; //fd : offset
   private int nextFileDescriptor;
