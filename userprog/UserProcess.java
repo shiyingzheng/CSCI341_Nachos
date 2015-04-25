@@ -8,6 +8,8 @@ import java.io.EOFException;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
+import java.util.Iterator;
 
 /**
  * Encapsulates the state of a user process that is not contained in its
@@ -31,6 +33,9 @@ public class UserProcess {
     filenameCloseTable = new HashMap<String, Integer>();
     readOffsetTable = new HashMap<Integer, Integer>();
     writeOffsetTable = new HashMap<Integer, Integer>();
+
+    pid = UserKernel.currPid++;
+    UserKernel.processStatusTable.put(pid, null);
 
     setup();
     nextFileDescriptor=3;
@@ -199,6 +204,7 @@ public class UserProcess {
    */
   public int readVirtualMemory(int vaddr, byte[] data, int offset, int length) {
     if (!(offset >= 0 && length >= 0 && offset+length <= data.length)){
+      System.out.println("PANDAS AND APPLES");
 	handleExit(1);
     }   
 
@@ -272,6 +278,7 @@ public class UserProcess {
    */
   public int writeVirtualMemory(int vaddr, byte[] data, int offset, int length) {
     if (!(offset >= 0 && length >= 0 && offset+length <= data.length)){
+      System.out.println("MOOSE AND APPLES");
 	handleExit(1);
     }    
 
@@ -548,8 +555,17 @@ public class UserProcess {
   }
 
   private int handleExit(int a0){
-    //TODO
-    return 0;
+    KThread.currentThread().finish();
+    Set<Integer> keys = fileOpenTable.keySet();
+    Iterator<Integer> it = keys.iterator();
+    while(it.hasNext()) {
+      int fd = it.next();
+      handleClose(fd);
+    }
+    unloadSections();
+    UserKernel.processStatusTable.put(pid, a0);
+
+    return a0;
   }
 
   private int handleExec(int a0, int a1, int a2){
@@ -908,4 +924,6 @@ public class UserProcess {
   private HashMap<Integer, Integer> readOffsetTable; //fd : offset
   private HashMap<Integer, Integer> writeOffsetTable; //fd : offset
   private int nextFileDescriptor;
+
+  public int pid;
 }
