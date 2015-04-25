@@ -29,6 +29,9 @@ public class UserKernel extends ThreadedKernel {
     pageListLock = new Lock();
     freePageList = new LinkedList<Integer>();
 
+    fileListLock = new Lock();
+    openFileList = new HashMap<Integer, ArrayList<Integer>>();
+
     console = new SynchConsole(Machine.console());
 
     Machine.processor().setExceptionHandler(new Runnable() {
@@ -121,18 +124,21 @@ public class UserKernel extends ThreadedKernel {
   /** Globally accessible reference to the synchronized console. */
   public static SynchConsole console;
 
-  /** Global list of free pages */
+  /** Global list of free pages, protected by pageListLock */
   public static LinkedList<Integer> freePageList;
+
+  /** A lock for the free page list*/
+  public static Lock pageListLock;
 
   /** 
    * @key, the file descriptor
    * @value, a List of two elements, the first indicating how many processes have a file open;
    *  the second element is 1 if unlink has been called, 0 otherwise
    **/
-  public static HashMap<Integer, ArrayList<Integer>> openFileList = new HashMap<Integer, ArrayList<Integer>>();
+  public static HashMap<Integer, ArrayList<Integer>> openFileList;
 
-  /** A lock for the free page list*/
-  public static Lock pageListLock;
+  /** A lock for the open file list*/
+  public static Lock fileListLock;
 
   // dummy variables to make javac smarter
   private static Coff dummy1 = null;
