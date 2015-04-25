@@ -126,7 +126,8 @@ public class UserKernel extends ThreadedKernel {
 
   /** 
    * @key, the file descriptor
-   * @value, a List of how many processes have a file open and number indictating whether unlink has been called
+   * @value, a List of two elements, the first indicating how many processes have a file open;
+   *  the second element is 1 if unlink has been called, 0 otherwise
    **/
   public static HashMap<Integer, ArrayList<Integer>> openFileList = new HashMap<Integer, ArrayList<Integer>>();
 
