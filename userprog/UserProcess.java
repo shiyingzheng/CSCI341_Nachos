@@ -8,6 +8,8 @@ import java.io.EOFException;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
+import java.util.Iterator;
 
 /**
  * Encapsulates the state of a user process that is not contained in its
@@ -547,8 +549,8 @@ public class UserProcess {
 
   private int handleExit(int a0){
     KThread.currentThread().finish();
-    Set<Integer> keys = openFileTable.keySet();
-    Iterator it = keys.iterator();
+    Set<Integer> keys = fileOpenTable.keySet();
+    Iterator<Integer> it = keys.iterator();
     while(it.hasNext()) {
       int fd = it.next();
       handleClose(fd);
