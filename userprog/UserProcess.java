@@ -49,7 +49,7 @@ public class UserProcess {
     filenameOpenTable.put(stdout.getName(), 1);
 
     // setup stdin and stdout
-    //UserKernel.fileListLock.acquire();
+    UserKernel.fileListLock.acquire();
     if(!UserKernel.openFileList.containsKey(0)) {
       UserKernel.openFileList.put(0, new ArrayList<Integer>(Arrays.asList(1, 0)));
     } else {
@@ -65,7 +65,7 @@ public class UserProcess {
       int openNum = fileEntry.get(0);
       fileEntry.set(0, openNum + 1);
     }
-    //UserKernel.fileListLock.release();
+    UserKernel.fileListLock.release();
 
     // initialize in the offsetTable
     readOffsetTable.put(0, 0);
@@ -502,7 +502,7 @@ public class UserProcess {
     }
 
     // should not return file descriptor if unlink has been called on it
-    //UserKernel.fileListLock.acquire();
+    UserKernel.fileListLock.acquire();
     if (UserKernel.openFileList.containsKey(nextFileDescriptor)){
       ArrayList<Integer> fileEntry = UserKernel.openFileList.get(nextFileDescriptor);
       if (fileEntry.get(1) == 1){
@@ -510,7 +510,7 @@ public class UserProcess {
         return -1;
       }
     }
-    //UserKernel.fileListLock.release();
+    UserKernel.fileListLock.release();
 
     if (filenameOpenTable.containsKey(fileName)){
       return filenameOpenTable.get(fileName);
@@ -528,7 +528,7 @@ public class UserProcess {
     readOffsetTable.put(nextFileDescriptor, 0); 
     writeOffsetTable.put(nextFileDescriptor, 0); 
 
-    //UserKernel.fileListLock.acquire();
+    UserKernel.fileListLock.acquire();
     if(UserKernel.openFileList.containsKey(nextFileDescriptor)) {
       ArrayList<Integer> fileEntry = UserKernel.openFileList.get(nextFileDescriptor);
       int numOpen = fileEntry.get(0);
@@ -536,7 +536,7 @@ public class UserProcess {
     } else {
       UserKernel.openFileList.put(nextFileDescriptor, new ArrayList<Integer>(Arrays.asList(1, 0)));
     }
-    //UserKernel.fileListLock.release();
+    UserKernel.fileListLock.release();
 
     return nextFileDescriptor++;
   }
@@ -565,7 +565,7 @@ public class UserProcess {
     }
 
     // should not return file descriptor if unlink has been called on it
-    //UserKernel.fileListLock.acquire();
+    UserKernel.fileListLock.acquire();
     if (UserKernel.openFileList.containsKey(nextFileDescriptor)){
       ArrayList<Integer> fileEntry = UserKernel.openFileList.get(nextFileDescriptor);
       if (fileEntry.get(1) == 1){
@@ -573,7 +573,7 @@ public class UserProcess {
         return -1;
       }
     }
-    //UserKernel.fileListLock.release();
+    UserKernel.fileListLock.release();
 
     if (filenameOpenTable.containsKey(fileName)){
       return filenameOpenTable.get(fileName);
@@ -590,7 +590,7 @@ public class UserProcess {
       return -1;
     }
 
-    //UserKernel.fileListLock.acquire();
+    UserKernel.fileListLock.acquire();
     if(UserKernel.openFileList.containsKey(nextFileDescriptor)) {
       ArrayList<Integer> fileEntry = UserKernel.openFileList.get(nextFileDescriptor);
       int numOpen = fileEntry.get(0);
@@ -598,7 +598,7 @@ public class UserProcess {
     } else {
       UserKernel.openFileList.put(nextFileDescriptor, new ArrayList<Integer>(Arrays.asList(1, 0)));
     }
-    //UserKernel.fileListLock.release();
+    UserKernel.fileListLock.release();
 
     fileOpenTable.put(nextFileDescriptor, file);
     filenameOpenTable.put(fileName, nextFileDescriptor);
@@ -719,7 +719,7 @@ public class UserProcess {
     f.close();
 
     /* System.out.println(UserKernel.openFileList); */
-    //UserKernel.fileListLock.acquire();
+    UserKernel.fileListLock.acquire();
     ArrayList<Integer> fileEntry = UserKernel.openFileList.get(a0);
     /*
     * If the current process is the only one opening the file and 
@@ -728,12 +728,12 @@ public class UserProcess {
     */
     if(fileEntry.get(0) == 1 && fileEntry.get(1) == 1) {
       fileEntry.set(0, 0);
-      //UserKernel.fileListLock.release();
+      UserKernel.fileListLock.release();
       handleUnlink(a0);
     } else {
       int numOpen = fileEntry.get(0);
       fileEntry.set(0, numOpen - 1);
-      //UserKernel.fileListLock.release();
+      UserKernel.fileListLock.release();
     }
 
     return 0;
@@ -753,26 +753,26 @@ public class UserProcess {
     */
     int fd = filenameCloseTable.get(fileName);
 
-    //UserKernel.fileListLock.acquire();
+    UserKernel.fileListLock.acquire();
     ArrayList<Integer> fileEntry = UserKernel.openFileList.get(fd);
 
     if (fileEntry == null){
-      //UserKernel.fileListLock.release();
+      UserKernel.fileListLock.release();
       return -1;
     }
 
     if(fileEntry.get(0) == 0) {
       if(ThreadedKernel.fileSystem.remove(fileName)){
         UserKernel.openFileList.remove(fd);
-        //UserKernel.fileListLock.release();
+        UserKernel.fileListLock.release();
         return 0;
       } else {
-        //UserKernel.fileListLock.release();
+        UserKernel.fileListLock.release();
         return -1;
       }
     } else {
       fileEntry.set(1, 1);
-      //UserKernel.fileListLock.release();
+      UserKernel.fileListLock.release();
       return 0;
     }
   }
