@@ -148,7 +148,9 @@ public class UserProcess {
    *		found.
    */
   public String readVirtualMemoryString(int vaddr, int maxLength) {
-    Lib.assertTrue(maxLength >= 0);    
+    if(!(maxLength >= 0)){
+	handleExit(1);
+    }    
 
     byte[] bytes = new byte[maxLength+1]; 
     /* System.out.println("num bytes " + bytes.length);  */
