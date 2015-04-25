@@ -47,6 +47,22 @@ public class UserProcess {
     filenameOpenTable.put(stdin.getName(), 0);
     filenameOpenTable.put(stdout.getName(), 1);
 
+    if(!UserKernel.openFileList.containsKey(0)) {
+      UserKernel.openFileList.put(0, new ArrayList<Integer>(Arrays.asList(1, 0)));
+    } else {
+      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(0);
+      int openNum = fileEntry.get(0);
+      fileEntry.set(0, openNum + 1);
+    }
+
+    if(!UserKernel.openFileList.containsKey(1)) {
+      UserKernel.openFileList.put(1, new ArrayList<Integer>(Arrays.asList(1, 0)));
+    } else {
+      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(1);
+      int openNum = fileEntry.get(0);
+      fileEntry.set(0, openNum + 1);
+    }
+
     // initialize in the offsetTable
     readOffsetTable.put(0, 0);
     readOffsetTable.put(1, 0);
@@ -496,6 +512,14 @@ public class UserProcess {
     filenameOpenTable.put(fileName, nextFileDescriptor);
     readOffsetTable.put(nextFileDescriptor, 0); 
     writeOffsetTable.put(nextFileDescriptor, 0); 
+
+    if(UserKernel.openFileList.containsKey(nextFileDescriptor)) {
+      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(nextFileDescriptor);
+      int numOpen = fileEntry.get(0);
+      fileEntry.set(0, numOpen + 1);
+    } else {
+      UserKernel.openFileList.put(nextFileDescriptor, new ArrayList<Integer>(Arrays.asList(1, 0)));
+    }
     return nextFileDescriptor++;
   }
 
@@ -658,6 +682,7 @@ public class UserProcess {
     writeOffsetTable.remove(a0);
     f.close();
 
+    /* System.out.println(UserKernel.openFileList); */
     ArrayList<Integer> fileEntry = UserKernel.openFileList.get(a0);
     /*
     * If the current process is the only one opening the file and 
@@ -681,6 +706,7 @@ public class UserProcess {
       return -1;
     }
 
+    System.out.println(UserKernel.openFileList);
     ArrayList<Integer> fileEntry = UserKernel.openFileList.get(a0);
 
     if(fileEntry.get(0) == 0) {
