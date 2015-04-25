@@ -196,7 +196,9 @@ public class UserProcess {
    * @return	the number of bytes successfully transferred.
    */
   public int readVirtualMemory(int vaddr, byte[] data, int offset, int length) {
-    Lib.assertTrue(offset >= 0 && length >= 0 && offset+length <= data.length);    
+    if (!(offset >= 0 && length >= 0 && offset+length <= data.length)){
+	handleExit(1);
+    }   
 
     byte[] memory = Machine.processor().getMemory();
 
@@ -267,7 +269,9 @@ public class UserProcess {
    * @return	the number of bytes successfully transferred.
    */
   public int writeVirtualMemory(int vaddr, byte[] data, int offset, int length) {
-    Lib.assertTrue(offset >= 0 && length >= 0 && offset+length <= data.length);    
+    if (!(offset >= 0 && length >= 0 && offset+length <= data.length)){
+	handleExit(1);
+    }    
 
     byte[] memory = Machine.processor().getMemory();
 

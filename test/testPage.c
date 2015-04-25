@@ -32,5 +32,5 @@ int test3(){
     }
 }
 int main(){
-    test3();
+    test1();
 }
