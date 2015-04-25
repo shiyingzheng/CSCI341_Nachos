@@ -546,8 +546,16 @@ public class UserProcess {
   }
 
   private int handleExit(int a0){
-    //TODO
-    return 0;
+    KThread.currentThread().finish();
+    Set<Integer> keys = openFileTable.keySet();
+    Iterator it = keys.iterator();
+    while(it.hasNext()) {
+      int fd = it.next();
+      handleClose(fd);
+    }
+    unloadSections();
+
+    return a0;
   }
 
   private int handleExec(int a0, int a1, int a2){
