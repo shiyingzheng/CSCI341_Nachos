@@ -498,6 +498,8 @@ public class UserProcess {
       return -1;
     }
 
+    // TODO: should not return file descriptor if unlink has been called on it
+
     if (filenameOpenTable.containsKey(fileName)){
       return filenameOpenTable.get(fileName);
     }
@@ -546,6 +548,8 @@ public class UserProcess {
       /* System.out.println("file name is null in open"); */
       return -1;
     }
+
+    // TODO: should not return file descriptor if unlink has been called on it
 
     if (filenameOpenTable.containsKey(fileName)){
       return filenameOpenTable.get(fileName);
