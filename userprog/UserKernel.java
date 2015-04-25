@@ -5,6 +5,8 @@ import nachos.threads.*;
 import nachos.userprog.*;
 
 import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * A kernel that can support multiple user processes.
@@ -121,6 +123,12 @@ public class UserKernel extends ThreadedKernel {
 
   /** Global list of free pages */
   public static LinkedList<Integer> freePageList;
+
+  /** 
+   @key, the file descriptor
+   @value, a List of how many processes have a file open and number indictating whether unlink has been called
+   **/
+  public static HashMap<Integer, ArrayList<Integer>> openFileList = new HashMap<Integer, ArrayList<Integer>>();
 
   /** A lock for the free page list*/
   public static Lock pageListLock;

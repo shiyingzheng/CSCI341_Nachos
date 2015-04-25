@@ -6,6 +6,8 @@ import nachos.userprog.*;
 
 import java.io.EOFException;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Encapsulates the state of a user process that is not contained in its
@@ -529,6 +531,14 @@ public class UserProcess {
     if(file == null) {
       /* System.out.println("file is null in open"); */
       return -1;
+    }
+
+    if(UserKernel.openFileList.containsKey(nextFileDescriptor)) {
+      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(nextFileDescriptor);
+      int numOpen = fileEntry.get(0);
+      fileEntry.set(0, numOpen + 1);
+    } else {
+      UserKernel.openFileList.put(nextFileDescriptor, new ArrayList<Integer>(Arrays.asList(1, 0)));
     }
 
     fileOpenTable.put(nextFileDescriptor, file);
