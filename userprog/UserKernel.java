@@ -142,4 +142,10 @@ public class UserKernel extends ThreadedKernel {
 
   // dummy variables to make javac smarter
   private static Coff dummy1 = null;
+
+  // the next pid to be used
+  public static int currPid = 1;
+
+  // table of processes and their status
+  public static HashMap<Integer, Integer> processStatusTable = new HashMap<Integer, Integer>();
 }
