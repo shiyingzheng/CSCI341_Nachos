@@ -692,7 +692,7 @@ public class UserProcess {
     if(fileEntry.get(0) == 1 && fileEntry.get(1) == 1) {
       fileEntry.set(0, 0);
       handleUnlink(a0);
-      fileEntry.remove(a0);
+      UserKernel.openFileList.remove(a0);
     } else {
       int numOpen = fileEntry.get(0);
       fileEntry.set(0, numOpen - 1);
@@ -707,7 +707,11 @@ public class UserProcess {
     }
 
     System.out.println(UserKernel.openFileList);
-    ArrayList<Integer> fileEntry = UserKernel.openFileList.get(a0);
+    System.out.println(fileName);
+    System.out.println(filenameOpenTable);
+    int fd = filenameOpenTable.get(fileName);
+    System.out.println(fd);
+    ArrayList<Integer> fileEntry = UserKernel.openFileList.get(fd);
 
     if(fileEntry.get(0) == 0) {
       if(ThreadedKernel.fileSystem.remove(fileName)){

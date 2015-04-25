@@ -26,7 +26,10 @@ int main(){
 	}
 	x[j] = 0;
 	int f = creat(x);
+  printf("boobies ;)\n");
 	close(f);
+  printf("boobies \n");
 	int result = unlink(x);
+  printf("apples \n");
     }
 }
