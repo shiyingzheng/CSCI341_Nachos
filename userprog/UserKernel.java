@@ -125,8 +125,8 @@ public class UserKernel extends ThreadedKernel {
   public static LinkedList<Integer> freePageList;
 
   /** 
-   @key, the file descriptor
-   @value, a List of how many processes have a file open and number indictating whether unlink has been called
+   * @key, the file descriptor
+   * @value, a List of how many processes have a file open and number indictating whether unlink has been called
    **/
   public static HashMap<Integer, ArrayList<Integer>> openFileList = new HashMap<Integer, ArrayList<Integer>>();
 
