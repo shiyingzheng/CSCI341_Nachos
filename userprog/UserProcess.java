@@ -657,6 +657,16 @@ public class UserProcess {
     readOffsetTable.remove(a0);
     writeOffsetTable.remove(a0);
     f.close();
+
+    ArrayList<Integer> fileEntry = UserKernel.openFileList.get(a0);
+    if(fileEntry.get(0) == 1 && fileEntry.get(1) == 1) {
+      fileEntry.set(0, 0);
+      handleUnlink(a0);
+      fileEntry.remove(a0);
+    } else {
+      int numOpen = fileEntry.get(0);
+      fileEntry.set(0, numOpen - 1);
+    }
     return 0;
   }
 
@@ -666,10 +676,17 @@ public class UserProcess {
       return -1;
     }
 
-    if(ThreadedKernel.fileSystem.remove(fileName)){
-      return 0;
+    ArrayList<Integer> fileEntry = UserKernel.openFileList.get(a0);
+
+    if(fileEntry.get(0) == 0) {
+      if(ThreadedKernel.fileSystem.remove(fileName)){
+        return 0;
+      } else {
+        return -1;
+      }
     } else {
-      return -1;
+      fileEntry.set(1, 1);
+      return 0;
     }
   }
 
