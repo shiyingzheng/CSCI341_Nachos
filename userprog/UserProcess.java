@@ -493,8 +493,8 @@ public class UserProcess {
    * Handle the halt() system call. 
    */
   private int handleHalt() {
-    Machine.halt();
     unloadSections();
+    Machine.halt();
     Lib.assertNotReached("Machine.halt() did not halt machine!");
     return 0;
   }
@@ -553,15 +553,15 @@ public class UserProcess {
   }
 
   private int handleExit(int a0){
-    KThread.currentThread().finish();
     Set<Integer> keys = fileOpenTable.keySet();
-    Iterator<Integer> it = keys.iterator();
-    while(it.hasNext()) {
-      int fd = it.next();
+    Object[] keyArray = keys.toArray();
+    for(int i=0;i<keyArray.length;i++) {
+      int fd = (Integer) keyArray[i];
       handleClose(fd);
     }
     unloadSections();
     UserKernel.processStatusTable.put(pid, a0);
+    KThread.currentThread().finish();
 
     return a0;
   }
@@ -843,7 +843,7 @@ public class UserProcess {
       case syscallHalt: 
         return handleHalt();
       case syscallExit:
-        return handleHalt(); //return handleExit(a0); //TODO
+        return handleExit(a0); //return handleExit(a0); //TODO
       case syscallExec:
         return handleExec(a0, a1, a2);
       case syscallJoin:
