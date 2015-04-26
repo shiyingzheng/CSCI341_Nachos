@@ -583,7 +583,6 @@ public class UserProcess {
   }
 
   private int handleExec(int a0, int a1, int a2){
-    System.out.println("Lychee says hi");
     String fileName = readVirtualMemoryString(a0, 256);
     // check ".coff" extension
     if (fileName.substring(fileName.length()-5) != ".coff") {
@@ -602,6 +601,8 @@ public class UserProcess {
       String arg = readVirtualMemoryString(Lib.bytesToInt(argPointer, 0), 256);
       args[i]=arg;
     }
+    
+    System.out.println("Lychee says hi");
     
     UserKernel.pidLock.acquire();
     int childPID = UserKernel.currPid++;
