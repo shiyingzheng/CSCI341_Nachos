@@ -579,8 +579,10 @@ public class UserProcess {
   }
 
   private int handleExec(int a0, int a1, int a2){
-    //TODO
-    return 0;
+    return -1;
+
+    //UserProcess process = UserProcess.newUserProcess();
+    //return 0;
   }
 
   private int handleJoin(int a0, int a1){
