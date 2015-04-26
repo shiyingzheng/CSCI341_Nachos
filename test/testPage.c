@@ -14,10 +14,13 @@ int test1(){
     }
 }
 int test2(){
-    char* argv[1];
-    argv[0] = "testPage.coff";
-    printf("APPLES ARE TASTY");
-    exec(argv[0],0,argv);
+    char* arg[1];
+    char* argv[0];
+    arg[0] = "testPage.coff";
+    printf("APPLES ARE TASTY\n");
+    int ret = exec(arg[0],0,argv);
+    printf("%d", ret);
+    /* printf("\n"); */
 }
 int test3(){
     int pageSize = 1024;
