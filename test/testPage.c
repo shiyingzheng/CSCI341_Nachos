@@ -28,7 +28,7 @@ int test3(){
 	array[i]=i%256;
 	//printf("%d\n",i);
     }
-    for(i=0;i<arraySize;i++){
+    for(i=0;i<arraySize;i+= 1000){
 	printf("%c",array[i]);
     }
 }
