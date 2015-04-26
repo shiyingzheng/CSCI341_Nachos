@@ -588,9 +588,8 @@ public class UserProcess {
 
   private int handleExec(int a0, int a1, int a2){
     String fileName = readVirtualMemoryString(a0, 256);
-    // check ".coff" extension
-    if (fileName.substring(fileName.length()-5) != ".coff") {
-      System.out.println("Lychee says hi");
+    System.out.println(fileName);
+    if (fileName.substring(fileName.length()-6) != ".coff") {
       return -1;
     }
 
