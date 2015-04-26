@@ -33,9 +33,17 @@ public class UserProcess {
     filenameCloseTable = new HashMap<String, Integer>();
     readOffsetTable = new HashMap<Integer, Integer>();
     writeOffsetTable = new HashMap<Integer, Integer>();
+    childPID = new ArrayList<UserProcess>();
 
+    UserKernel.pidLock.acquire();
     pid = UserKernel.currPid++;
+    //if parent is not root, we should set ppid to actual parent in handleExec
+    ppid = 1; 
+    UserKernel.pidLock.release();
+
+    UserKernel.processTableLock.acquire();
     UserKernel.processStatusTable.put(pid, null);
+    UserKernel.processTableLock.release();
 
     setup();
     nextFileDescriptor=3;
@@ -217,7 +225,7 @@ public class UserProcess {
 	System.out.println("gah");
       handleExit(1);
     }
-    int amount = Math.min(length, memory.length-vaddr);
+   int amount = Math.min(length, memory.length-vaddr);
     int curLoc = 0;
     int rem = amount;
     /* System.out.println("amount " +amount); */
@@ -290,7 +298,6 @@ public class UserProcess {
 
     byte[] memory = Machine.processor().getMemory();
 
-    // for now, just assume that virtual addresses equal physical addresses
     if (vaddr < 0 || vaddr >= memory.length)
       return 0;  
 
@@ -569,17 +576,61 @@ public class UserProcess {
       handleClose(fd);
     }
     unloadSections();
+
+    UserKernel.processTableLock.acquire();
     UserKernel.processStatusTable.put(pid, a0);
+    UserKernel.processTableLock.release();
+
     KThread.currentThread().finish();
 
     return a0;
   }
 
   private int handleExec(int a0, int a1, int a2){
-    return -1;
+    String fileName = readVirtualMemoryString(a0, 256);
+    // check ".coff" extension
+    if (fileName.substring(fileName.length()-5) != ".coff") {
+      return -1;
+    }
 
-    //UserProcess process = UserProcess.newUserProcess();
-    //return 0;
+    int argc = a1;
+    String[] args = new String[argc]; 
+
+    for (int i = 0; i < argc; i++){
+      byte[] argPointer = new byte[4];
+      int pointerLength = readVirtualMemoryString(a2 + i*4, argPointer, 0, 4);
+      if (pointerLength == 0){
+        return -1;
+      }
+      String arg = readVirtualMemoryString(Lib.bytesToInt(argPointer, 0), 256);
+      args[i]=arg;
+    }
+    
+    UserKernel.pidLock.acquire();
+    int childPID = UserKernel.currPid++;
+    UserKernel.pidLock.release();
+
+    UserKernel.processTableLock.acquire();
+    UserKernel.processStatusTable.put(childPID, null);
+    UserKernel.processTableLock.release();
+
+    UserProcess process = UserProcess.newUserProcess();
+
+    if (process == null){
+      return -1;
+    }
+
+    boolean exec = process.execute(fileName, args);
+
+    if (exec == false){
+      return -1;
+    }
+
+    process.pid=childPID;
+    process.ppid=pid;
+    children.add(process);
+
+    return 0;
   }
 
   private int handleJoin(int a0, int a1){
@@ -935,4 +986,6 @@ public class UserProcess {
   private int nextFileDescriptor;
 
   public int pid;
+  public int ppid;
+  public ArrayList<UserProcess> children; // an arraylist of children processes
 }

@@ -32,6 +32,10 @@ public class UserKernel extends ThreadedKernel {
     fileListLock = new Lock();
     openFileList = new HashMap<Integer, ArrayList<Integer>>();
 
+    pidLock = new Lock();
+
+    processTableLock = new Lock();
+
     console = new SynchConsole(Machine.console());
 
     Machine.processor().setExceptionHandler(new Runnable() {
@@ -143,9 +147,15 @@ public class UserKernel extends ThreadedKernel {
   // dummy variables to make javac smarter
   private static Coff dummy1 = null;
 
+  // the lock that protects currPid; we should use it whenever we try to get a new pid
+  public static Lock pidLock;
+
   // the next pid to be used
   public static int currPid = 1;
 
   // table of processes and their status
   public static HashMap<Integer, Integer> processStatusTable = new HashMap<Integer, Integer>();
+
+  // lock for processStatusTable
+  public static Lock processTableLock;
 }
