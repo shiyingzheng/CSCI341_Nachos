@@ -844,11 +844,10 @@ public class UserProcess {
     ArrayList<Integer> fileEntry = UserKernel.openFileList.get(fileName);
 
     if (fileEntry == null){
+      System.out.println("Lychee says hi");
       UserKernel.fileListLock.release();
       return -1;
     }
-
-    System.out.println("Lychee says hi");
 
     if(fileEntry.get(0) == 0) {
       if(ThreadedKernel.fileSystem.remove(fileName)){
