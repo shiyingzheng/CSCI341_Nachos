@@ -857,7 +857,7 @@ public class UserProcess {
       case syscallHalt: 
         return handleHalt();
       case syscallExit:
-        return handleExit(a0); //return handleExit(a0); //TODO
+        return handleHalt(); //return handleExit(a0); //TODO
       case syscallExec:
         return handleExec(a0, a1, a2);
       case syscallJoin:
