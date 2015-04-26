@@ -30,7 +30,7 @@ public class UserKernel extends ThreadedKernel {
     freePageList = new LinkedList<Integer>();
 
     fileListLock = new Lock();
-    openFileList = new HashMap<Integer, ArrayList<Integer>>();
+    openFileList = new HashMap<String, ArrayList<Integer>>();
 
     pidLock = new Lock();
 
@@ -139,7 +139,7 @@ public class UserKernel extends ThreadedKernel {
    * @value, a List of two elements, the first indicating how many processes have a file open;
    *  the second element is 1 if unlink has been called, 0 otherwise
    **/
-  public static HashMap<Integer, ArrayList<Integer>> openFileList;
+  public static HashMap<String, ArrayList<Integer>> openFileList;
 
   /** A lock for the open file list*/
   public static Lock fileListLock;

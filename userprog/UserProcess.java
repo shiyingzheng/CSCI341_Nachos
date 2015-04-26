@@ -57,24 +57,27 @@ public class UserProcess {
     fileOpenTable.put(0, stdin);
     fileOpenTable.put(1, stdout);
 
+    String stdinName = stdin.getName();
+    String stdoutName = stdout.getName();
+
     // initialize in the filenameOpenTable
-    filenameOpenTable.put(stdin.getName(), 0);
-    filenameOpenTable.put(stdout.getName(), 1);
+    filenameOpenTable.put(stdinName, 0);
+    filenameOpenTable.put(stdoutName, 1);
 
     // setup stdin and stdout
     UserKernel.fileListLock.acquire();
-    if(!UserKernel.openFileList.containsKey(0)) {
-      UserKernel.openFileList.put(0, new ArrayList<Integer>(Arrays.asList(1, 0)));
+    if(!UserKernel.openFileList.containsKey(stdinName)) {
+      UserKernel.openFileList.put(stdinName, new ArrayList<Integer>(Arrays.asList(1, 0)));
     } else {
-      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(0);
+      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(stdinName);
       int openNum = fileEntry.get(0);
       fileEntry.set(0, openNum + 1);
     }
 
-    if(!UserKernel.openFileList.containsKey(1)) {
-      UserKernel.openFileList.put(1, new ArrayList<Integer>(Arrays.asList(1, 0)));
+    if(!UserKernel.openFileList.containsKey(stdoutName)) {
+      UserKernel.openFileList.put(stdoutName, new ArrayList<Integer>(Arrays.asList(1, 0)));
     } else {
-      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(1);
+      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(stdoutName);
       int openNum = fileEntry.get(0);
       fileEntry.set(0, openNum + 1);
     }
@@ -530,8 +533,8 @@ public class UserProcess {
 
     // should not return file descriptor if unlink has been called on it
     UserKernel.fileListLock.acquire();
-    if (UserKernel.openFileList.containsKey(nextFileDescriptor)){
-      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(nextFileDescriptor);
+    if (UserKernel.openFileList.containsKey(fileName)){
+      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(fileName);
       if (fileEntry.get(1) == 1){
         //UserKernel.fileListLock.release();
         return -1;
@@ -556,12 +559,12 @@ public class UserProcess {
     writeOffsetTable.put(nextFileDescriptor, 0); 
 
     UserKernel.fileListLock.acquire();
-    if(UserKernel.openFileList.containsKey(nextFileDescriptor)) {
-      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(nextFileDescriptor);
+    if(UserKernel.openFileList.containsKey(fileName)) {
+      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(fileName);
       int numOpen = fileEntry.get(0);
       fileEntry.set(0, numOpen + 1);
     } else {
-      UserKernel.openFileList.put(nextFileDescriptor, new ArrayList<Integer>(Arrays.asList(1, 0)));
+      UserKernel.openFileList.put(fileName, new ArrayList<Integer>(Arrays.asList(1, 0)));
     }
     UserKernel.fileListLock.release();
 
@@ -647,8 +650,8 @@ public class UserProcess {
 
     // should not return file descriptor if unlink has been called on it
     UserKernel.fileListLock.acquire();
-    if (UserKernel.openFileList.containsKey(nextFileDescriptor)){
-      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(nextFileDescriptor);
+    if (UserKernel.openFileList.containsKey(fileName)){
+      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(fileName);
       if (fileEntry.get(1) == 1){
         //UserKernel.fileListLock.release();
         return -1;
@@ -672,12 +675,12 @@ public class UserProcess {
     }
 
     UserKernel.fileListLock.acquire();
-    if(UserKernel.openFileList.containsKey(nextFileDescriptor)) {
-      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(nextFileDescriptor);
+    if(UserKernel.openFileList.containsKey(fileName)) {
+      ArrayList<Integer> fileEntry = UserKernel.openFileList.get(fileName);
       int numOpen = fileEntry.get(0);
       fileEntry.set(0, numOpen + 1);
     } else {
-      UserKernel.openFileList.put(nextFileDescriptor, new ArrayList<Integer>(Arrays.asList(1, 0)));
+      UserKernel.openFileList.put(fileName, new ArrayList<Integer>(Arrays.asList(1, 0)));
     }
     UserKernel.fileListLock.release();
 
@@ -799,9 +802,11 @@ public class UserProcess {
     writeOffsetTable.remove(a0);
     f.close();
 
+    String fileName = fileOpenTable.get(a0).getName();
+
     /* System.out.println(UserKernel.openFileList); */
     UserKernel.fileListLock.acquire();
-    ArrayList<Integer> fileEntry = UserKernel.openFileList.get(a0);
+    ArrayList<Integer> fileEntry = UserKernel.openFileList.get(fileName);
     /*
     * If the current process is the only one opening the file and 
     *  we have called unlink on the file, unlink and remove the fileEntry.
@@ -835,17 +840,8 @@ public class UserProcess {
 
     System.out.println("file name in unlink: " + fileName);
 
-    if (!filenameCloseTable.containsKey(fileName)){
-      UserKernel.fileListLock.acquire();
-      fileEntry.set(1, 1);
-      UserKernel.fileListLock.release();
-      return 0;
-    }
-
-    int fd = filenameCloseTable.get(fileName);
-
     UserKernel.fileListLock.acquire();
-    ArrayList<Integer> fileEntry = UserKernel.openFileList.get(fd);
+    ArrayList<Integer> fileEntry = UserKernel.openFileList.get(fileName);
 
     if (fileEntry == null){
       UserKernel.fileListLock.release();
@@ -854,7 +850,7 @@ public class UserProcess {
 
     if(fileEntry.get(0) == 0) {
       if(ThreadedKernel.fileSystem.remove(fileName)){
-        UserKernel.openFileList.remove(fd);
+        UserKernel.openFileList.remove(fileName);
         UserKernel.fileListLock.release();
         return 0;
       } else {
