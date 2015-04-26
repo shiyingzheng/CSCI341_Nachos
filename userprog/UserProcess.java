@@ -13,6 +13,14 @@ import java.util.Iterator;
 
 /* Shiying Zheng, Ben Stern, Joey Gonzales-Dones, Katherine Chan, Jacob Chae */
 
+/*TODO: 1. test all of this shit; 
+2. when we exit ??? passing your unwanted kid to your parent i.e. giving it to its granparents. poor grandparents
+3. synchronization shit ??? (might conflict with 2)
+4. exit not working and page faults
+5. maybe other stuff
+*/
+
+
 /**
  * Encapsulates the state of a user process that is not contained in its
  * user thread (or threads). This includes its address translation state, a
