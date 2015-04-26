@@ -600,14 +600,13 @@ public class UserProcess {
       byte[] argPointer = new byte[4];
       int pointerLength = readVirtualMemory(a2 + i*4, argPointer, 0, 4);
       if (pointerLength == 0){
+        System.out.println("Lychee says hi");
         return -1;
       }
       String arg = readVirtualMemoryString(Lib.bytesToInt(argPointer, 0), 256);
       args[i]=arg;
     }
-    
-    System.out.println("Lychee says hi");
-    
+
     UserKernel.pidLock.acquire();
     int childPID = UserKernel.currPid++;
     UserKernel.pidLock.release();
