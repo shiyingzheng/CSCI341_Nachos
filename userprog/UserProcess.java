@@ -223,8 +223,13 @@ public class UserProcess {
     for (int i = 0; i < amount/pageSize + 1; i++){
       // copy Math.min(pageSize, rem) number of bytes from memory at ppn 
       // to data at offset + curLoc
-      /* System.out.println("PANDAS"); */
-      System.arraycopy(memory, pageTable[pageNumber+i].ppn * pageSize + pageOffset, 
+	//System.out.println("PANDAS SAY HI");
+	if(pageNumber + i - pageTable[0].ppn >= numPages){
+	 System.out.println("PANDAS");
+	handleExit(1);
+	}
+
+	      System.arraycopy(memory, pageTable[pageNumber+i].ppn * pageSize + pageOffset, 
         data, offset+curLoc, Math.min(pageSize, rem)); 
       /* System.out.println(data[offset+curLoc]); */
       //System.out.println("read remaining " + rem + " bytes");
@@ -299,7 +304,12 @@ public class UserProcess {
     for (int i = 0; i < amount/pageSize + 1; i++){
       // copy Math.min(pageSize, rem) number of bytes from data at offset + curLoc
       // to memory at ppn
-      System.arraycopy(data, offset+curLoc, memory, pageTable[pageNumber+i].ppn * pageSize + pageOffset, 
+	System.out.println("PANDAS SAY HI");
+	if(pageNumber + i - pageTable[0].ppn  >= numPages){
+	 System.out.println("PANDAS");
+	handleExit(1);
+	}
+    System.arraycopy(data, offset+curLoc, memory, pageTable[pageNumber+i].ppn * pageSize + pageOffset, 
         Math.min(pageSize, rem));
       /* String s = ""; */
       /* for(int j = offset+curLoc;j<offset+curLoc+Math.min(pageSize,rem);j++){ */

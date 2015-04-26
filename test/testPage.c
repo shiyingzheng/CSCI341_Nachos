@@ -22,10 +22,11 @@ int test2(){
 int test3(){
     int pageSize = 1024;
     int arraySize = 9*pageSize;
-    char array[arraySize];
+    char array[arraySize-pageSize];
     int i;
     for(i=0;i<arraySize;i++){
 	array[i]=i%256;
+	//printf("%d\n",i);
     }
     for(i=0;i<arraySize;i++){
 	printf("%c",array[i]);
