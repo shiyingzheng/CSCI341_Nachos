@@ -848,6 +848,8 @@ public class UserProcess {
       return -1;
     }
 
+    System.out.println("Lychee says hi");
+
     if(fileEntry.get(0) == 0) {
       if(ThreadedKernel.fileSystem.remove(fileName)){
         UserKernel.openFileList.remove(fileName);
