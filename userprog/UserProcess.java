@@ -203,7 +203,8 @@ public class UserProcess {
    * @return	the number of bytes successfully transferred.
    */
   public int readVirtualMemory(int vaddr, byte[] data, int offset, int length) {
-    if (!(offset >= 0 && length >= 0 && offset+length <= data.length)){
+    //System.out.println("address is " + data);
+    if (!(offset >= 0 && length >= 0 && offset+length <= data.length && pageFromAddress(vaddr)*pageSize + offsetFromAddress(vaddr) + offset+ length< numPages * pageSize)){
       System.out.println("PANDAS AND APPLES");
 	handleExit(1);
     }   
@@ -224,10 +225,6 @@ public class UserProcess {
       // copy Math.min(pageSize, rem) number of bytes from memory at ppn 
       // to data at offset + curLoc
 	//System.out.println("PANDAS SAY HI");
-	if(pageNumber + i - pageTable[0].ppn >= numPages){
-	 System.out.println("PANDAS");
-	handleExit(1);
-	}
 
 	      System.arraycopy(memory, pageTable[pageNumber+i].ppn * pageSize + pageOffset, 
         data, offset+curLoc, Math.min(pageSize, rem)); 
@@ -282,7 +279,8 @@ public class UserProcess {
    * @return	the number of bytes successfully transferred.
    */
   public int writeVirtualMemory(int vaddr, byte[] data, int offset, int length) {
-    if (!(offset >= 0 && length >= 0 && offset+length <= data.length)){
+    //System.out.println("address is " + data);
+    if (!(offset >= 0 && length >= 0 && offset+length <= data.length && pageFromAddress(vaddr)*pageSize + offsetFromAddress(vaddr) + offset+ length< numPages * pageSize)){
       System.out.println("MOOSE AND APPLES");
 	handleExit(1);
     }    
@@ -304,11 +302,7 @@ public class UserProcess {
     for (int i = 0; i < amount/pageSize + 1; i++){
       // copy Math.min(pageSize, rem) number of bytes from data at offset + curLoc
       // to memory at ppn
-	System.out.println("PANDAS SAY HI");
-	if(pageNumber + i - pageTable[0].ppn  >= numPages){
-	 System.out.println("PANDAS");
-	handleExit(1);
-	}
+	
     System.arraycopy(data, offset+curLoc, memory, pageTable[pageNumber+i].ppn * pageSize + pageOffset, 
         Math.min(pageSize, rem));
       /* String s = ""; */
