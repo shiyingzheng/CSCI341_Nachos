@@ -587,6 +587,7 @@ public class UserProcess {
   }
 
   private int handleExec(int a0, int a1, int a2){
+    System.out.println("Lychee says hi");
     String fileName = readVirtualMemoryString(a0, 256);
     // check ".coff" extension
     if (fileName.substring(fileName.length()-5) != ".coff") {
@@ -629,8 +630,6 @@ public class UserProcess {
     process.pid=childPID;
     process.ppid=pid;
     children.add(process);
-
-    System.out.println("Lychee says hi");
 
     return 0;
   }
