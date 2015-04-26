@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.ArrayList;
 
+/* Shiying Zheng, Ben Stern, Joey Gonzales-Dones, Katherine Chan, Jacob Chae */
+
 /**
  * A kernel that can support multiple user processes.
  */
