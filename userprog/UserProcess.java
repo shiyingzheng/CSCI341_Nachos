@@ -227,10 +227,25 @@ public class UserProcess {
     // for now, just assume that virtual addresses equal physical addresses
     //not anymore!
     if (vaddr < 0 || vaddr >= pageSize * numPages){
-	System.out.println("gah");
+      System.out.println("gah");
       handleExit(1);
     }
-   int amount = Math.min(length, memory.length-vaddr);
+    int amount = Math.min(length, memory.length-vaddr);
+
+    System.out.println(pageTable.length);
+    System.out.println(vaddr);
+    System.out.println(pageSize*8 + offsetFromAddress(vaddr));
+    System.out.println(pageTable[0].vpn);
+    System.out.println(pageTable[0].ppn);
+    System.out.println(pageTable[pageTable.length-1].vpn);
+    System.out.println(pageTable[pageTable.length-1].ppn);
+    if(vaddr < 0 || vaddr >= pageSize*8 + offsetFromAddress(vaddr)) {
+      System.out.println("HELP THE PANDAS!!!");
+    }
+    if (vaddr < 0 || vaddr >= memory.length)
+      return 0;  
+
+    int amount = Math.min(length, memory.length-vaddr);
     int curLoc = 0;
     int rem = amount;
     /* System.out.println("amount " +amount); */
