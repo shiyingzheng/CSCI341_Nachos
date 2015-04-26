@@ -211,18 +211,21 @@ public class UserProcess {
    * @return	the number of bytes successfully transferred.
    */
   public int readVirtualMemory(int vaddr, byte[] data, int offset, int length) {
-    //System.out.println("address is " + data);
-    if (!(offset >= 0 && length >= 0 && offset+length <= data.length && pageFromAddress(vaddr)*pageSize + offsetFromAddress(vaddr) + offset+ length< numPages * pageSize)){
+    System.out.println("vaddr: " + vaddr + " data: " + data + " offset: " + offset + " length: " + length + " page " + pageFromAddress(vaddr) + " maxPages: " + numPages);
+    if (!(offset >= 0 && length >= 0 && offset+length <= data.length && pageFromAddress(vaddr) < numPages)){
       System.out.println("PANDAS AND APPLES");
 	handleExit(1);
     }   
 
     byte[] memory = Machine.processor().getMemory();
 
-    if (vaddr < 0 || vaddr >= memory.length)
-      return 0;  
-
-    int amount = Math.min(length, memory.length-vaddr);
+    // for now, just assume that virtual addresses equal physical addresses
+    //not anymore!
+    if (vaddr < 0 || vaddr >= pageSize * numPages){
+	System.out.println("gah");
+      handleExit(1);
+    }
+   int amount = Math.min(length, memory.length-vaddr);
     int curLoc = 0;
     int rem = amount;
     /* System.out.println("amount " +amount); */
@@ -287,6 +290,7 @@ public class UserProcess {
    */
   public int writeVirtualMemory(int vaddr, byte[] data, int offset, int length) {
     //System.out.println("address is " + data);
+    System.out.println("vaddr: " + vaddr + " data: " + data + " offset: " + offset + " length: " + length + " page " + pageFromAddress(vaddr) + " maxPages: " + numPages);
     if (!(offset >= 0 && length >= 0 && offset+length <= data.length && pageFromAddress(vaddr)*pageSize + offsetFromAddress(vaddr) + offset+ length< numPages * pageSize)){
       System.out.println("MOOSE AND APPLES");
 	handleExit(1);
