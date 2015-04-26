@@ -36,6 +36,7 @@ public class UserProcess {
     readOffsetTable = new HashMap<Integer, Integer>();
     writeOffsetTable = new HashMap<Integer, Integer>();
     children = new ArrayList<UserProcess>();
+    
 
     UserKernel.pidLock.acquire();
     pid = UserKernel.currPid++;
@@ -604,9 +605,13 @@ public class UserProcess {
     UserKernel.processTableLock.acquire();
     UserKernel.processStatusTable.put(pid, a0);
     UserKernel.processTableLock.release();
+    
+    if(pid != 1){//my pid will be 1 if I don't have a parent
+      parentSem = UserProcess.semaphoreTable.get(ppid);
+      parentSem.V();
+    }
 
     KThread.currentThread().finish();
-
     return a0;
   }
 
@@ -638,7 +643,8 @@ public class UserProcess {
     UserKernel.processTableLock.acquire();
     UserKernel.processStatusTable.put(childPID, null);
     UserKernel.processTableLock.release();
-
+    Semaphore childSem = new Semaphore(0);
+    UserProcess.semaphoreTable.put(pid,childSem);
 
     if (process == null){
       return -1;
@@ -663,6 +669,10 @@ public class UserProcess {
   private int handleJoin(int a0, int a1){
     int childPID = a0;
 
+    if (childPID == pid || childPID <= 0){
+      return -1;
+    }
+
     UserProcess child = null;
 
     for (int i = 0; i < children.size(); i++){
@@ -676,9 +686,27 @@ public class UserProcess {
       return -1;
     }
 
+    int status = -1;
     
+    Semaphore childSem = UserProcess.semaphoreTable.get(pid);
+    childSem.P();
 
-    return 0;
+    UserKernel.processTableLock.acquire();
+    status = UserKernel.processStatusTable.get(child.pid);
+    UserKernel.processTableLock.release();
+
+    if (status == null){
+      return 0;
+    }
+    
+    int bytesWritten = int writeVirtualMemory(a1, Lib.bytesFromInt(status), 0, 256); 
+    if (bytesWritten == 0){
+      return 0;
+    }
+
+    children.remove(child);
+
+    return 1;
   }
 
   private int handleOpen(int a0){
@@ -1024,6 +1052,8 @@ public class UserProcess {
   private static final int pageSize = Processor.pageSize;
   private static final char dbgProcess = 'a';
 
+  private static HashMap<Integer, Semaphore> semaphoreTable = new HashMap<Integer, Semaphore>(); // map pid to a semaphore. 
+  //Signal the semaphore for your parent before exiting.
   private HashMap<Integer, OpenFile> fileOpenTable; //fd : OpenFile object
   private HashMap<String, Integer> filenameOpenTable; //fileName : fd
   private HashMap<String, Integer> filenameCloseTable; //fileName : fd
