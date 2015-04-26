@@ -598,7 +598,7 @@ public class UserProcess {
 
     for (int i = 0; i < argc; i++){
       byte[] argPointer = new byte[4];
-      int pointerLength = readVirtualMemoryString(a2 + i*4, argPointer, 0, 4);
+      int pointerLength = readVirtualMemory(a2 + i*4, argPointer, 0, 4);
       if (pointerLength == 0){
         return -1;
       }
