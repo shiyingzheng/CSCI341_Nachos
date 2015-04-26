@@ -573,8 +573,10 @@ public class UserProcess {
   }
 
   private int handleExec(int a0, int a1, int a2){
-    //TODO
-    return 0;
+    return -1;
+
+    //UserProcess process = UserProcess.newUserProcess();
+    //return 0;
   }
 
   private int handleJoin(int a0, int a1){
@@ -849,7 +851,7 @@ public class UserProcess {
       case syscallHalt: 
         return handleHalt();
       case syscallExit:
-        return handleExit(a0); //return handleExit(a0); //TODO
+        return handleHalt(); //return handleExit(a0); //TODO
       case syscallExec:
         return handleExec(a0, a1, a2);
       case syscallJoin:
