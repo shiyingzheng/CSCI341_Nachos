@@ -629,8 +629,6 @@ public class UserProcess {
     process.ppid=pid;
     children.add(process);
 
-    System.out.println("Lychee says hi");
-
     return 0;
   }
 
@@ -834,6 +832,8 @@ public class UserProcess {
     System.out.println(filenameOpenTable);
     System.out.println(fd);
     */
+
+    System.out.println("file name in unlink: " + fileName);
     int fd = filenameCloseTable.get(fileName);
 
     UserKernel.fileListLock.acquire();
