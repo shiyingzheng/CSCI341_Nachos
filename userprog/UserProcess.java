@@ -211,7 +211,7 @@ public class UserProcess {
    * @return	the number of bytes successfully transferred.
    */
   public int readVirtualMemory(int vaddr, byte[] data, int offset, int length) {
-    System.out.println("vaddr: " + vaddr + " data: " + data + " offset: " + offset + " length: " + length + " page " + pageFromAddress(vaddr) + " maxPages: " + numPages);
+    //System.out.println("vaddr: " + vaddr + " data: " + data + " offset: " + offset + " length: " + length + " page " + pageFromAddress(vaddr) + " maxPages: " + numPages);
     if (!(offset >= 0 && length >= 0 && offset+length <= data.length && pageFromAddress(vaddr) < numPages)){
       System.out.println("PANDAS AND APPLES");
 	handleExit(1);
@@ -290,7 +290,7 @@ public class UserProcess {
    */
   public int writeVirtualMemory(int vaddr, byte[] data, int offset, int length) {
     //System.out.println("address is " + data);
-    System.out.println("vaddr: " + vaddr + " data: " + data + " offset: " + offset + " length: " + length + " page " + pageFromAddress(vaddr) + " maxPages: " + numPages);
+    //System.out.println("vaddr: " + vaddr + " data: " + data + " offset: " + offset + " length: " + length + " page " + pageFromAddress(vaddr) + " maxPages: " + numPages);
     if (!(offset >= 0 && length >= 0 && offset+length <= data.length && pageFromAddress(vaddr)*pageSize + offsetFromAddress(vaddr) + offset+ length< numPages * pageSize)){
       System.out.println("MOOSE AND APPLES");
 	handleExit(1);
