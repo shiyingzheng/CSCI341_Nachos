@@ -592,6 +592,8 @@ public class UserProcess {
       return -1;
     }
 
+    System.out.println("Lychee says hi");
+
     int argc = a1;
     String[] args = new String[argc]; 
 
