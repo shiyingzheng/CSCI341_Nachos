@@ -834,6 +834,14 @@ public class UserProcess {
     */
 
     System.out.println("file name in unlink: " + fileName);
+
+    if (!filenameCloseTable.containsKey(fileName)){
+      UserKernel.fileListLock.acquire();
+      fileEntry.set(1, 1);
+      UserKernel.fileListLock.release();
+      return 0;
+    }
+
     int fd = filenameCloseTable.get(fileName);
 
     UserKernel.fileListLock.acquire();
