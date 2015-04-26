@@ -596,7 +596,6 @@ public class UserProcess {
     String[] args = new String[argc]; 
 
     for (int i = 0; i < argc; i++){
-      System.out.println("Lychee says hi");
       byte[] argPointer = new byte[4];
       int pointerLength = readVirtualMemory(a2 + i*4, argPointer, 0, 4);
       if (pointerLength == 0){
@@ -617,6 +616,7 @@ public class UserProcess {
     UserProcess process = UserProcess.newUserProcess();
 
     if (process == null){
+      System.out.println("Lychee says hi");
       return -1;
     }
 
