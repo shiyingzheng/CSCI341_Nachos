@@ -114,10 +114,10 @@ public class UserProcess {
    * @return	<tt>true</tt> if the program was successfully executed.
    */
   public boolean execute(String name, String[] args) {
-    System.out.println(name);
-    for(int i=0;i<args.length-1;i++) {
-      System.out.println(args[i]);
-    }
+    /* System.out.println(name); */
+    /* for(int i=0;i<args.length-1;i++) { */
+    /*   System.out.println(args[i]); */
+    /* } */
     if (!load(name, args))
       return false;
 
@@ -377,6 +377,7 @@ public class UserProcess {
   private boolean load(String name, String[] args) {
     Lib.debug(dbgProcess, "UserProcess.load(\"" + name + "\")");
     OpenFile executable = ThreadedKernel.fileSystem.open(name, false);
+    /* System.out.println(executable == null); */
     if (executable == null) {
       Lib.debug(dbgProcess, "\topen failed");
       return false;
@@ -611,7 +612,8 @@ public class UserProcess {
 
   private int handleExec(int a0, int a1, int a2){
     String fileName = readVirtualMemoryString(a0, 256);
-    if (fileName.substring(fileName.length()-5).equals(".coff")) {
+    if (!fileName.substring(fileName.length()-5).equals(".coff")) {
+        System.out.println("POOOPS");
       return -1;
     }
 
@@ -628,29 +630,32 @@ public class UserProcess {
       args[i]=arg;
     }
 
-    UserKernel.pidLock.acquire();
-    int childPID = UserKernel.currPid++;
-    UserKernel.pidLock.release();
+    UserProcess process = UserProcess.newUserProcess();
+
+    int childPID = process.pid;
+    process.ppid=pid;
 
     UserKernel.processTableLock.acquire();
     UserKernel.processStatusTable.put(childPID, null);
     UserKernel.processTableLock.release();
 
-    UserProcess process = UserProcess.newUserProcess();
 
     if (process == null){
       return -1;
     }
+
+    System.out.println(fileName);
+    for(int i=0;i<args.length;i++){
+      System.out.println(args[i]);
+    }
+
+    children.add(process);
 
     boolean exec = process.execute(fileName, args);
 
     if (exec == false){
       return -1;
     }
-
-    process.pid=childPID;
-    process.ppid=pid;
-    children.add(process);
 
     return 0;
   }
