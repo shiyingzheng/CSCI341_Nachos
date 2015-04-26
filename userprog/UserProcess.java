@@ -613,8 +613,6 @@ public class UserProcess {
     UserKernel.processStatusTable.put(childPID, null);
     UserKernel.processTableLock.release();
 
-    System.out.println("Lychee says hi");
-
     UserProcess process = UserProcess.newUserProcess();
 
     if (process == null){
@@ -624,6 +622,7 @@ public class UserProcess {
     boolean exec = process.execute(fileName, args);
 
     if (exec == false){
+      System.out.println("Lychee says hi");
       return -1;
     }
 
