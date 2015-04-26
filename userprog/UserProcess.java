@@ -625,11 +625,11 @@ public class UserProcess {
       return -1;
     }
 
-    System.out.println("Lychee says hi");
-
     process.pid=childPID;
     process.ppid=pid;
     children.add(process);
+
+    System.out.println("Lychee says hi");
 
     return 0;
   }
