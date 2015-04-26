@@ -613,10 +613,11 @@ public class UserProcess {
     UserKernel.processStatusTable.put(childPID, null);
     UserKernel.processTableLock.release();
 
+    System.out.println("Lychee says hi");
+
     UserProcess process = UserProcess.newUserProcess();
 
     if (process == null){
-      System.out.println("Lychee says hi");
       return -1;
     }
 
