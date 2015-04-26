@@ -630,6 +630,8 @@ public class UserProcess {
     process.ppid=pid;
     children.add(process);
 
+    System.out.println("Lychee says hi");
+
     return 0;
   }
 
