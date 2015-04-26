@@ -33,7 +33,7 @@ public class UserProcess {
     filenameCloseTable = new HashMap<String, Integer>();
     readOffsetTable = new HashMap<Integer, Integer>();
     writeOffsetTable = new HashMap<Integer, Integer>();
-    childPID = new ArrayList<UserProcess>();
+    children = new ArrayList<UserProcess>();
 
     UserKernel.pidLock.acquire();
     pid = UserKernel.currPid++;
