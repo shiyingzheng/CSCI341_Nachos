@@ -588,8 +588,7 @@ public class UserProcess {
 
   private int handleExec(int a0, int a1, int a2){
     String fileName = readVirtualMemoryString(a0, 256);
-    System.out.println(fileName);
-    if (fileName.substring(fileName.length()-6) != ".coff") {
+    if (fileName.substring(fileName.length()-6).equals(".coff")) {
       return -1;
     }
 
