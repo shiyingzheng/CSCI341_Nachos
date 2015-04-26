@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.Iterator;
 
+/* Shiying Zheng, Ben Stern, Joey Gonzales-Dones, Katherine Chan, Jacob Chae */
+
 /**
  * Encapsulates the state of a user process that is not contained in its
  * user thread (or threads). This includes its address translation state, a
@@ -631,8 +633,6 @@ public class UserProcess {
     process.pid=childPID;
     process.ppid=pid;
     children.add(process);
-
-    System.out.println(process);
 
     return 0;
   }
