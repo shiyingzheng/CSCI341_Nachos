@@ -638,7 +638,23 @@ public class UserProcess {
   }
 
   private int handleJoin(int a0, int a1){
-    //TODO
+    int childPID = a0;
+
+    UserProcess child = null;
+
+    for (int i = 0; i < children.size(); i++){
+      UserProcess c = children.get(i);
+      if (c.pid == childPID){
+        child = c;
+      }
+    }
+
+    if (!child){
+      return -1;
+    }
+
+    
+
     return 0;
   }
 
