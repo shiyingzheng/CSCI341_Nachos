@@ -16,7 +16,7 @@ int test1(){
 int test2(){
     char* arg[1];
     char* argv[0];
-    arg[0] = "testPage.coff";
+    arg[0] = "testCreate.coff";
     printf("APPLES ARE TASTY\n");
     int ret = exec(arg[0],0,argv);
     printf("%d", ret);
@@ -50,5 +50,5 @@ int test4(){
     }
 }
 int main(){
-    test4();
+    test2();
 }
