@@ -615,7 +615,7 @@ public class UserProcess {
     UserKernel.processTableLock.release();
     
     if(pid != 1){//my pid will be 1 if I don't have a parent
-      parentSem = UserProcess.semaphoreTable.get(ppid);
+      Semaphore parentSem = UserProcess.semaphoreTable.get(ppid);
       parentSem.V();
     }
 
@@ -690,11 +690,11 @@ public class UserProcess {
       }
     }
 
-    if (!child){
+    if (child == null){
       return -1;
     }
 
-    int status = -1;
+    Integer status = -1;
     
     Semaphore childSem = UserProcess.semaphoreTable.get(pid);
     childSem.P();
@@ -707,7 +707,7 @@ public class UserProcess {
       return 0;
     }
     
-    int bytesWritten = int writeVirtualMemory(a1, Lib.bytesFromInt(status), 0, 256); 
+    int bytesWritten = writeVirtualMemory(a1, Lib.bytesFromInt(status), 0, 256); 
     if (bytesWritten == 0){
       return 0;
     }
