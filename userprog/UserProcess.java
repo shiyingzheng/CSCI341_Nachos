@@ -229,8 +229,10 @@ public class UserProcess {
    * @return	the number of bytes successfully transferred.
    */
   public int readVirtualMemory(int vaddr, byte[] data, int offset, int length) {
-    //System.out.println("vaddr: " + vaddr + " data: " + data + " offset: " + offset + " length: " + length + " page " + pageFromAddress(vaddr) + " maxPages: " + numPages);
-    if (!(offset >= 0 && length >= 0 && offset+length <= data.length && pageFromAddress(vaddr) < numPages)){
+    int pageOffset = offsetFromAddress(vaddr);
+    int page = pageFromAddress(vaddr);
+    System.out.println("READING: vaddr: " + vaddr + " data: " + data + " offset: " + offset + " length: " + length + " page " + pageFromAddress(vaddr) + " maxPages: " + numPages + "physical page: " + pageTable[page].ppn * pageSize + pageOffset);
+    if (!(pageTable[page].valid == true && pageOffset+length <= pageSize && page < 8 )){
       System.out.println("PANDAS AND APPLES");
 	handleExit(1);
     }   
@@ -262,7 +264,7 @@ public class UserProcess {
     int rem = amount;
     /* System.out.println("amount " +amount); */
     int pageNumber = pageFromAddress(vaddr);
-    int pageOffset = offsetFromAddress(vaddr);
+    /* int pageOffset = offsetFromAddress(vaddr); */
     for (int i = 0; i < amount/pageSize + 1; i++){
       // copy Math.min(pageSize, rem) number of bytes from memory at ppn 
       // to data at offset + curLoc
@@ -321,9 +323,12 @@ public class UserProcess {
    * @return	the number of bytes successfully transferred.
    */
   public int writeVirtualMemory(int vaddr, byte[] data, int offset, int length) {
-    //System.out.println("address is " + data);
-    //System.out.println("vaddr: " + vaddr + " data: " + data + " offset: " + offset + " length: " + length + " page " + pageFromAddress(vaddr) + " maxPages: " + numPages);
-    if (!(offset >= 0 && length >= 0 && offset+length <= data.length && pageFromAddress(vaddr)*pageSize + offsetFromAddress(vaddr) + offset+ length< numPages * pageSize)){
+    /* System.out.println("address is " + data); */
+    System.out.println("WRITING: vaddr: " + vaddr + " data: " + data + " offset: " + offset + " length: " + length + " page " + pageFromAddress(vaddr) + " maxPages: " + numPages);
+    /* if (!(offset >= 0 && length >= 0 && offset+length <= data.length && pageFromAddress(vaddr)*pageSize + offsetFromAddress(vaddr) + offset+ length< numPages * pageSize)){ */
+    int page = pageFromAddress(vaddr);
+    int pageOffset = offsetFromAddress(vaddr);
+    if (!(pageTable[page].valid == true && pageOffset+length <= pageSize && page < 8 && pageTable[page].readOnly == false)){
       System.out.println("MOOSE AND APPLES");
 	handleExit(1);
     }    
@@ -340,7 +345,7 @@ public class UserProcess {
     // rem is the remaining number of bytes we need to copy 
     int rem = amount;
     int pageNumber = pageFromAddress(vaddr);
-    int pageOffset = offsetFromAddress(vaddr);
+    /* int pageOffset = offsetFromAddress(vaddr); */
     for (int i = 0; i < amount/pageSize + 1; i++){
       // copy Math.min(pageSize, rem) number of bytes from data at offset + curLoc
       // to memory at ppn
@@ -619,14 +624,18 @@ public class UserProcess {
       parentSem.V();
     }
 
-    KThread.currentThread().finish();
+    if(pid == 1) {
+      handleHalt();
+    } else {
+      KThread.currentThread().finish();
+    }
     return a0;
   }
 
   private int handleExec(int a0, int a1, int a2){
     String fileName = readVirtualMemoryString(a0, 256);
     if (!fileName.substring(fileName.length()-5).equals(".coff")) {
-        System.out.println("POOOPS");
+      System.out.println("POOOPS");
       return -1;
     }
 
@@ -695,7 +704,7 @@ public class UserProcess {
     }
 
     Integer status = -1;
-    
+
     Semaphore childSem = UserProcess.semaphoreTable.get(pid);
     childSem.P();
 
@@ -706,7 +715,7 @@ public class UserProcess {
     if (status == null){
       return 0;
     }
-    
+
     int bytesWritten = writeVirtualMemory(a1, Lib.bytesFromInt(status), 0, 256); 
     if (bytesWritten == 0){
       return 0;
@@ -879,16 +888,17 @@ public class UserProcess {
     writeOffsetTable.remove(a0);
     f.close();
 
-    String fileName = fileOpenTable.get(a0).getName();
+    String fileName = f.getName();
+    /* String fileName = fileOpenTable.get(a0).getName(); */
 
     /* System.out.println(UserKernel.openFileList); */
     UserKernel.fileListLock.acquire();
     ArrayList<Integer> fileEntry = UserKernel.openFileList.get(fileName);
     /*
-    * If the current process is the only one opening the file and 
-    *  we have called unlink on the file, unlink and remove the fileEntry.
-    * Otherwise, decrease the number of files opened in the fileEntry.
-    */
+     * If the current process is the only one opening the file and 
+     *  we have called unlink on the file, unlink and remove the fileEntry.
+     * Otherwise, decrease the number of files opened in the fileEntry.
+     */
     if(fileEntry.get(0) == 1 && fileEntry.get(1) == 1) {
       fileEntry.set(0, 0);
       UserKernel.fileListLock.release();
@@ -907,13 +917,13 @@ public class UserProcess {
     if(filenameOpenTable.get(fileName) != null) {
       return -1;
     }
-    
+
     /*
-    System.out.println(UserKernel.openFileList);
-    System.out.println(fileName);
-    System.out.println(filenameOpenTable);
-    System.out.println(fd);
-    */
+       System.out.println(UserKernel.openFileList);
+       System.out.println(fileName);
+       System.out.println(filenameOpenTable);
+       System.out.println(fd);
+       */
 
     //System.out.println("file name in unlink: " + fileName);
 
@@ -943,16 +953,16 @@ public class UserProcess {
 
 
   private static final int
-  syscallHalt = 0,
-  syscallExit = 1,
-  syscallExec = 2,
-  syscallJoin = 3,
-  syscallCreate = 4,
-  syscallOpen = 5,
-  syscallRead = 6,
-  syscallWrite = 7,
-  syscallClose = 8,
-  syscallUnlink = 9;
+    syscallHalt = 0,
+                syscallExit = 1,
+                syscallExec = 2,
+                syscallJoin = 3,
+                syscallCreate = 4,
+                syscallOpen = 5,
+                syscallRead = 6,
+                syscallWrite = 7,
+                syscallClose = 8,
+                syscallUnlink = 9;
 
   /**
    * Handle a syscall exception. Called by <tt>handleException()</tt>. The
@@ -987,7 +997,7 @@ public class UserProcess {
       case syscallHalt: 
         return handleHalt();
       case syscallExit:
-        return handleHalt(); //return handleExit(a0); //TODO
+        return handleExit(a0); //return handleExit(a0); //TODO
       case syscallExec:
         return handleExec(a0, a1, a2);
       case syscallJoin:

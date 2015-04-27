@@ -29,7 +29,7 @@ int test3(){
     int i;
     for(i=0;i<arraySize;i++){
 	array[i]=i%256;
-	//printf("%d\n",i);
+	printf("%d\n",i);
     }
     for(i=0;i<arraySize;i+= 1000){
 	printf("%c",array[i]);
