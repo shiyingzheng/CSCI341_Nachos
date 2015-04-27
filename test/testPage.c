@@ -35,6 +35,20 @@ int test3(){
 	printf("%c",array[i]);
     }
 }
+int test4(){
+    int pageSize = 1024;
+    int arraySize = 9*pageSize;
+    char array[arraySize-pageSize];
+    int i;
+    int g = creat("x");
+    for(i=0;i<arraySize;i++){
+	array[i]=i%256;
+	fprintf(g,"%d\n",i);
+    }
+    for(i=0;i<arraySize;i+= 1000){
+	fprintf(g,"%c",array[i]);
+    }
+}
 int main(){
-    test2();
+    test4();
 }
