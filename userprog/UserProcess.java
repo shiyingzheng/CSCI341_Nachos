@@ -346,9 +346,9 @@ public class UserProcess {
     for (int i = 0; rem > 0; i++){
       // copy Math.min(pageSize, rem) number of bytes from data at offset + curLoc
       // to memory at ppn
-          System.out.println("on page: " + i);
+       /*   System.out.println("on page: " + i);
           System.out.println("Amount remaining: "+ rem);
-          System.out.println("current location is: "+ curLoc);
+          System.out.println("current location is: "+ curLoc);*/
          if(pageOffset != 0){
           System.arraycopy(data, offset + curLoc, memory, pageTable[pageNumber+i].ppn * pageSize + pageOffset,
                Math.min(pageSize - pageOffset, rem));
@@ -391,7 +391,7 @@ public class UserProcess {
        System.out.println(data[i]);
        }
        */
-    System.out.println("Amount is " + amount);
+ //   System.out.println("Amount is " + amount);
     return amount;
   }
 
@@ -854,15 +854,19 @@ public class UserProcess {
     }
 
     //read from buffer
-    String buffer = readVirtualMemoryString(a1, a2);
+    //String buffer = readVirtualMemoryString(a1, a2);
     /* System.out.println(buffer); */
-    if (buffer == null){
-      /* System.out.println("buffer is null in write"); */
+    /*if (buffer == null){
+       System.out.println("buffer is null in write"); 
+      return -1;
+    }*/
+    byte[] bytes = new byte[length];
+    int bytesRead = readVirtualMemory(a1, bytes, 0, length);
+    if(bytesRead < 0){
       return -1;
     }
-
     //convert buffer content to byte array
-    byte[] bytes = buffer.getBytes();
+    //byte[] bytes = buffer.getBytes();
     //if buffer content is less than specified length, error
     if (bytes.length < length){
       /* System.out.println("bytes.length " + bytes.length); */
@@ -877,9 +881,9 @@ public class UserProcess {
     int writtenLength;
     int pos = writeOffsetTable.get(fd);
     if(fd == 0 || fd == 1){
-      writtenLength = file.write(bytes, 0, length);
+      writtenLength = file.write(bytes, 0, bytesRead);//length);
     } else {
-      writtenLength = file.write(pos, bytes, 0, length);
+      writtenLength = file.write(pos, bytes, 0, bytesRead);//length);
     }
 
 
