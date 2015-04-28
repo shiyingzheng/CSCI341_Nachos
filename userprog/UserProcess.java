@@ -245,6 +245,7 @@ public class UserProcess {
       System.out.println("gah");
       handleExit(1);
     }
+    UserProcess.readWriteLock.acquire();
     int amount = Math.min(length, memory.length-vaddr);
 
     int curLoc = 0;
@@ -274,6 +275,7 @@ public class UserProcess {
       rem -= Math.min(pageSize,rem);
         }
     }
+    UserProcess.readWriteLock.release();
     /* UserProcess.readWriteLock.release();  */
     
     /*
@@ -337,7 +339,7 @@ public class UserProcess {
     // rem is the remaining number of bytes we need to copy 
     int rem = amount;
     int pageNumber = pageFromAddress(vaddr);
-
+    UserProcess.readWriteLock.acquire();
     /* System.out.println("DATA LEN " +data.length); */
     /* System.out.println("LEN: "+length); */
     /* int pageOffset = offsetFromAddress(vaddr); */
@@ -380,7 +382,7 @@ public class UserProcess {
       // decrement remaining amount of bytes by page size
       /* rem -= pageSize; */
     }   
-    /* UserProcess.readWriteLock.release(); */
+    UserProcess.readWriteLock.release();
     /*
        System.out.println("write data array ");
        for (int i = 0; i < data.length; i++){
