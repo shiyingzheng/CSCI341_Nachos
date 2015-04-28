@@ -231,7 +231,6 @@ public class UserProcess {
   public int readVirtualMemory(int vaddr, byte[] data, int offset, int length) {
     int pageOffset = offsetFromAddress(vaddr);
     int page = pageFromAddress(vaddr);
-    /* System.out.println("READING: vaddr: " + vaddr + " data: " + data + " offset: " + offset + " length: " + length + " page " + pageFromAddress(vaddr) + " maxPages: " + numPages + "physical page: " + pageTable[page].ppn * pageSize + pageOffset); */
     if (!(pageTable[page].valid == true && vaddr+length <= numPages*pageSize && page < numPages )){
       System.out.println("PANDAS AND APPLES");
 	handleExit(1);
@@ -251,12 +250,9 @@ public class UserProcess {
     int curLoc = 0;
     int rem = amount;
     int pageNumber = pageFromAddress(vaddr);
-    /* int pageOffset = offsetFromAddress(vaddr); */
-    /* UserProcess.readWriteLock.acquire(); */
     for (int i = 0; rem > 0; i++){
       // copy Math.min(pageSize, rem) number of bytes from memory at ppn 
       // to data at offset + curLoc
-        /* System.out.println("copying:" + Math.min(pageSize,rem)); */
 	      if(pageOffset != 0){
           System.arraycopy(memory,pageTable[pageNumber+i].ppn * pageSize + pageOffset,
               data, offset+curLoc, Math.min(pageSize - pageOffset, rem));
@@ -268,7 +264,7 @@ public class UserProcess {
           System.arraycopy(memory, pageTable[pageNumber+i].ppn * pageSize, 
           data, offset+curLoc, Math.min(pageSize, rem));
       // set used bit
-      /* pageTable[pageNumber+i].used = true; */
+       pageTable[pageNumber+i].used = true; 
       // increment current location in data by page size
       curLoc += Math.min(pageSize, rem);
       // decrement remaining number of bytes by page size
