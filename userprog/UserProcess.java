@@ -346,7 +346,9 @@ public class UserProcess {
     for (int i = 0; rem > 0; i++){
       // copy Math.min(pageSize, rem) number of bytes from data at offset + curLoc
       // to memory at ppn
+          System.out.println("on page: " + i);
           System.out.println("Amount remaining: "+ rem);
+          System.out.println("current location is: "+ curLoc);
          if(pageOffset != 0){
           System.arraycopy(data, offset + curLoc, memory, pageTable[pageNumber+i].ppn * pageSize + pageOffset,
                Math.min(pageSize - pageOffset, rem));
@@ -389,6 +391,7 @@ public class UserProcess {
        System.out.println(data[i]);
        }
        */
+    System.out.println("Amount is " + amount);
     return amount;
   }
 
