@@ -232,7 +232,7 @@ public class UserProcess {
     int pageOffset = offsetFromAddress(vaddr);
     int page = pageFromAddress(vaddr);
     /* System.out.println("READING: vaddr: " + vaddr + " data: " + data + " offset: " + offset + " length: " + length + " page " + pageFromAddress(vaddr) + " maxPages: " + numPages + "physical page: " + pageTable[page].ppn * pageSize + pageOffset); */
-    if (!(pageTable[page].valid == true && pageOffset+length <= pageSize && page < numPages )){
+    if (!(pageTable[page].valid == true && vaddr+length <= numPages*pageSize && page < numPages )){
       System.out.println("PANDAS AND APPLES");
 	handleExit(1);
     }   
@@ -251,7 +251,7 @@ public class UserProcess {
     int rem = amount;
     int pageNumber = pageFromAddress(vaddr);
     /* int pageOffset = offsetFromAddress(vaddr); */
-    UserProcess.readWriteLock.acquire();
+    /* UserProcess.readWriteLock.acquire(); */
     for (int i = 0; i < amount/pageSize + 1; i++){
       // copy Math.min(pageSize, rem) number of bytes from memory at ppn 
       // to data at offset + curLoc
@@ -264,7 +264,7 @@ public class UserProcess {
       // decrement remaining number of bytes by page size
       rem -= pageSize;
     }
-    UserProcess.readWriteLock.release(); 
+    /* UserProcess.readWriteLock.release();  */
     
     /*
     for (int i = 0; i < data.length; i++){
@@ -308,7 +308,9 @@ public class UserProcess {
     /* if (!(offset >= 0 && length >= 0 && offset+length <= data.length && pageFromAddress(vaddr)*pageSize + offsetFromAddress(vaddr) + offset+ length< numPages * pageSize)){ */
     int page = pageFromAddress(vaddr);
     int pageOffset = offsetFromAddress(vaddr);
-    if (!(pageTable[page].valid == true && pageOffset+length <= pageSize && page < numPages && pageTable[page].readOnly == false)){
+
+    /* System.out.println("PAGE: " + (pageOffset+length)); */
+    if (!(pageTable[page].valid == true && vaddr+length <= numPages*pageSize && page < numPages && pageTable[page].readOnly == false)){
       System.out.println("MOOSE AND APPLES");
 	handleExit(1);
     }    
@@ -325,14 +327,17 @@ public class UserProcess {
     // rem is the remaining number of bytes we need to copy 
     int rem = amount;
     int pageNumber = pageFromAddress(vaddr);
+
+    /* System.out.println("DATA LEN " +data.length); */
+    /* System.out.println("LEN: "+length); */
     /* int pageOffset = offsetFromAddress(vaddr); */
     for (int i = 0; i < amount/pageSize + 1; i++){
       // copy Math.min(pageSize, rem) number of bytes from data at offset + curLoc
       // to memory at ppn
-	
-    UserProcess.readWriteLock.acquire();
-    System.arraycopy(data, offset+curLoc, memory, pageTable[pageNumber+i].ppn * pageSize + pageOffset, 
-        Math.min(pageSize, rem));
+
+      /* UserProcess.readWriteLock.acquire(); */
+      System.arraycopy(data, offset+curLoc, memory, pageTable[pageNumber+i].ppn * pageSize + pageOffset, 
+          Math.min(pageSize, rem));
       /* String s = ""; */
       /* for(int j = offset+curLoc;j<offset+curLoc+Math.min(pageSize,rem);j++){ */
       /*   s = s + (char)data[j]; */
@@ -349,13 +354,13 @@ public class UserProcess {
       // decrement remaining amount of bytes by page size
       rem -= pageSize;
     }   
-    UserProcess.readWriteLock.release();
+    /* UserProcess.readWriteLock.release(); */
     /*
-    System.out.println("write data array ");
-    for (int i = 0; i < data.length; i++){
-      System.out.println(data[i]);
-    }
-    */
+       System.out.println("write data array ");
+       for (int i = 0; i < data.length; i++){
+       System.out.println(data[i]);
+       }
+       */
     return amount;
   }
 
@@ -371,7 +376,7 @@ public class UserProcess {
    */
   private boolean load(String name, String[] args) {
     Lib.debug(dbgProcess, "UserProcess.load(\"" + name + "\")");
-      System.out.println(name);
+    /* System.out.println(name); */
     OpenFile executable = ThreadedKernel.fileSystem.open(name, false);
     if (executable == null) {
       Lib.debug(dbgProcess, "\topen failed");
@@ -467,6 +472,10 @@ public class UserProcess {
     pageTable = new TranslationEntry[numPages];
     UserKernel.pageListLock.acquire();
     for (int i=0; i<numPages; i++){
+      if(UserKernel.freePageList.size() == 0) {
+    UserKernel.pageListLock.release();
+        handleExit(1);
+      }
       int pageNumber = UserKernel.freePageList.removeFirst();
       pageTable[i] = new TranslationEntry(i,pageNumber,true,false,false,false);
     }
@@ -496,6 +505,10 @@ public class UserProcess {
   protected void unloadSections() {
     UserKernel.pageListLock.acquire();
     for (int i=0; i<numPages; i++){
+      if(pageTable[i] ==null) {
+    UserKernel.pageListLock.release();
+        handleExit(1);
+      }
       int paddr = pageTable[i].ppn;
       UserKernel.freePageList.add(paddr);
     }
@@ -599,7 +612,7 @@ public class UserProcess {
     UserKernel.processTableLock.acquire();
     UserKernel.processStatusTable.put(pid, a0);
     UserKernel.processTableLock.release();
-    
+
     if(pid != 1){//my pid will be 1 if I don't have a parent
       Semaphore mySem = UserProcess.semaphoreTable.get(pid);
       mySem.V();
@@ -648,11 +661,6 @@ public class UserProcess {
       return -1;
     }
 
-    System.out.println(fileName);
-    for(int i=0;i<args.length;i++){
-      System.out.println(args[i]);
-    }
-
     children.add(process);
 
     boolean exec = process.execute(fileName, args);
@@ -699,7 +707,7 @@ public class UserProcess {
       return 0;
     }
 
-    int bytesWritten = writeVirtualMemory(a1, Lib.bytesFromInt(status), 0, 256); 
+    int bytesWritten = writeVirtualMemory(a1, Lib.bytesFromInt(status), 0, 4); 
     if (bytesWritten == 0){
       return 0;
     }
@@ -864,7 +872,7 @@ public class UserProcess {
     if(f == null) {
       return -1;
     }
-    System.out.println("closing: " + f.getName());
+    /* System.out.println("closing: " + f.getName()); */
     filenameCloseTable.put(f.getName(), a0);
     filenameOpenTable.remove(f.getName());
     readOffsetTable.remove(a0);
@@ -913,10 +921,18 @@ public class UserProcess {
     UserKernel.fileListLock.acquire();
     ArrayList<Integer> fileEntry = UserKernel.openFileList.get(fileName);
 
-    if (fileEntry == null){
+    if(fileEntry == null) {
+      ThreadedKernel.fileSystem.remove(fileName);
       UserKernel.fileListLock.release();
-      return -1;
+      return 0;
     }
+
+    // we probably don't want this ever
+    /* if (fileEntry == null){ */
+    /*   System.out.println("PUPPIES"); */
+    /*   UserKernel.fileListLock.release(); */
+    /*   return -1; */
+    /* } */
 
     if(fileEntry.get(0) == 0) {
       if(ThreadedKernel.fileSystem.remove(fileName)){

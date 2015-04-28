@@ -16,10 +16,13 @@ int test1(){
 int test2(){
     char* arg[1];
     char* argv[0];
-    arg[0] = "testCreate.coff";
+    arg[0] = "testPage.coff";
     printf("APPLES ARE TASTY\n");
     int ret = exec(arg[0],0,argv);
-    printf("%d", ret);
+    int x;
+    int * xptr = &x;
+    join(ret, xptr);
+    /* printf("%d", ret); */
     /* printf("\n"); */
 }
 int test3(){
@@ -42,13 +45,13 @@ int test4(){
     int i;
     int g = creat("x");
     for(i=0;i<arraySize;i++){
-	array[i]=i%256;
-	fprintf(g,"%d\n",i);
+      array[i]=i%256;
+      fprintf(g,"%d\n",i);
     }
     for(i=0;i<arraySize;i+= 1000){
-	fprintf(g,"%c",array[i]);
+      fprintf(g,"%c",array[i]);
     }
 }
 int main(){
-    test2();
+  test2();
 }
