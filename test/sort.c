@@ -10,7 +10,7 @@
 
 /* size of physical memory; with code, we'll run out of space! */
 #define SORTSIZE	256
-#define SORTSHIFT	0
+#define SORTSHIFT	3
 
 int array[SORTSIZE<<SORTSHIFT];
 

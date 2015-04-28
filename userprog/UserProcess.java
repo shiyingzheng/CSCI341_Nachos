@@ -506,11 +506,13 @@ public class UserProcess {
     UserKernel.pageListLock.acquire();
     for (int i=0; i<numPages; i++){
       if(pageTable[i] ==null) {
-    UserKernel.pageListLock.release();
-        handleExit(1);
+        /* UserKernel.pageListLock.release(); */
+        /* handleExit(1); */
       }
-      int paddr = pageTable[i].ppn;
-      UserKernel.freePageList.add(paddr);
+      else{
+        int paddr = pageTable[i].ppn;
+        UserKernel.freePageList.add(paddr);
+      }
     }
     UserKernel.pageListLock.release();
   }    
@@ -789,6 +791,7 @@ public class UserProcess {
     else{
       readLength = file.read(pos, bytes, 0, length);
     }
+    /* System.out.println("LENGTH: "+length); */
 
     //System.out.println("should read " + length + ", read " + readLength + " bytes");
 

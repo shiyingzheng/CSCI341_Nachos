@@ -33,6 +33,5 @@ int test2(){
   close(f);
 }
 int main(){
-  exit(0);
-  test2();
+  test1();
 }

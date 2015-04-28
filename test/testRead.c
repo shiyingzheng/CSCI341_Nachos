@@ -66,6 +66,6 @@ int test4(){
     }
 }
 int main(){
-    test4();
+    test1();
     exit(0);
 }
