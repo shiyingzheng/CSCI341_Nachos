@@ -1,9 +1,18 @@
+package nachos.vm;
+
+import nachos.machine.*;
+import nachos.threads.*;
+import nachos.userprog.*;
+import nachos.vm.*;
+import java.util.HashMap;
+
+
 /* 
 * Incomplete implementation of a swap file. It is an actual file on disk.
 */
 
 public class SwapFile{
-	public SwapFile{
+	public SwapFile(){
 		file = new OpenFile();
 	}
 

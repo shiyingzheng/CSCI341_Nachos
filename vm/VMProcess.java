@@ -65,7 +65,7 @@ public class VMProcess extends UserProcess {
   * A function to handle TLB misses. 
   */
   private void handleTLBMiss(){
-    int badAddress = Machine.Processor().readRegister(Processor.regBadVaddr);
+    int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
     // 1. check the global page table to see if we can find the page; if so,
     //    just use it
     // 2. Otherwise, use the swapfile and find the page, load into physical 
@@ -86,7 +86,7 @@ public class VMProcess extends UserProcess {
     Processor processor = Machine.processor();
 
     switch (cause) {
-      case Machine.Processor.exceptionTLBMiss:
+      case exceptionTLBMiss:
         handleTLBMiss();
       default:
         super.handleException(cause);
@@ -94,7 +94,7 @@ public class VMProcess extends UserProcess {
     }
   }
 
-  private static final int exceptionTLBMiss = 10; //hopefully this number works
+  private static final int exceptionTLBMiss = 2; 
   private static final int pageSize = Processor.pageSize;
   private static final char dbgProcess = 'a';
   private static final char dbgVM = 'v';
