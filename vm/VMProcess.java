@@ -32,6 +32,7 @@ public class VMProcess extends UserProcess {
    */
   public void saveState() {
     super.saveState();
+    // sync the TLB with entries in page table, invalidate all entries in TLB
   }
 
   /**
@@ -60,6 +61,19 @@ public class VMProcess extends UserProcess {
   }    
 
   /**
+  * A function to handle TLB misses. 
+  */
+  private void handleTLBMiss(){
+    int badAddress = Machine.Processor().readRegister(Processor.regBadVaddr);
+    // 1. check the global page table to see if we can find the page; if so,
+    //    just use it
+    // 2. Otherwise, use the swapfile and find the page, load into physical 
+    //    memory, and add to global page table.
+    //    maybe we can use swapInPage(TranslationEntry newEntry) function
+    //    in VMKernel, which I just made up but has not been implemented
+  }
+
+  /**
    * Handle a user exception. Called by
    * <tt>UserKernel.exceptionHandler()</tt>. The
    * <i>cause</i> argument identifies which exception occurred; see the
@@ -71,12 +85,15 @@ public class VMProcess extends UserProcess {
     Processor processor = Machine.processor();
 
     switch (cause) {
+      case Machine.Processor.exceptionTLBMiss:
+        handleTLBMiss();
       default:
         super.handleException(cause);
         break;
     }
   }
 
+  private static final int exceptionTLBMiss = 10; //hopefully this number works
   private static final int pageSize = Processor.pageSize;
   private static final char dbgProcess = 'a';
   private static final char dbgVM = 'v';

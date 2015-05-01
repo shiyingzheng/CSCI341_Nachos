@@ -21,6 +21,7 @@ public class VMKernel extends UserKernel {
    */
   public void initialize(String[] args) {
     super.initialize(args);
+    pageTable = new HashMap<Integer, HashMap<Integer, TranslationEntry>>();
   }
 
   /**
@@ -44,8 +45,39 @@ public class VMKernel extends UserKernel {
     super.terminate();
   }
 
+  // Swap a page in from disk to physical memory
+  public TranslationEntry swapInPage(TranslationEntry newEntry){
+    // sync the translation entries in the page table with the ones in TLB 
+    TranslationEntry replacedPage = clockReplacement();
+    // swap page into physical memory using SwapFile functions
+    // put new entry in page table and TLB
+    return replacedPage;
+  }
+
+  private TranslationEntry clockReplacement(){
+    // implement clock replacement algorithm here
+    return null;
+  }
+
+  private TranslationEntry fifo(){
+    // fifo algorithm for TLB entry replacement?
+    return null;
+  }
+
   // dummy variables to make javac smarter
   private static VMProcess dummy1 = null;
 
   private static final char dbgVM = 'v';
+
+  /* 
+  * A global page table that contains pages that are currently in physical 
+  * memory, which can have pages that do not belong to the current process.
+  */
+  public static HashMap<Integer, HashMap<Integer, TranslationEntry>> pageTable; 
+
+  /* A lock for the global page table. */
+  public static Lock pageTableLock;
+
+  public static SwapFile swapFile;
 }
+
