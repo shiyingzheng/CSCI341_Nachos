@@ -45,6 +45,15 @@ public class VMKernel extends UserKernel {
     super.terminate();
   }
 
+  public void contextSwitch(){
+    //on context switch, sync tables, invalidate TLB entries
+    // call syncTables() to sync tables
+  }
+
+  private void syncTables(){
+    // sync entries in TLB with the page table
+  }
+
   // Swap a page in from disk to physical memory
   public TranslationEntry swapInPage(TranslationEntry newEntry){
     // sync the translation entries in the page table with the ones in TLB 

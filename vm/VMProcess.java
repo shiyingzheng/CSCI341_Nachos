@@ -33,6 +33,7 @@ public class VMProcess extends UserProcess {
   public void saveState() {
     super.saveState();
     // sync the TLB with entries in page table, invalidate all entries in TLB
+    // we can call VMKernel contextSwitch() for this
   }
 
   /**
