@@ -44,22 +44,204 @@ public class VMProcess extends UserProcess {
     super.restoreState();
   }
 
+  // This is directly copied from UserProcess but we need to change it
   /**
-   * Initializes page tables for this process so that the executable can be
-   * demand-paged.
+   * Transfer data from this process's virtual memory to the specified array.
+   * This method handles address translation details. This method must
+   * <i>not</i> destroy the current process if an error occurs, but instead
+   * should return the number of bytes successfully copied (or zero if no
+   * data could be copied).
    *
-   * @return	<tt>true</tt> if successful.
+   * @param vaddr the first byte of virtual memory to read.
+   * @param data  the array where the data will be stored.
+   * @param offset  the first byte to write in the array.
+   * @param length  the number of bytes to transfer from virtual memory to
+   *      the array.
+   * @return  the number of bytes successfully transferred.
    */
-  protected boolean loadSections() {
-    return super.loadSections();
+  public int readVirtualMemory(int vaddr, byte[] data, int offset, int length) {
+    int pageOffset = offsetFromAddress(vaddr);
+    int page = pageFromAddress(vaddr);
+    // CHANGE HERE!!!
+    if (!(pageTable[page].valid == true && vaddr+length <= numPages*pageSize && page < numPages )){
+      System.out.println("PANDAS AND APPLES");
+  handleExit(1);
+    }   
+
+    byte[] memory = Machine.processor().getMemory();
+
+    if (vaddr < 0 || vaddr >= pageSize * numPages){
+      System.out.println("gah");
+      handleExit(1);
+    }
+    UserProcess.readWriteLock.acquire();
+    int amount = Math.min(length, memory.length-vaddr);
+
+    int curLoc = 0;
+    int rem = amount;
+    int pageNumber = pageFromAddress(vaddr);
+    for (int i = 0; rem > 0; i++){
+      // copy Math.min(pageSize, rem) number of bytes from memory at ppn 
+      // to data at offset + curLoc
+        if(pageOffset != 0){
+          // CHANGE HERE!!!
+          System.arraycopy(memory,pageTable[pageNumber+i].ppn * pageSize + pageOffset,
+              data, offset+curLoc, Math.min(pageSize - pageOffset, rem));
+          curLoc += Math.min(pageSize - pageOffset, rem);
+          rem -= Math.min(pageSize - pageOffset, rem);
+          pageOffset = 0;
+        }
+        else{ 
+          // CHANGE HERE!!!
+          System.arraycopy(memory, pageTable[pageNumber+i].ppn * pageSize, 
+          data, offset+curLoc, Math.min(pageSize, rem));
+      // set used bit
+      // CHANGE HERE!!! we need to do it in this lab
+      //pageTable[pageNumber+i].used = true; 
+      // increment current location in data by page size
+      curLoc += Math.min(pageSize, rem);
+      // decrement remaining number of bytes by page size
+      rem -= Math.min(pageSize,rem);
+        }
+    }
+    UserProcess.readWriteLock.release();
+
+    return amount;
   }
 
+  // This is directly copied from UserProcess but we need to change it
+  /**
+   * Transfer data from the specified array to this process's virtual memory.
+   * This method handles address translation details. This method must
+   * <i>not</i> destroy the current process if an error occurs, but instead
+   * should return the number of bytes successfully copied (or zero if no
+   * data could be copied).
+   *
+   * @param vaddr the first byte of virtual memory to write.
+   * @param data  the array containing the data to transfer.
+   * @param offset  the first byte to transfer from the array.
+   * @param length  the number of bytes to transfer from the array to
+   *      virtual memory.
+   * @return  the number of bytes successfully transferred.
+   */
+  public int writeVirtualMemory(int vaddr, byte[] data, int offset, int length) {
+    int page = pageFromAddress(vaddr);
+    int pageOffset = offsetFromAddress(vaddr);
+
+    // CHANGE HERE!!!
+    if (!(pageTable[page].valid == true && vaddr+length <= numPages*pageSize && page < numPages && pageTable[page].readOnly == false)){
+      System.out.println("MOOSE AND APPLES");
+  handleExit(1);
+    }    
+
+    byte[] memory = Machine.processor().getMemory();
+
+    if (vaddr < 0 || vaddr >= memory.length)
+      return 0;  
+
+    // amount is the number of bytes we need to copy over to memory
+    int amount = Math.min(length, memory.length-vaddr);
+    // curLoc is the current start location in data that we need to copy from
+    int curLoc = 0;
+    // rem is the remaining number of bytes we need to copy 
+    int rem = amount;
+    int pageNumber = pageFromAddress(vaddr);
+    UserProcess.readWriteLock.acquire();
+    for (int i = 0; rem > 0; i++){
+      // copy Math.min(pageSize, rem) number of bytes from data at offset + curLoc
+      // to memory at ppn
+         if(pageOffset != 0){
+          // CHANGE HERE!!!
+          System.arraycopy(data, offset + curLoc, memory, pageTable[pageNumber+i].ppn * pageSize + pageOffset,
+               Math.min(pageSize - pageOffset, rem));
+          curLoc += Math.min(pageSize - pageOffset, rem);
+          rem -= Math.min(pageSize - pageOffset, rem);
+          pageOffset = 0;
+        }
+        else{ 
+          // CHANGE HERE!!!
+          System.arraycopy(data, offset+curLoc, memory,  pageTable[pageNumber+i].ppn * pageSize, Math.min(pageSize, rem));
+      // set used bit // CHANGE HERE!!! we need to set used and dirty bit anyway ;)
+      /* pageTable[pageNumber+i].used = true; */
+      // increment current location in data by page size
+      curLoc += Math.min(pageSize,rem);
+      // decrement remaining number of bytes by page size
+      rem -= Math.min(pageSize,rem);
+        }
+    }   
+    UserProcess.readWriteLock.release();
+
+    return amount;
+  }
+
+  // This is directly copied from UserProcess but we need to change it
+  /**
+   * Allocates memory for this process, and loads the COFF sections into
+   * memory. If this returns successfully, the process will definitely be
+   * run (this is the last step in process initialization that can fail).
+   *
+   * @return  <tt>true</tt> if the sections were successfully loaded.
+   */
+  protected boolean loadSections() {
+    if (numPages > Machine.processor().getNumPhysPages()) {
+      coff.close();
+      Lib.debug(dbgProcess, "\tinsufficient physical memory");
+      return false;
+    }  
+
+    // CHANGE HERE!!!
+    pageTable = new TranslationEntry[numPages];
+    UserKernel.pageListLock.acquire();
+    for (int i=0; i<numPages; i++){
+      if(UserKernel.freePageList.size() == 0) {
+    UserKernel.pageListLock.release();
+        handleExit(1);
+      }
+      int pageNumber = UserKernel.freePageList.removeFirst();
+      // CHANGE HERE!!!
+      pageTable[i] = new TranslationEntry(i,pageNumber,true,false,false,false);
+    }
+
+    UserKernel.pageListLock.release();
+
+    // load sections
+    for (int s=0; s<coff.getNumSections(); s++) {
+      CoffSection section = coff.getSection(s);
+
+      Lib.debug(dbgProcess, "\tinitializing " + section.getName()
+          + " section (" + section.getLength() + " pages)");  
+
+      for (int i=0; i<section.getLength(); i++) {
+        int vpn = section.getFirstVPN()+i; 
+        // CHANGE HERE!!!   
+        pageTable[vpn].readOnly = section.isReadOnly();
+        section.loadPage(i, pageTable[vpn].ppn);
+      }
+    }
+
+    return true;
+  }
+
+  // This is directly copied from UserProcess but we need to change it
   /**
    * Release any resources allocated by <tt>loadSections()</tt>.
    */
   protected void unloadSections() {
-    super.unloadSections();
-  }    
+    UserKernel.pageListLock.acquire();
+    for (int i=0; i<numPages; i++){
+      // CHANGE HERE!!!
+      if(pageTable[i] ==null) { 
+        /* UserKernel.pageListLock.release(); */
+        /* handleExit(1); */
+      }
+      else{
+        //CHANGE HERE!!!
+        int paddr = pageTable[i].ppn; 
+        UserKernel.freePageList.add(paddr);
+      }
+    }
+    UserKernel.pageListLock.release();
+  }  
 
   /**
   * A function to handle TLB misses. 
