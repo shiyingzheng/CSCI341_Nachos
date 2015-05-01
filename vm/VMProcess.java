@@ -5,6 +5,16 @@ import nachos.threads.*;
 import nachos.userprog.*;
 import nachos.vm.*;
 
+/*TODO: 
+1. test all of this shit; 
+2. what are pages
+3. i think we are doing a book
+4. it should be about puppies i think
+5. meow meow meow
+*/
+
+
+
 /**
  * A <tt>UserProcess</tt> that supports demand-paging.
  */
