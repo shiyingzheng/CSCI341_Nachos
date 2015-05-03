@@ -233,10 +233,11 @@ public class UserProcess {
    */
   public int readVirtualMemory(int vaddr, byte[] data, int offset, int length) {
     int pageOffset = offsetFromAddress(vaddr);
-    int page = pageFromAddress(vaddr);
+    int pageNum = pageFromAddress(vaddr);
     System.out.println("UserProcess.readVirtualMemory()");
-    System.out.println("Page number = " + page + ", page offset = " + pageOffset);
-    if (!(pageTable[page].valid == true && vaddr+length <= numPages*pageSize && page < numPages )){
+    System.out.println("Page number = " + pageNum + ", page offset = " + pageOffset);
+    TranslationEntry page = getPage(pid, pageNum);
+    if (!(page.valid == true && vaddr+length <= numPages*pageSize && pageNum < numPages )){
       System.out.println("PANDAS AND APPLES");
 	handleExit(1);
     }   
@@ -254,22 +255,21 @@ public class UserProcess {
 
     int curLoc = 0;
     int rem = amount;
-    int pageNumber = pageFromAddress(vaddr);
     for (int i = 0; rem > 0; i++){
       // copy Math.min(pageSize, rem) number of bytes from memory at ppn 
       // to data at offset + curLoc
 	      if(pageOffset != 0){
-          System.arraycopy(memory,pageTable[pageNumber+i].ppn * pageSize + pageOffset,
+          System.arraycopy(memory, getPage(pid,pageNum+i).ppn * pageSize + pageOffset,
               data, offset+curLoc, Math.min(pageSize - pageOffset, rem));
           curLoc += Math.min(pageSize - pageOffset, rem);
           rem -= Math.min(pageSize - pageOffset, rem);
           pageOffset = 0;
         }
         else{ 
-          System.arraycopy(memory, pageTable[pageNumber+i].ppn * pageSize, 
+          System.arraycopy(memory, getPage(pid,pageNum+i).ppn * pageSize, 
           data, offset+curLoc, Math.min(pageSize, rem));
       // set used bit
-       pageTable[pageNumber+i].used = true; 
+       getPage(pid,pageNum+i).used = true; 
       // increment current location in data by page size
       curLoc += Math.min(pageSize, rem);
       // decrement remaining number of bytes by page size
@@ -319,11 +319,12 @@ public class UserProcess {
     /* System.out.println("address is " + data); */
     /* System.out.println("WRITING: vaddr: " + vaddr + " data: " + data + " offset: " + offset + " length: " + length + " page " + pageFromAddress(vaddr) + " maxPages: " + numPages); */
     /* if (!(offset >= 0 && length >= 0 && offset+length <= data.length && pageFromAddress(vaddr)*pageSize + offsetFromAddress(vaddr) + offset+ length< numPages * pageSize)){ */
-    int page = pageFromAddress(vaddr);
+    int pageNum = pageFromAddress(vaddr);
     int pageOffset = offsetFromAddress(vaddr);
 
+    TranslationEntry page = getPage(pid, pageNum);
     /* System.out.println("PAGE: " + (pageOffset+length)); */
-    if (!(pageTable[page].valid == true && vaddr+length <= numPages*pageSize && page < numPages && pageTable[page].readOnly == false)){
+    if (!(page.valid == true && vaddr+length <= numPages*pageSize && pageNum < numPages && page.readOnly == false)){
       System.out.println("MOOSE AND APPLES");
 	handleExit(1);
     }    
@@ -339,7 +340,6 @@ public class UserProcess {
     int curLoc = 0;
     // rem is the remaining number of bytes we need to copy 
     int rem = amount;
-    int pageNumber = pageFromAddress(vaddr);
     UserProcess.readWriteLock.acquire();
     /* System.out.println("DATA LEN " +data.length); */
     /* System.out.println("LEN: "+length); */
@@ -351,14 +351,14 @@ public class UserProcess {
           System.out.println("Amount remaining: "+ rem);
           System.out.println("current location is: "+ curLoc);*/
          if(pageOffset != 0){
-          System.arraycopy(data, offset + curLoc, memory, pageTable[pageNumber+i].ppn * pageSize + pageOffset,
+          System.arraycopy(data, offset + curLoc, memory, getPage(pid,pageNum+i).ppn * pageSize + pageOffset,
                Math.min(pageSize - pageOffset, rem));
           curLoc += Math.min(pageSize - pageOffset, rem);
           rem -= Math.min(pageSize - pageOffset, rem);
           pageOffset = 0;
         }
         else{ 
-          System.arraycopy(data, offset+curLoc, memory,  pageTable[pageNumber+i].ppn * pageSize, Math.min(pageSize, rem));
+          System.arraycopy(data, offset+curLoc, memory,  getPage(pid,pageNum+i).ppn * pageSize, Math.min(pageSize, rem));
       // set used bit
       /* pageTable[pageNumber+i].used = true; */
       // increment current location in data by page size
@@ -394,6 +394,10 @@ public class UserProcess {
        */
  //   System.out.println("Amount is " + amount);
     return amount;
+  }
+
+  public TranslationEntry getPage(int pid, int pageNum) {
+    return pageTable[pageNum];
   }
 
   /**
