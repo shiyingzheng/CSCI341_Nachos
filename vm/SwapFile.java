@@ -5,6 +5,7 @@ import nachos.threads.*;
 import nachos.userprog.*;
 import nachos.vm.*;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 
 /* 
@@ -52,7 +53,7 @@ public class SwapFile{
     Integer dpn = freeDiskPages.pop();
     byte[] physMemory = Machine.processor().getMemory();
     file.write(dpn*pageSize, physMemory, ppn, pageSize);
-    diskPageMap.add(new Pair(pid,vpn), dpn);
+    diskPageMap.put(new Pair(pid,vpn), dpn);
     fileLock.release();
     return true;
 	}

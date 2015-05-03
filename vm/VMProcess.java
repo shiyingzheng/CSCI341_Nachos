@@ -13,7 +13,6 @@ import nachos.vm.*;
 5. meow meow meow
 */
 
-\
 /**
  * A <tt>UserProcess</tt> that supports demand-paging.
  */
@@ -87,7 +86,7 @@ public class VMProcess extends UserProcess {
     
     // handleTLBMiss() will be called
     
-    ranslationEntry page = fetchPage(pageNumber);
+    TranslationEntry page = fetchPage(pageNumber);
     
     
     for (int i = 0; rem > 0; i++) {
@@ -95,7 +94,7 @@ public class VMProcess extends UserProcess {
     	// to data at offset + curLoc
     	if (pageOffset != 0) {
     		// different from UserProcess
-    		TranslationEntry nextPage = machine.Processor.readTLBEntry(pageNumber+i);
+    		TranslationEntry nextPage = Machine.processor().readTLBEntry(pageNumber+i);
     		System.arraycopy(memory, page.ppn * pageSize + pageOffset, data, offset+curLoc,
     			Math.min(pageSize - pageOffset, rem));
     			curLoc += Math.min(pageSize - pageOffset, rem);
@@ -286,142 +285,141 @@ public class VMProcess extends UserProcess {
     
   private TranslationEntry fetchPage(int pageNumber) {
   	  TranslationEntry page = null;
-  	  try {
-  	  	 page = machine.Processor.readTLBEntry(pageNumber);
-  	  } catch (Exception e) {
-  	  	 System.out.println("fetchPage(): " + e); 
-  	  	 
-  	  } 
-  		 
-  	  
-  }
-  
-  /*
-  nachos 5.0j initializing... config interrupt timer processor console user-check grader
-Testing the console device. Typed characters
-will be echoed until q is typed.
-q
-UserProcess.readVirtualMemory()
-Page number = 4, page offset = 0
-HERE I AMUserProcess.readVirtualMemory()
-Page number = 4, page offset = 0
-Pandas
-UserProcess.readVirtualMemory()
-Page number = 4, page offset = 0
-Of the red variety
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 3, page offset = 40
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 4, page offset = 0
-PANDAS!
-UserProcess.readVirtualMemory()
-Page number = 4, page offset = 0
-Unable to create file
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 4, page offset = 0
-PANDAS!
-UserProcess.readVirtualMemory()
-Page number = 4, page offset = 0
-Unable to create file
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 4, page offset = 0
-PANDAS!
-UserProcess.readVirtualMemory()
-Page number = 4, page offset = 0
-Unable to create file
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 4, page offset = 0
-PANDAS!
-UserProcess.readVirtualMemory()
-Page number = 4, page offset = 0
-Unable to create file
-UserProcess.readVirtualMemory()
-Page number = 11, page offset = 1008
-UserProcess.readVirtualMemory()
-Page number = 4, page offset = 0
-PANDAS!
-UserProcess.readVirtualMemory()
-Page number = 4, page offset = 0
-Unable to create file
-Machine halting!
+      try {
+        page = Machine.processor().readTLBEntry(pageNumber);
+      } catch (Exception e) {
+        System.out.println("fetchPage(): " + e); 
 
-Ticks: total 10056397, kernel 10050250, user 6147
-Disk I/O: reads 0, writes 0
-Console I/O: reads 1, writes 186
-Paging: page faults 0, TLB misses 0
-Network I/O: received 0, sent 0
-*/
-  
+      } 
+      return page;
+  }
+
+  /*
+     nachos 5.0j initializing... config interrupt timer processor console user-check grader
+     Testing the console device. Typed characters
+     will be echoed until q is typed.
+     q
+     UserProcess.readVirtualMemory()
+     Page number = 4, page offset = 0
+     HERE I AMUserProcess.readVirtualMemory()
+     Page number = 4, page offset = 0
+     Pandas
+     UserProcess.readVirtualMemory()
+     Page number = 4, page offset = 0
+     Of the red variety
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+     UserProcess.readVirtualMemory()
+     Page number = 3, page offset = 40
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+     UserProcess.readVirtualMemory()
+     Page number = 3, page offset = 40
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+     UserProcess.readVirtualMemory()
+     Page number = 3, page offset = 40
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+     UserProcess.readVirtualMemory()
+     Page number = 3, page offset = 40
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+     UserProcess.readVirtualMemory()
+     Page number = 3, page offset = 40
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+     UserProcess.readVirtualMemory()
+     Page number = 3, page offset = 40
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+     UserProcess.readVirtualMemory()
+     Page number = 3, page offset = 40
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+     UserProcess.readVirtualMemory()
+     Page number = 3, page offset = 40
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+     UserProcess.readVirtualMemory()
+     Page number = 3, page offset = 40
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+     UserProcess.readVirtualMemory()
+     Page number = 3, page offset = 40
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+     UserProcess.readVirtualMemory()
+     Page number = 3, page offset = 40
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+     UserProcess.readVirtualMemory()
+     Page number = 3, page offset = 40
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+     UserProcess.readVirtualMemory()
+     Page number = 3, page offset = 40
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+     UserProcess.readVirtualMemory()
+     Page number = 3, page offset = 40
+     UserProcess.readVirtualMemory()
+     Page number = 11, page offset = 1008
+  UserProcess.readVirtualMemory()
+    Page number = 3, page offset = 40
+    UserProcess.readVirtualMemory()
+    Page number = 11, page offset = 1008
+    UserProcess.readVirtualMemory()
+    Page number = 4, page offset = 0
+    PANDAS!
+    UserProcess.readVirtualMemory()
+    Page number = 4, page offset = 0
+    Unable to create file
+    UserProcess.readVirtualMemory()
+    Page number = 11, page offset = 1008
+    UserProcess.readVirtualMemory()
+    Page number = 4, page offset = 0
+    PANDAS!
+    UserProcess.readVirtualMemory()
+    Page number = 4, page offset = 0
+    Unable to create file
+    UserProcess.readVirtualMemory()
+    Page number = 11, page offset = 1008
+    UserProcess.readVirtualMemory()
+    Page number = 4, page offset = 0
+    PANDAS!
+    UserProcess.readVirtualMemory()
+    Page number = 4, page offset = 0
+    Unable to create file
+    UserProcess.readVirtualMemory()
+    Page number = 11, page offset = 1008
+    UserProcess.readVirtualMemory()
+    Page number = 4, page offset = 0
+    PANDAS!
+    UserProcess.readVirtualMemory()
+    Page number = 4, page offset = 0
+    Unable to create file
+    UserProcess.readVirtualMemory()
+    Page number = 11, page offset = 1008
+    UserProcess.readVirtualMemory()
+    Page number = 4, page offset = 0
+    PANDAS!
+    UserProcess.readVirtualMemory()
+    Page number = 4, page offset = 0
+    Unable to create file
+    Machine halting!
+
+    Ticks: total 10056397, kernel 10050250, user 6147
+    Disk I/O: reads 0, writes 0
+    Console I/O: reads 1, writes 186
+    Paging: page faults 0, TLB misses 0
+    Network I/O: received 0, sent 0
+    */
+
 
   /**
-  * A function to handle TLB misses. 
-  */
+   * A function to handle TLB misses. 
+   */
   private void handleTLBMiss(){
     int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
     // 1. check the global page table to see if we can find the page; if so,
