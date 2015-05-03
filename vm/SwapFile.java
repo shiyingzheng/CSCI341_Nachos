@@ -58,8 +58,10 @@ public class SwapFile{
 	}
 
 	public void deleteSwapFile(){
+    fileLock.acquire();
     file.close();
     ThreadedKernel.fileSystem.remove(filename);
+    fileLock.release();
 	}
   public void addDiskPages(){
     for(int i=highestDiskPage;i<highestDiskPage*2;i++){
