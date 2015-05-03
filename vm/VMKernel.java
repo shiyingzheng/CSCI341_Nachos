@@ -54,6 +54,21 @@ public class VMKernel extends UserKernel {
 
   private void syncTables(){
     // TODO: sync entries in TLB with the page table
+    for(int i=0;i < Machine.processor().getTLBSize(); i++) {
+      TranslationEntry entry = Machine.processor().readTLBEntry(i);
+      int curPid = currentProcess().pid;
+      SwapFile.Pair pageTableEntry = swapFile.new Pair(curPid, entry.vpn);
+      pageTableLock.acquire();
+      TranslationEntry pEntry = pageTable.get(pageTableEntry);
+
+      pEntry.valid = entry.valid;
+      pEntry.readOnly = entry.readOnly;
+      pEntry.used = entry.used;
+      pEntry.dirty = entry.dirty;
+
+      pageTable.put(pageTableEntry, pEntry);
+      pageTableLock.release();
+    } 
   }
 
   // Swap a page in from disk to physical memory
