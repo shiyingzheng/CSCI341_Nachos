@@ -31,6 +31,7 @@ public class SwapFile{
 	public boolean swapPageIn(int pid, int vpn, int ppn){
 		// swap in the page indicated by pid,vpn. Store it in the space ppn in physical memory
     Integer dpn;
+    fileLock.acquire();
     if((dpn = diskPageMap.get(new Pair(pid,vpn))) == null){
       return false;
     }
@@ -38,11 +39,13 @@ public class SwapFile{
     file.read(dpn*pageSize, physMemory, ppn, pageSize);
     diskPageMap.remove(new Pair(pid,vpn));
     freeDiskPages.push(dpn);
+    fileLock.release();
     return true;
 	}
 
 	public boolean swapPageOut(int pid, int vpn, int ppn){
 		// swap the page out to disk indicated by pid,vpn. Swap it from the physical location indicated by ppn.
+    fileLock.acquire();
     if(freeDiskPages.isEmpty()){
       addDiskPages();
     }
@@ -50,6 +53,7 @@ public class SwapFile{
     byte[] physMemory = Machine.processor().getMemory();
     file.write(dpn*pageSize, physMemory, ppn, pageSize);
     diskPageMap.add(new Pair(pid,vpn), dpn);
+    fileLock.release();
     return true;
 	}
 
