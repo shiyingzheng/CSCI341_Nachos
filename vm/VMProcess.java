@@ -52,18 +52,17 @@ public class VMProcess extends UserProcess {
     // handleTLBMiss() will be called
   
     // KEEP IN MIND THAT TLB SIZE IS ONLY 4!
-  protected TranslationEntry getPage(int pid, int pageNumber) {
+  public TranslationEntry getPage(int pid, int pageNumber) {
   	  TranslationEntry page = null;
       try {
         page = Machine.processor().readTLBEntry(pageNumber);
       } catch (Exception e) {
-        Pair entry = new Pair(pid, pageNumber);
+        SwapFile.Pair entry = swapFile.new Pair(pid, pageNumber);
         page = VMKernel.pageTable.get(entry);
 
         if(page == null) {
           //TODO:
-          /* TranslationEntry  */
-          /* VMKernel.swapInPage( */
+          page = VMKernel.swapInPage();
         }
         /* System.out.println("fetchPage(): " + e);  */
 

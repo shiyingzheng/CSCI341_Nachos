@@ -57,7 +57,7 @@ public class VMKernel extends UserKernel {
   }
 
   // Swap a page in from disk to physical memory
-  public TranslationEntry swapInPage(){
+  public static TranslationEntry swapInPage(){
     // TODO: sync the translation entries in the page table with the ones in TLB 
     TranslationEntry replacedPage = clockReplacement();
     // TODO: swap page into physical memory using SwapFile functions
@@ -65,7 +65,7 @@ public class VMKernel extends UserKernel {
     return replacedPage;
   }
 
-  private TranslationEntry clockReplacement(){
+  private static TranslationEntry clockReplacement(){
     // TODO: implement clock replacement algorithm here
     return null;
   }

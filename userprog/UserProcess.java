@@ -396,7 +396,7 @@ public class UserProcess {
     return amount;
   }
 
-  protected TranslationEntry getPage(int pid, int pageNum) {
+  public TranslationEntry getPage(int pid, int pageNum) {
     return pageTable[pageNum];
   }
 
