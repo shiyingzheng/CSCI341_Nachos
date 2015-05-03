@@ -57,7 +57,7 @@ public class VMKernel extends UserKernel {
   }
 
   // Swap a page in from disk to physical memory
-  public TranslationEntry swapInPage(TranslationEntry newEntry){
+  public TranslationEntry swapInPage(){
     // sync the translation entries in the page table with the ones in TLB 
     TranslationEntry replacedPage = clockReplacement();
     // swap page into physical memory using SwapFile functions
