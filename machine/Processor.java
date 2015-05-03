@@ -281,7 +281,6 @@ public final class Processor {
 
   /**
    * Translate a virtual address into a physical address, using either a
-   * page table or a TLB. Check for alignment, make sure the virtual page is
    * valid, make sure a read-only page is not being written, make sure the
    * resulting physical page is valid, and then return the resulting physical
    * address.
@@ -608,7 +607,7 @@ public final class Processor {
 
   private class Instruction {
     public void run() throws MipsException {
-      // hopefully this looks familiar to 152 students?
+      // hopefully this looks familiar to 152 students? // (210 for us Obies :P )
       fetch();
       decode();
       execute();

@@ -88,6 +88,6 @@ public class VMKernel extends UserKernel {
   /* A lock for the global page table. */
   public static Lock pageTableLock;
 
-  public static SwapFile swapFile;
+  //public static SwapFile swapFile; //Nachos can't find this for some reason :(
 }
 

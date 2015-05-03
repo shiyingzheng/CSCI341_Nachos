@@ -70,7 +70,7 @@ public class UserProcess {
     nextFileDescriptor=3;
   }
 
-  private void setup(){
+  protected void setup(){
     OpenFile stdin = UserKernel.console.openForReading();
     OpenFile stdout = UserKernel.console.openForWriting();
 
@@ -166,11 +166,11 @@ public class UserProcess {
    * @param address the 32-bit address.
    * @return  the page number component of the address.
    */
-  private static int pageFromAddress(int address) {
+  protected static int pageFromAddress(int address) {
     return (int) (((long) address & 0xFFFFFFFFL) / pageSize);
   }
 
-  private static int offsetFromAddress(int address) {
+  protected static int offsetFromAddress(int address) {
     return (int) (((long) address & 0xFFFFFFFFL) % pageSize);
   }
 
@@ -194,16 +194,9 @@ public class UserProcess {
     }    
 
     byte[] bytes = new byte[maxLength+1]; 
-    /* System.out.println("num bytes " + bytes.length);  */
-
     int bytesRead = readVirtualMemory(vaddr, bytes);   
-    /* System.out.println("ytes read: "+bytesRead); */
 
     for (int length=0; length<bytesRead; length++) {
-      /* System.out.println("HERE IAM"); */
-      /* System.out.println("length: " +length); */
-      /* System.out.println("bytesRead: " +bytesRead); */
-      /* System.out.println("I MA A CHAR: "+(char)bytes[length]); */
       if (bytes[length] == 0){
         return new String(bytes, 0, length);
       }
@@ -241,6 +234,8 @@ public class UserProcess {
   public int readVirtualMemory(int vaddr, byte[] data, int offset, int length) {
     int pageOffset = offsetFromAddress(vaddr);
     int page = pageFromAddress(vaddr);
+    System.out.println("UserProcess.readVirtualMemory()");
+    System.out.println("Page number = " + page + ", page offset = " + pageOffset);
     if (!(pageTable[page].valid == true && vaddr+length <= numPages*pageSize && page < numPages )){
       System.out.println("PANDAS AND APPLES");
 	handleExit(1);
@@ -411,7 +406,7 @@ public class UserProcess {
    * @param	args	the arguments to pass to the executable.
    * @return	<tt>true</tt> if the executable was successfully loaded.
    */
-  private boolean load(String name, String[] args) {
+  protected boolean load(String name, String[] args) {
     Lib.debug(dbgProcess, "UserProcess.load(\"" + name + "\")");
     /* System.out.println(name); */
     OpenFile executable = ThreadedKernel.fileSystem.open(name, false);
@@ -580,7 +575,7 @@ public class UserProcess {
   /**
    * Handle the halt() system call. 
    */
-  private int handleHalt() {
+  protected int handleHalt() {
     unloadSections();
     Machine.halt();
     Lib.assertNotReached("Machine.halt() did not halt machine!");
@@ -590,7 +585,7 @@ public class UserProcess {
   /*
    * Handle the creat() system call.
    */
-  private int handleCreat(int a0){
+  protected int handleCreat(int a0){
     String fileName = readVirtualMemoryString(a0, 256);
     /* System.out.println("filename is: " +fileName + "a"); */
 
@@ -639,7 +634,7 @@ public class UserProcess {
     return nextFileDescriptor++;
   }
 
-  private int handleExit(int a0){
+  protected int handleExit(int a0){
     Set<Integer> keys = fileOpenTable.keySet();
     Object[] keyArray = keys.toArray();
     for(int i=0;i<keyArray.length;i++) {
@@ -665,7 +660,7 @@ public class UserProcess {
     return a0;
   }
 
-  private int handleExec(int a0, int a1, int a2){
+  protected int handleExec(int a0, int a1, int a2){
     String fileName = readVirtualMemoryString(a0, 256);
     if (!fileName.substring(fileName.length()-5).equals(".coff")) {
       System.out.println("POOOPS");
@@ -711,7 +706,7 @@ public class UserProcess {
     return childPID;
   }
 
-  private int handleJoin(int a0, int a1){
+  protected int handleJoin(int a0, int a1){
     int childPID = a0;
 
     if (childPID == pid || childPID <= 0){
@@ -756,7 +751,7 @@ public class UserProcess {
     return 1;
   }
 
-  private int handleOpen(int a0){
+  protected int handleOpen(int a0){
     String fileName = readVirtualMemoryString(a0, 256);
 
     if(fileName == null) {
@@ -807,7 +802,7 @@ public class UserProcess {
     return nextFileDescriptor++;
   }
 
-  private int handleRead(int a0, int a1, int a2){
+  protected int handleRead(int a0, int a1, int a2){
     int fd = a0; //file descriptor
     int length = a2; //how much we want to read from file
 
@@ -849,7 +844,7 @@ public class UserProcess {
     return transferredLength;
   }
 
-  private int handleWrite(int a0, int a1, int a2){
+  protected int handleWrite(int a0, int a1, int a2){
     int fd = a0; //file descriptor
     int length = a2; //how much we want to read from buffer
 
@@ -911,7 +906,7 @@ public class UserProcess {
     return writtenLength;
   }
 
-  private int handleClose(int a0){
+  protected int handleClose(int a0){
     OpenFile f = fileOpenTable.remove(a0);
     if(f == null) {
       return -1;
@@ -947,7 +942,7 @@ public class UserProcess {
     return 0;
   }
 
-  private int handleUnlink(int a0){
+  protected int handleUnlink(int a0){
     String fileName = readVirtualMemoryString(a0, 256);
     if(filenameOpenTable.get(fileName) != null) {
       return -1;
@@ -995,7 +990,7 @@ public class UserProcess {
   }
 
 
-  private static final int
+  protected static final int
     syscallHalt = 0,
                 syscallExit = 1,
                 syscallExec = 2,
@@ -1107,20 +1102,20 @@ public class UserProcess {
   /** The number of pages in the program's stack. */
   protected final int stackPages = 8;
 
-  private int initialPC, initialSP;
-  private int argc, argv;
+  protected int initialPC, initialSP;
+  protected int argc, argv;
 
-  private static final int pageSize = Processor.pageSize;
-  private static final char dbgProcess = 'a';
-  private static Lock readWriteLock = new Lock();
-  private static HashMap<Integer, Semaphore> semaphoreTable = new HashMap<Integer, Semaphore>(); // map pid to a semaphore. 
+  protected static final int pageSize = Processor.pageSize;
+  protected static final char dbgProcess = 'a';
+  protected static Lock readWriteLock = new Lock();
+  protected static HashMap<Integer, Semaphore> semaphoreTable = new HashMap<Integer, Semaphore>(); // map pid to a semaphore. 
   //Signal the semaphore for your parent before exiting.
-  private HashMap<Integer, OpenFile> fileOpenTable; //fd : OpenFile object
-  private HashMap<String, Integer> filenameOpenTable; //fileName : fd
-  private HashMap<String, Integer> filenameCloseTable; //fileName : fd
-  private HashMap<Integer, Integer> readOffsetTable; //fd : offset
-  private HashMap<Integer, Integer> writeOffsetTable; //fd : offset
-  private int nextFileDescriptor;
+  protected HashMap<Integer, OpenFile> fileOpenTable; //fd : OpenFile object
+  protected HashMap<String, Integer> filenameOpenTable; //fileName : fd
+  protected HashMap<String, Integer> filenameCloseTable; //fileName : fd
+  protected HashMap<Integer, Integer> readOffsetTable; //fd : offset
+  protected HashMap<Integer, Integer> writeOffsetTable; //fd : offset
+  protected int nextFileDescriptor;
 
   public int pid;
   public int ppid;

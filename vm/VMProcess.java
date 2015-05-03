@@ -13,8 +13,7 @@ import nachos.vm.*;
 5. meow meow meow
 */
 
-
-
+\
 /**
  * A <tt>UserProcess</tt> that supports demand-paging.
  */
@@ -36,6 +35,8 @@ public class VMProcess extends UserProcess {
     // we can call VMKernel contextSwitch() for this
   }
 
+  
+  
   /**
    * Restore the state of this process after a context switch. Called by
    * <tt>UThread.restoreState()</tt>.
@@ -44,6 +45,8 @@ public class VMProcess extends UserProcess {
     super.restoreState();
   }
 
+  
+  
   // This is directly copied from UserProcess but we need to change it
   /**
    * Transfer data from this process's virtual memory to the specified array.
@@ -60,53 +63,81 @@ public class VMProcess extends UserProcess {
    * @return  the number of bytes successfully transferred.
    */
   public int readVirtualMemory(int vaddr, byte[] data, int offset, int length) {
-    int pageOffset = offsetFromAddress(vaddr);
-    int page = pageFromAddress(vaddr);
-    // CHANGE HERE!!!
-    if (!(pageTable[page].valid == true && vaddr+length <= numPages*pageSize && page < numPages )){
-      System.out.println("PANDAS AND APPLES");
-  handleExit(1);
-    }   
-
+    int amount = 0;
+    
     byte[] memory = Machine.processor().getMemory();
-
+    
     if (vaddr < 0 || vaddr >= pageSize * numPages){
-      System.out.println("gah");
-      handleExit(1);
+      System.err.println("ERROR: Memory address out of range");
+      return amount;
     }
+    
     UserProcess.readWriteLock.acquire();
-    int amount = Math.min(length, memory.length-vaddr);
-
+    amount = Math.min(length, memory.length-vaddr);
     int curLoc = 0;
     int rem = amount;
+    
+    int pageOffset = offsetFromAddress(vaddr);
     int pageNumber = pageFromAddress(vaddr);
-    for (int i = 0; rem > 0; i++){
+    
+    // try to fetch a page from the TLB
+    //TranslationEntry page = machine.Processor.readTLBEntry(pageNumber);
+    // If a TLB miss happens, fetch the page from the global page table,
+    // then bring that page into the TLB
+    
+    // handleTLBMiss() will be called
+    
+    ranslationEntry page = fetchPage(pageNumber);
+    
+    
+    for (int i = 0; rem > 0; i++) {
+    	// copy Math.min(pageSize, rem) number of bytes from memory at ppn 
+    	// to data at offset + curLoc
+    	if (pageOffset != 0) {
+    		// different from UserProcess
+    		TranslationEntry nextPage = machine.Processor.readTLBEntry(pageNumber+i);
+    		System.arraycopy(memory, page.ppn * pageSize + pageOffset, data, offset+curLoc,
+    			Math.min(pageSize - pageOffset, rem));
+    			curLoc += Math.min(pageSize - pageOffset, rem);
+    			rem -= Math.min(pageSize - pageOffset, rem);
+    			pageOffset = 0;
+    	} else {
+    		// different from UserProcess
+    		System.arraycopy(memory,pageTable[pageNumber+i].ppn * pageSize + pageOffset,
+    			data, offset+curLoc, Math.min(pageSize - pageOffset, rem));
+    	}
+    }
+    UserProcess.readWriteLock.release();
+    
+    return amount;
+   
+    //for (int i = 0; rem > 0; i++){
       // copy Math.min(pageSize, rem) number of bytes from memory at ppn 
       // to data at offset + curLoc
-        if(pageOffset != 0){
+    //    if(pageOffset != 0){
           // CHANGE HERE!!!
-          System.arraycopy(memory,pageTable[pageNumber+i].ppn * pageSize + pageOffset,
-              data, offset+curLoc, Math.min(pageSize - pageOffset, rem));
-          curLoc += Math.min(pageSize - pageOffset, rem);
-          rem -= Math.min(pageSize - pageOffset, rem);
-          pageOffset = 0;
-        }
-        else{ 
+      //    System.arraycopy(memory,pageTable[pageNumber+i].ppn * pageSize + pageOffset,
+     //         data, offset+curLoc, Math.min(pageSize - pageOffset, rem));
+     //     curLoc += Math.min(pageSize - pageOffset, rem);
+    //      rem -= Math.min(pageSize - pageOffset, rem);
+    //      pageOffset = 0;
+    //    }
+    //    else{ 
           // CHANGE HERE!!!
-          System.arraycopy(memory, pageTable[pageNumber+i].ppn * pageSize, 
-          data, offset+curLoc, Math.min(pageSize, rem));
+     //     System.arraycopy(memory, pageTable[pageNumber+i].ppn * pageSize, 
+     //     data, offset+curLoc, Math.min(pageSize, rem));
       // set used bit
       // CHANGE HERE!!! we need to do it in this lab
       //pageTable[pageNumber+i].used = true; 
       // increment current location in data by page size
-      curLoc += Math.min(pageSize, rem);
+   //   curLoc += Math.min(pageSize, rem);
       // decrement remaining number of bytes by page size
-      rem -= Math.min(pageSize,rem);
-        }
-    }
-    UserProcess.readWriteLock.release();
+     // rem -= Math.min(pageSize,rem);
+    //    }
+  //  }
+  //  UserProcess.readWriteLock.release();
 
-    return amount;
+   
   }
 
   // This is directly copied from UserProcess but we need to change it
@@ -242,6 +273,151 @@ public class VMProcess extends UserProcess {
     }
     UserKernel.pageListLock.release();
   }  
+  
+  
+  // try to fetch a page from the TLB
+    //TranslationEntry page = machine.Processor.readTLBEntry(pageNumber);
+    // If a TLB miss happens, fetch the page from the global page table,
+    // then bring that page into the TLB
+    
+    // handleTLBMiss() will be called
+  
+    // KEEP IN MIND THAT TLB SIZE IS ONLY 4!
+    
+  private TranslationEntry fetchPage(int pageNumber) {
+  	  TranslationEntry page = null;
+  	  try {
+  	  	 page = machine.Processor.readTLBEntry(pageNumber);
+  	  } catch (Exception e) {
+  	  	 System.out.println("fetchPage(): " + e); 
+  	  	 
+  	  } 
+  		 
+  	  
+  }
+  
+  /*
+  nachos 5.0j initializing... config interrupt timer processor console user-check grader
+Testing the console device. Typed characters
+will be echoed until q is typed.
+q
+UserProcess.readVirtualMemory()
+Page number = 4, page offset = 0
+HERE I AMUserProcess.readVirtualMemory()
+Page number = 4, page offset = 0
+Pandas
+UserProcess.readVirtualMemory()
+Page number = 4, page offset = 0
+Of the red variety
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 3, page offset = 40
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 4, page offset = 0
+PANDAS!
+UserProcess.readVirtualMemory()
+Page number = 4, page offset = 0
+Unable to create file
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 4, page offset = 0
+PANDAS!
+UserProcess.readVirtualMemory()
+Page number = 4, page offset = 0
+Unable to create file
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 4, page offset = 0
+PANDAS!
+UserProcess.readVirtualMemory()
+Page number = 4, page offset = 0
+Unable to create file
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 4, page offset = 0
+PANDAS!
+UserProcess.readVirtualMemory()
+Page number = 4, page offset = 0
+Unable to create file
+UserProcess.readVirtualMemory()
+Page number = 11, page offset = 1008
+UserProcess.readVirtualMemory()
+Page number = 4, page offset = 0
+PANDAS!
+UserProcess.readVirtualMemory()
+Page number = 4, page offset = 0
+Unable to create file
+Machine halting!
+
+Ticks: total 10056397, kernel 10050250, user 6147
+Disk I/O: reads 0, writes 0
+Console I/O: reads 1, writes 186
+Paging: page faults 0, TLB misses 0
+Network I/O: received 0, sent 0
+*/
+  
 
   /**
   * A function to handle TLB misses. 
