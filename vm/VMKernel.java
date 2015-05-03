@@ -48,30 +48,30 @@ public class VMKernel extends UserKernel {
   }
 
   public void contextSwitch(){
-    //on context switch, sync tables, invalidate TLB entries
-    // call syncTables() to sync tables
+    // TODO: on context switch, sync tables, invalidate TLB entries
+    // TODO: call syncTables() to sync tables
   }
 
   private void syncTables(){
-    // sync entries in TLB with the page table
+    // TODO: sync entries in TLB with the page table
   }
 
   // Swap a page in from disk to physical memory
   public TranslationEntry swapInPage(){
-    // sync the translation entries in the page table with the ones in TLB 
+    // TODO: sync the translation entries in the page table with the ones in TLB 
     TranslationEntry replacedPage = clockReplacement();
-    // swap page into physical memory using SwapFile functions
-    // put new entry in page table and TLB
+    // TODO: swap page into physical memory using SwapFile functions
+    // TODO: put new entry in page table and TLB
     return replacedPage;
   }
 
   private TranslationEntry clockReplacement(){
-    // implement clock replacement algorithm here
+    // TODO: implement clock replacement algorithm here
     return null;
   }
 
-  private TranslationEntry fifo(){
-    // fifo algorithm for TLB entry replacement?
+  private TranslationEntry TLBEntryReplacement(){
+    // randomly pick an entry to replace
     return null;
   }
 
@@ -89,6 +89,6 @@ public class VMKernel extends UserKernel {
   /* A lock for the global page table. */
   public static Lock pageTableLock;
 
-  //public static SwapFile swapFile; //Nachos can't find this for some reason :(
+  public static SwapFile swapFile = new SwapFile();
 }
 
