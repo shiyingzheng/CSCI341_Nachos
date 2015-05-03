@@ -54,7 +54,6 @@ public class SwapFile{
 	}
 
 	public void deleteSwapFile(){
-		//TODO: close the file, and remove it from the stub file system
     file.close();
     ThreadedKernel.fileSystem.remove(filename);
 	}
