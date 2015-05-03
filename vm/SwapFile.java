@@ -70,14 +70,14 @@ public class SwapFile{
     }
     highestDiskPage *= 2;
   }
-  private class Pair{
+  public class Pair{
     int pid;
     int vPageNum;
-    private Pair(int pid, int vPageNum){
+    public Pair(int pid, int vPageNum){
       this.pid = pid;
       this.vPageNum = vPageNum;
     }
-    private boolean equals(Pair other){
+    public boolean equals(Pair other){
       return this.pid == other.pid && this.vPageNum == other.vPageNum;
     }
   }

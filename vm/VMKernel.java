@@ -4,6 +4,7 @@ import nachos.machine.*;
 import nachos.threads.*;
 import nachos.userprog.*;
 import nachos.vm.*;
+import nachos.vm.SwapFile.Pair;
 import java.util.HashMap;
 
 /**
@@ -22,7 +23,7 @@ public class VMKernel extends UserKernel {
    */
   public void initialize(String[] args) {
     super.initialize(args);
-    pageTable = new HashMap<Integer, HashMap<Integer, TranslationEntry>>();
+    pageTable = new HashMap<Pair, TranslationEntry>();
   }
 
   /**
@@ -83,7 +84,7 @@ public class VMKernel extends UserKernel {
   * A global page table that contains pages that are currently in physical 
   * memory, which can have pages that do not belong to the current process.
   */
-  public static HashMap<Integer, HashMap<Integer, TranslationEntry>> pageTable; 
+  public static HashMap<Pair, TranslationEntry> pageTable; 
 
   /* A lock for the global page table. */
   public static Lock pageTableLock;

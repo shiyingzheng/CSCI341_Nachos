@@ -288,7 +288,14 @@ public class VMProcess extends UserProcess {
       try {
         page = Machine.processor().readTLBEntry(pageNumber);
       } catch (Exception e) {
-        System.out.println("fetchPage(): " + e); 
+        Pair entry = new Pair(pid, pageNumber);
+        page = VMKernel.pageTable.get(entry);
+
+        if(page == null) {
+          /* TranslationEntry  */
+          /* VMKernel.swapInPage( */
+        }
+        /* System.out.println("fetchPage(): " + e);  */
 
       } 
       return page;
@@ -454,4 +461,5 @@ public class VMProcess extends UserProcess {
   private static final int pageSize = Processor.pageSize;
   private static final char dbgProcess = 'a';
   private static final char dbgVM = 'v';
+  private static SwapFile swapFile = new SwapFile();
 }
