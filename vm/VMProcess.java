@@ -52,41 +52,46 @@ public class VMProcess extends UserProcess {
     // handleTLBMiss() will be called
   
     // KEEP IN MIND THAT TLB SIZE IS ONLY 4!
-  public TranslationEntry getPage(int pid, int pageNumber) {
-  	  TranslationEntry page = null;
-      try {
-        page = Machine.processor().readTLBEntry(pageNumber);
-      } catch (Exception e) {
-        SwapFile.Pair entry = swapFile.new Pair(pid, pageNumber);
-        page = VMKernel.pageTable.get(entry);
+  public TranslationEntry getPage(int pid, int pageNumber, boolean write) {
+    TranslationEntry page = null;
+    try {
+      page = Machine.processor().readTLBEntry(pageNumber);
+    } catch (Exception e) {
+      SwapFile.Pair entry = swapFile.new Pair(pid, pageNumber);
+      page = VMKernel.pageTable.get(entry);
 
-        if(page == null) {
-          //TODO:
-          page = VMKernel.swapInPage(pid, pageNumber);
-        }
-        /* System.out.println("fetchPage(): " + e);  */
+      if(page == null) {
+        //TODO:
+        page = VMKernel.swapInPage(pid, pageNumber);
+      }
+      /* System.out.println("fetchPage(): " + e);  */
 
-      } 
-      return page;
+    }
+    page.used = true;
+    if(write){
+      page.dirty = true; // ;)
+    }
+    return page;
   }
 
   /**
    * A function to handle TLB misses. 
    */
   private void handleTLBMiss(){
-   /* int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
-    int pid = VMKernel.currentProcess().pid;
-    int pageNumber = badAddress / pageSize;
-    TranslationEntry page = null;
+    //TODO: make getPage always return the correct page.
+    /* int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
+       int pid = VMKernel.currentProcess().pid;
+       int pageNumber = badAddress / pageSize;
+       TranslationEntry page = null;
 
-    SwapFile.Pair entry = swapFile.new Pair(pid, pageNumber);
-    page = VMKernel.pageTable.get(entry);
+       SwapFile.Pair entry = swapFile.new Pair(pid, pageNumber);
+       page = VMKernel.pageTable.get(entry);
 
-    if(page == null) {
-      //TODO:
-      page = VMKernel.swapInPage(pid, pageNumber);
-    }
-*/
+       if(page == null) {
+    //TODO:
+    page = VMKernel.swapInPage(pid, pageNumber);
+       }
+       */
     System.out.println(5);
     // TODO:
     // 1. check the global page table to see if we can find the page; if so,
