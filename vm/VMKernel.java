@@ -26,6 +26,17 @@ public class VMKernel extends UserKernel {
   public void initialize(String[] args) {
     super.initialize(args);
     pageTable = new HashMap<Pair, TranslationEntry>();
+    swapFile = new SwapFile();
+    pageTableLock = new Lock();
+
+    for(int i=0; i<Machine.processor().getNumPhysPages(); i++) {
+      SwapFile.Pair pageTableKey = swapFile.new Pair(0, 0);
+      pageTable.put(pageTableKey, new TranslationEntry());
+    }
+
+    for(int i=0; i<Machine.processor().getTLBSize(); i++) {
+      Machine.processor().writeTLBEntry(i, new TranslationEntry());
+    }
   }
 
   /**
@@ -49,7 +60,7 @@ public class VMKernel extends UserKernel {
     super.terminate();
   }
 
-  public void contextSwitch(){
+  public static void contextSwitch(){
     syncTables();
     for(int i=0;i<Machine.processor().getTLBSize();i++){
       TranslationEntry entry = Machine.processor().readTLBEntry(i);
@@ -60,13 +71,13 @@ public class VMKernel extends UserKernel {
     // TODO: call syncTables() to sync tables
   }
 
-  private void syncTables(){
+  private static void syncTables(){
     // TODO: sync entries in TLB with the page table
     for(int i=0;i < Machine.processor().getTLBSize(); i++) {
       TranslationEntry entry = Machine.processor().readTLBEntry(i);
       int curPid = currentProcess().pid;
       SwapFile.Pair pageTableEntry = swapFile.new Pair(curPid, entry.vpn);
-      pageTableLock.acquire();
+      /* pageTableLock.acquire(); */
       TranslationEntry pEntry = VMKernel.pageTable.get(pageTableEntry);
 
       pEntry.valid = entry.valid;
@@ -75,20 +86,24 @@ public class VMKernel extends UserKernel {
       pEntry.dirty = entry.dirty;
 
       VMKernel.pageTable.put(pageTableEntry, pEntry);
-      pageTableLock.release();
+      /* pageTableLock.release(); */
     } 
   }
 
   // Swap a page in from disk to physical memory
   public static TranslationEntry swapInPage(int pid, int vpn){
     // TODO: sync the translation entries in the page table with the ones in TLB 
+    System.out.println("pid: "+pid);
+    System.out.println("vpn: "+vpn);
     GenericPair<Integer,TranslationEntry> pair = clockReplacement();
     TranslationEntry replacedPage = pair.val2;
     TranslationEntry replacedTLBPage = null;
 
     for(int i=0;i<Machine.processor().getTLBSize();i++){
       TranslationEntry page = Machine.processor().readTLBEntry(i);
+      System.out.println("page: "+page);
       if(page.valid && page.vpn == replacedPage.vpn && replacedPage.valid){
+        System.out.println("page: "+page);
         replacedTLBPage = page;
         break;
       }
@@ -108,18 +123,18 @@ public class VMKernel extends UserKernel {
     return replacedPage;
   }
 
-  private static GenericPair<Integer, TranslationEntry> clockReplacement(){
+  public static GenericPair<Integer, TranslationEntry> clockReplacement(){
     Iterator<SwapFile.Pair> itr = VMKernel.pageTable.keySet().iterator();
 
     pageTableLock.acquire();
     while(true) {
       if(!itr.hasNext()) {
         itr = VMKernel.pageTable.keySet().iterator();
-      }
+      } 
 
       SwapFile.Pair pidVpn = itr.next();
       TranslationEntry entry = VMKernel.pageTable.get(pidVpn);
-      int curPid = currentProcess().pid;
+      int curPid = VMKernel.currentProcess().pid;
 
       if(entry.used && entry.valid) {
         entry.used = false;
@@ -129,10 +144,10 @@ public class VMKernel extends UserKernel {
       }
     }
   }
-  private static class GenericPair<E,T>{
+  public static class GenericPair<E,T>{
     E val1;
     T val2;
-    private GenericPair(E x, T y){
+    public GenericPair(E x, T y){
       this.val1 = x;
       this.val2 = y;
     }
@@ -160,6 +175,6 @@ public class VMKernel extends UserKernel {
   /* A lock for the global page table. */
   public static Lock pageTableLock;
 
-  public static SwapFile swapFile = new SwapFile();
+  public static SwapFile swapFile;
 }
 

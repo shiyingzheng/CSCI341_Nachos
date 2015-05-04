@@ -20,6 +20,7 @@ public class SwapFile{
   private int highestDiskPage;
   private final int pageSize = 1024;
   private final String filename = ".swp";
+
 	public SwapFile(){
 		file = new OpenFile(ThreadedKernel.fileSystem,filename);
 	  fileLock = new Lock();
@@ -34,6 +35,7 @@ public class SwapFile{
     Integer dpn;
     fileLock.acquire();
     if((dpn = diskPageMap.get(new Pair(pid,vpn))) == null){
+      fileLock.release();
       return false;
     }
     byte[] physMemory = Machine.processor().getMemory();
@@ -79,6 +81,10 @@ public class SwapFile{
     }
     public boolean equals(Pair other){
       return this.pid == other.pid && this.vPageNum == other.vPageNum;
+    }
+
+    public String toString() {
+      return "(" + pid + ", " + vPageNum + ")";
     }
   }
 }

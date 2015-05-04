@@ -30,6 +30,7 @@ public class VMProcess extends UserProcess {
    */
   public void saveState() {
     super.saveState();
+    VMKernel.contextSwitch();
     // sync the TLB with entries in page table, invalidate all entries in TLB
     // we can call VMKernel contextSwitch() for this
   }
@@ -41,7 +42,7 @@ public class VMProcess extends UserProcess {
    * <tt>UThread.restoreState()</tt>.
    */
   public void restoreState() {
-    super.restoreState();
+    /* super.restoreState(); */
   }
 
   // try to fetch a page from the TLB
@@ -83,6 +84,29 @@ public class VMProcess extends UserProcess {
     return page;
   }
 
+  protected boolean loadSections() {
+    for (int i=0; i<numPages; i++){
+      VMKernel.GenericPair<Integer, TranslationEntry> replaced = VMKernel.clockReplacement();
+      SwapFile.Pair key = swapFile.new Pair(pid, i);
+      VMKernel.pageTable.put(key, new TranslationEntry(i,replaced.val2.ppn,true,false,false,false));
+    }
+
+    for (int s=0; s<coff.getNumSections(); s++) {
+      CoffSection section = coff.getSection(s);
+
+      Lib.debug(dbgProcess, "\tinitializing " + section.getName()
+          + " section (" + section.getLength() + " pages)");  
+
+      for (int i=0; i<section.getLength(); i++) {
+        int vpn = section.getFirstVPN()+i;    
+        SwapFile.Pair key = swapFile.new Pair(pid, i);
+        VMKernel.pageTable.get(key).readOnly = section.isReadOnly();
+        section.loadPage(i, VMKernel.pageTable.get(key).ppn);
+      }
+    }
+    return true;
+  }
+
   /**
    * A function to handle TLB misses. 
    */
@@ -101,7 +125,24 @@ public class VMProcess extends UserProcess {
     page = VMKernel.swapInPage(pid, pageNumber);
        }
        */
-    System.out.println(5);
+    TranslationEntry page = null;
+    int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
+    int pageNumber = pageFromAddress(badAddress);
+    /* System.out.println(pageNumber); */
+    /* System.out.println(VMKernel.pageTable); */
+    SwapFile.Pair pageTableKey = swapFile.new Pair(pid, pageNumber);
+
+    page = VMKernel.pageTable.get(pageTableKey);
+
+    if(page == null) {
+      page = VMKernel.swapInPage(pid, pageNumber);
+    }
+
+    /* System.out.println("fetchPage(): " + e);  */
+
+    page.used = true;
+    /* System.out.println(VMKernel.pageTable); */
+    System.out.println("TLB MISS");
     // TODO:
     // 1. check the global page table to see if we can find the page; if so,
     //    just use it
@@ -125,7 +166,9 @@ public class VMProcess extends UserProcess {
     switch (cause) {
       case exceptionTLBMiss:
         handleTLBMiss();
+        break;
       default:
+        System.out.println("cause: "+cause);
         super.handleException(cause);
         break;
     }
