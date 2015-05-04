@@ -80,7 +80,7 @@ public class VMKernel extends UserKernel {
   }
 
   // Swap a page in from disk to physical memory
-  public TranslationEntry swapInPage(int pid, int vpn){
+  public static TranslationEntry swapInPage(int pid, int vpn){
     // TODO: sync the translation entries in the page table with the ones in TLB 
     GenericPair<Integer,TranslationEntry> pair = clockReplacement();
     TranslationEntry replacedPage = pair.val2;
@@ -108,7 +108,7 @@ public class VMKernel extends UserKernel {
     return replacedPage;
   }
 
-  private GenericPair<Integer, TranslationEntry> clockReplacement(){
+  private static GenericPair<Integer, TranslationEntry> clockReplacement(){
     Iterator<SwapFile.Pair> itr = VMKernel.pageTable.keySet().iterator();
 
     pageTableLock.acquire();
@@ -129,7 +129,7 @@ public class VMKernel extends UserKernel {
       }
     }
   }
-  private class GenericPair<E,T>{
+  private static class GenericPair<E,T>{
     E val1;
     T val2;
     private GenericPair(E x, T y){
@@ -137,7 +137,7 @@ public class VMKernel extends UserKernel {
       this.val2 = y;
     }
   }
-  private TranslationEntry TLBEntryReplacement(){
+  private static TranslationEntry TLBEntryReplacement(){
     // randomly pick an entry to replace
     Random r = new Random();
     int randIndex = r.nextInt(Machine.processor().getTLBSize());

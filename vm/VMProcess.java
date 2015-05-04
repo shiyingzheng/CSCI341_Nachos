@@ -62,7 +62,7 @@ public class VMProcess extends UserProcess {
 
         if(page == null) {
           //TODO:
-          page = VMKernel.swapInPage();
+          page = VMKernel.swapInPage(pid, pageNumber);
         }
         /* System.out.println("fetchPage(): " + e);  */
 
@@ -74,7 +74,20 @@ public class VMProcess extends UserProcess {
    * A function to handle TLB misses. 
    */
   private void handleTLBMiss(){
-    int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
+   /* int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
+    int pid = VMKernel.currentProcess().pid;
+    int pageNumber = badAddress / pageSize;
+    TranslationEntry page = null;
+
+    SwapFile.Pair entry = swapFile.new Pair(pid, pageNumber);
+    page = VMKernel.pageTable.get(entry);
+
+    if(page == null) {
+      //TODO:
+      page = VMKernel.swapInPage(pid, pageNumber);
+    }
+*/
+    System.out.println(5);
     // TODO:
     // 1. check the global page table to see if we can find the page; if so,
     //    just use it
@@ -92,7 +105,7 @@ public class VMProcess extends UserProcess {
    *
    * @param	cause	the user exception that occurred.
    */
-  public void handleException(int cause) {
+  public void handleException(int cause){
     Processor processor = Machine.processor();
 
     switch (cause) {
