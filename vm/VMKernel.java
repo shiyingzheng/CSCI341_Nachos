@@ -6,6 +6,7 @@ import nachos.userprog.*;
 import nachos.vm.*;
 import nachos.vm.SwapFile.Pair;
 import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * A kernel that can support multiple demand-paging user processes.
@@ -75,6 +76,7 @@ public class VMKernel extends UserKernel {
   public static TranslationEntry swapInPage(){
     // TODO: sync the translation entries in the page table with the ones in TLB 
     TranslationEntry replacedPage = clockReplacement();
+
     // TODO: swap page into physical memory using SwapFile functions
     // TODO: put new entry in page table and TLB
     return replacedPage;
@@ -82,28 +84,47 @@ public class VMKernel extends UserKernel {
 
   private static TranslationEntry clockReplacement(){
     // TODO: implement clock replacement algorithm here
-    return null;
+    Iterator<TranslationEntry> itr = pageTable.values().iterator();
+    pageTableLock.acquire();
+    while(true) {
+      if(!itr.hasNext()) {
+        itr = pageTable.values().iterator();
+      }
+
+      TranslationEntry entry = itr.next();
+      int curPid = currentProcess().pid;
+      SwapFile.Pair pageTableEntry = swapFile.new Pair(curPid, entry.vpn);
+
+      if(entry.used) {
+        entry.used = false;
+      } else {
+        pageTableLock.release();
+        return entry;
+      }
+    }
   }
 
-  private TranslationEntry TLBEntryReplacement(){
-    // randomly pick an entry to replace
-    return null;
+    private TranslationEntry TLBEntryReplacement(){
+      // randomly pick an entry to replace
+      return null;
+    }
+
+    // dummy variables to make javac smarter
+    private static VMProcess dummy1 = null;
+
+    private static final char dbgVM = 'v';
+
+    private int clockPos = 0;
+
+    /* 
+     * A global page table that contains pages that are currently in physical 
+     * memory, which can have pages that do not belong to the current process.
+     */
+    public static HashMap<Pair, TranslationEntry> pageTable; 
+
+    /* A lock for the global page table. */
+    public static Lock pageTableLock;
+
+    public static SwapFile swapFile = new SwapFile();
   }
-
-  // dummy variables to make javac smarter
-  private static VMProcess dummy1 = null;
-
-  private static final char dbgVM = 'v';
-
-  /* 
-  * A global page table that contains pages that are currently in physical 
-  * memory, which can have pages that do not belong to the current process.
-  */
-  public static HashMap<Pair, TranslationEntry> pageTable; 
-
-  /* A lock for the global page table. */
-  public static Lock pageTableLock;
-
-  public static SwapFile swapFile = new SwapFile();
-}
 
