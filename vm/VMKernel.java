@@ -104,27 +104,29 @@ public class VMKernel extends UserKernel {
     }
   }
 
-    private TranslationEntry TLBEntryReplacement(){
-      // randomly pick an entry to replace
-      return null;
-    }
-
-    // dummy variables to make javac smarter
-    private static VMProcess dummy1 = null;
-
-    private static final char dbgVM = 'v';
-
-    private int clockPos = 0;
-
-    /* 
-     * A global page table that contains pages that are currently in physical 
-     * memory, which can have pages that do not belong to the current process.
-     */
-    public static HashMap<Pair, TranslationEntry> pageTable; 
-
-    /* A lock for the global page table. */
-    public static Lock pageTableLock;
-
-    public static SwapFile swapFile = new SwapFile();
+  private TranslationEntry TLBEntryReplacement(){
+    // randomly pick an entry to replace
+    Random r = new Random();
+    int randIndex = r.nextInt(Machine.processor().getTLBSize());
+    return Machine.processor().readTLBEntry(randIndex);
   }
+
+  // dummy variables to make javac smarter
+  private static VMProcess dummy1 = null;
+
+  private static final char dbgVM = 'v';
+
+  private int clockPos = 0;
+
+  /* 
+   * A global page table that contains pages that are currently in physical 
+   * memory, which can have pages that do not belong to the current process.
+   */
+  public static HashMap<Pair, TranslationEntry> pageTable; 
+
+  /* A lock for the global page table. */
+  public static Lock pageTableLock;
+
+  public static SwapFile swapFile = new SwapFile();
+}
 
