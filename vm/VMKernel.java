@@ -50,6 +50,12 @@ public class VMKernel extends UserKernel {
   }
 
   public void contextSwitch(){
+    syncTables();
+    for(int i=0;i<Machine.processor().getTLBSize();i++){
+      TranslationEntry entry = Machine.processor().readTLBEntry(i);
+      entry.valid = false;
+      Machine.processor().writeTLBEntry(i,entry);
+    }
     // TODO: on context switch, sync tables, invalidate TLB entries
     // TODO: call syncTables() to sync tables
   }
@@ -115,7 +121,7 @@ public class VMKernel extends UserKernel {
       TranslationEntry entry = VMKernel.pageTable.get(pidVpn);
       int curPid = currentProcess().pid;
 
-      if(entry.used) {
+      if(entry.used && entry.valid) {
         entry.used = false;
       } else {
         pageTableLock.release();
