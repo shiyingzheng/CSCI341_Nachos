@@ -7,6 +7,7 @@ import nachos.vm.*;
 import nachos.vm.SwapFile.Pair;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  * A kernel that can support multiple demand-paging user processes.
@@ -60,50 +61,76 @@ public class VMKernel extends UserKernel {
       int curPid = currentProcess().pid;
       SwapFile.Pair pageTableEntry = swapFile.new Pair(curPid, entry.vpn);
       pageTableLock.acquire();
-      TranslationEntry pEntry = pageTable.get(pageTableEntry);
+      TranslationEntry pEntry = VMKernel.pageTable.get(pageTableEntry);
 
       pEntry.valid = entry.valid;
       pEntry.readOnly = entry.readOnly;
       pEntry.used = entry.used;
       pEntry.dirty = entry.dirty;
 
-      pageTable.put(pageTableEntry, pEntry);
+      VMKernel.pageTable.put(pageTableEntry, pEntry);
       pageTableLock.release();
     } 
   }
 
   // Swap a page in from disk to physical memory
-  public static TranslationEntry swapInPage(){
+  public TranslationEntry swapInPage(int pid, int vpn){
     // TODO: sync the translation entries in the page table with the ones in TLB 
-    TranslationEntry replacedPage = clockReplacement();
+    GenericPair<Integer,TranslationEntry> pair = clockReplacement();
+    TranslationEntry replacedPage = pair.val2;
+    TranslationEntry replacedTLBPage = null;
 
-    // TODO: swap page into physical memory using SwapFile functions
-    // TODO: put new entry in page table and TLB
+    for(int i=0;i<Machine.processor().getTLBSize();i++){
+      TranslationEntry page = Machine.processor().readTLBEntry(i);
+      if(page.valid && page.vpn == replacedPage.vpn && replacedPage.valid){
+        replacedTLBPage = page;
+        break;
+      }
+    }
+    if(replacedTLBPage == null){
+      replacedTLBPage = TLBEntryReplacement();
+    }
+    if(replacedPage.valid){
+      swapFile.swapPageOut(pair.val1,replacedPage.vpn,replacedPage.ppn);
+    }
+
+    swapFile.swapPageIn(pid, vpn, replacedPage.ppn);
+    TranslationEntry entry = new TranslationEntry(vpn,replacedPage.ppn,true, false, true, false);
+    Machine.processor().writeTLBEntry(replacedTLBPage.vpn,entry);
+    VMKernel.pageTable.put(swapFile.new Pair(VMKernel.currentProcess().pid,vpn),entry);
+
     return replacedPage;
   }
 
-  private static TranslationEntry clockReplacement(){
-    // TODO: implement clock replacement algorithm here
-    Iterator<TranslationEntry> itr = pageTable.values().iterator();
+  private GenericPair<Integer, TranslationEntry> clockReplacement(){
+    Iterator<SwapFile.Pair> itr = VMKernel.pageTable.keySet().iterator();
+
     pageTableLock.acquire();
     while(true) {
       if(!itr.hasNext()) {
-        itr = pageTable.values().iterator();
+        itr = VMKernel.pageTable.keySet().iterator();
       }
 
-      TranslationEntry entry = itr.next();
+      SwapFile.Pair pidVpn = itr.next();
+      TranslationEntry entry = VMKernel.pageTable.get(pidVpn);
       int curPid = currentProcess().pid;
-      SwapFile.Pair pageTableEntry = swapFile.new Pair(curPid, entry.vpn);
 
       if(entry.used) {
         entry.used = false;
       } else {
         pageTableLock.release();
-        return entry;
+        return new GenericPair<Integer,TranslationEntry>(pidVpn.pid,entry);
       }
     }
   }
-
+  private class GenericPair<E,T>{
+    E val1;
+    T val2;
+    private GenericPair(E x, T y){
+      this.val1 = x;
+      this.val2 = y;
+    }
+  }
   private TranslationEntry TLBEntryReplacement(){
     // randomly pick an entry to replace
     Random r = new Random();
