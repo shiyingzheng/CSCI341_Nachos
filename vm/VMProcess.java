@@ -6,12 +6,12 @@ import nachos.userprog.*;
 import nachos.vm.*;
 
 /*TODO: 
-1. test all of this shit; 
-2. what are pages
-3. i think we are doing a book
-4. it should be about puppies i think
-5. meow meow meow
-*/
+  1. test all of this shit; 
+  2. what are pages
+  3. i think we are doing a book
+  4. it should be about puppies i think
+  5. meow meow meow
+  */
 
 /**
  * A <tt>UserProcess</tt> that supports demand-paging.
@@ -34,8 +34,8 @@ public class VMProcess extends UserProcess {
     // we can call VMKernel contextSwitch() for this
   }
 
-  
-  
+
+
   /**
    * Restore the state of this process after a context switch. Called by
    * <tt>UThread.restoreState()</tt>.
@@ -45,28 +45,37 @@ public class VMProcess extends UserProcess {
   }
 
   // try to fetch a page from the TLB
-    //TranslationEntry page = machine.Processor.readTLBEntry(pageNumber);
-    // If a TLB miss happens, fetch the page from the global page table,
-    // then bring that page into the TLB
-    
-    // handleTLBMiss() will be called
-  
-    // KEEP IN MIND THAT TLB SIZE IS ONLY 4!
+  //TranslationEntry page = machine.Processor.readTLBEntry(pageNumber);
+  // If a TLB miss happens, fetch the page from the global page table,
+  // then bring that page into the TLB
+
+  // handleTLBMiss() will be called
+
+  // KEEP IN MIND THAT TLB SIZE IS ONLY 4!
   public TranslationEntry getPage(int pid, int pageNumber, boolean write) {
     TranslationEntry page = null;
-    try {
-      page = Machine.processor().readTLBEntry(pageNumber);
-    } catch (Exception e) {
-      SwapFile.Pair entry = swapFile.new Pair(pid, pageNumber);
-      page = VMKernel.pageTable.get(entry);
+    boolean tlbMiss = true;
+    for(int i=0; i<Machine.processor().getTLBSize(); i++) {
+      TranslationEntry entry = Machine.processor().readTLBEntry(i);
 
-      if(page == null) {
-        //TODO:
-        page = VMKernel.swapInPage(pid, pageNumber);
+      if(entry.valid && pageNumber == entry.vpn) {
+        page = entry;
+        tlbMiss = false;
+        break;
       }
-      /* System.out.println("fetchPage(): " + e);  */
-
     }
+
+    if(tlbMiss) {
+      SwapFile.Pair pageTableKey = swapFile.new Pair(pid, pageNumber);
+      page = VMKernel.pageTable.get(pageTableKey);
+    }
+
+    if(page == null) {
+      page = VMKernel.swapInPage(pid, pageNumber);
+    }
+
+    /* System.out.println("fetchPage(): " + e);  */
+
     page.used = true;
     if(write){
       page.dirty = true; // ;)
