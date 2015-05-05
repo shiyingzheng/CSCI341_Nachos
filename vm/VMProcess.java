@@ -137,6 +137,7 @@ public class VMProcess extends UserProcess {
        }
        */
     //System.out.println("hi");
+    // we need to know if the page is coming from memory or disk
     boolean fromDisk = false;
     VMKernel.pageTableLock.acquire();
     //System.out.println("wut");
@@ -160,6 +161,7 @@ public class VMProcess extends UserProcess {
     if(!fromDisk) {
       int index = VMKernel.TLBEntryReplacementIndex();
       Machine.processor().writeTLBEntry(index, page);
+      VMKernel.synctables();
     }
 
     /* System.out.println("fetchPage(): " + e);  */
