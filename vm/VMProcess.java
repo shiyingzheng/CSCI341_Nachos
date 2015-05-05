@@ -45,34 +45,28 @@ public class VMProcess extends UserProcess {
     /* super.restoreState(); */
   }
 
-  // try to fetch a page from the TLB
-  //TranslationEntry page = machine.Processor.readTLBEntry(pageNumber);
-  // If a TLB miss happens, fetch the page from the global page table,
-  // then bring that page into the TLB
-
-  // handleTLBMiss() will be called
-
-  // KEEP IN MIND THAT TLB SIZE IS ONLY 4!
-  public TranslationEntry getPage(int pid, int pageNumber, boolean write) {
+  private TranslationEntry findEntryInTLB(int pid, int pageNumber){
     TranslationEntry page = null;
-    boolean tlbMiss = true;
     for(int i=0; i<Machine.processor().getTLBSize(); i++) {
       TranslationEntry entry = Machine.processor().readTLBEntry(i);
 
       if(entry.valid && pageNumber == entry.vpn) {
         page = entry;
-        tlbMiss = false;
         break;
       }
     }
+    return page;
+  }
 
-    if(tlbMiss) {
-      SwapFile.Pair pageTableKey = swapFile.new Pair(pid, pageNumber);
-      page = VMKernel.pageTable.get(pageTableKey);
-    }
-
+  // try to fetch a page from the TLB
+  // If a TLB miss happens, fetch the page from the global page table,
+  // then bring that page into the TLB
+  // handleTLBMiss() will be called
+  public TranslationEntry getPage(int pid, int pageNumber, boolean write) {
+    TranslationEntry page = findEntryInTLB(pid, pageNumber);
     if(page == null) {
-      page = VMKernel.swapInPage(pid, pageNumber);
+      handleTLBMiss(pageNumber);
+      page = findEntryInTLB(pid, pageNumber);
     }
 
     /* System.out.println("fetchPage(): " + e);  */
@@ -107,10 +101,7 @@ public class VMProcess extends UserProcess {
     return true;
   }
 
-  /**
-   * A function to handle TLB misses. 
-   */
-  private void handleTLBMiss(){
+  private void handleTLBMiss(int vpn){
     //TODO: make getPage always return the correct page.
     /* int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
        int pid = VMKernel.currentProcess().pid;
@@ -126,8 +117,7 @@ public class VMProcess extends UserProcess {
        }
        */
     TranslationEntry page = null;
-    int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
-    int pageNumber = pageFromAddress(badAddress);
+    int pageNumber = pageFromAddress(vpn);
     /* System.out.println(pageNumber); */
     /* System.out.println(VMKernel.pageTable); */
     SwapFile.Pair pageTableKey = swapFile.new Pair(pid, pageNumber);
@@ -150,6 +140,14 @@ public class VMProcess extends UserProcess {
     //    memory, and add to global page table.
     //    maybe we can use swapInPage(TranslationEntry newEntry) function
     //    in VMKernel, which I just made up but has not been implemented
+  }
+
+  /**
+   * A function to handle TLB misses. 
+   */
+  private void handleTLBMiss(){
+    int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
+    handleTLBMiss(badAddress);
   }
 
   /**
