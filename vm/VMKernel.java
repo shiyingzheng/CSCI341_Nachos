@@ -126,7 +126,9 @@ public class VMKernel extends UserKernel {
     // which already acquires the lock
     swapFile.swapPageIn(pid, vpn, replacedPage.ppn);
     TranslationEntry entry = new TranslationEntry(vpn,replacedPage.ppn,true, false, true, false);
-    Machine.processor().writeTLBEntry(replacedTLBPage.vpn,entry);
+
+    int tlbIndex = TLBEntryReplacementIndex();
+    Machine.processor().writeTLBEntry(tlbIndex, entry);
     VMKernel.pageTable.put(swapFile.new Pair(VMKernel.currentProcess().pid,vpn),entry);
 
     //pageTableLock.release();

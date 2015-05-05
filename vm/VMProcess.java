@@ -158,10 +158,11 @@ public class VMProcess extends UserProcess {
     // may need to do this in swapInPage?
     page.used = true;
 
+    VMKernel.pageTableLock.release();
     if(!fromDisk) {
       int index = VMKernel.TLBEntryReplacementIndex();
       Machine.processor().writeTLBEntry(index, page);
-      VMKernel.synctables();
+      VMKernel.syncTables();
     }
 
     /* System.out.println("fetchPage(): " + e);  */
@@ -175,7 +176,6 @@ public class VMProcess extends UserProcess {
     //    memory, and add to global page table.
     //    maybe we can use swapInPage(TranslationEntry newEntry) function
     //    in VMKernel, which I just made up but has not been implemented
-    VMKernel.pageTableLock.release();
     //System.out.println("lock release in handle tlb miss");
     //System.out.println("bye");
   }
