@@ -75,7 +75,7 @@ public class VMKernel extends UserKernel {
     // TODO: call syncTables() to sync tables
   }
 
-  private static void syncTables(){
+  public static void syncTables(){
     //System.out.println("synctables");
     // TODO: sync entries in TLB with the page table
     pageTableLock.acquire(); //may have problems
@@ -173,11 +173,18 @@ public class VMKernel extends UserKernel {
       System.out.println(entry);
     }
   }
-  private static TranslationEntry TLBEntryReplacement(){
+  public static TranslationEntry TLBEntryReplacement(){
     // randomly pick an entry to replace
     Random r = new Random();
     int randIndex = r.nextInt(Machine.processor().getTLBSize());
     return Machine.processor().readTLBEntry(randIndex);
+  }
+
+  public static int TLBEntryReplacementIndex(){
+    // randomly pick an entry to replace
+    Random r = new Random();
+    int randIndex = r.nextInt(Machine.processor().getTLBSize());
+    return randIndex;
   }
 
   // dummy variables to make javac smarter

@@ -137,6 +137,7 @@ public class VMProcess extends UserProcess {
        }
        */
     //System.out.println("hi");
+    boolean fromDisk = false;
     VMKernel.pageTableLock.acquire();
     //System.out.println("wut");
     TranslationEntry page = null;
@@ -146,14 +147,23 @@ public class VMProcess extends UserProcess {
     SwapFile.Pair pageTableKey = swapFile.new Pair(pid, pageNumber);
 
     page = VMKernel.pageTable.get(pageTableKey);
+    System.out.println("This should be null: "+page);
 
     if(page == null) {
       page = VMKernel.swapInPage(pid, pageNumber);
+      fromDisk = true;
+    }
+
+    // may need to do this in swapInPage?
+    page.used = true;
+
+    if(!fromDisk) {
+      int index = VMKernel.TLBEntryReplacementIndex();
+      Machine.processor().writeTLBEntry(index, page);
     }
 
     /* System.out.println("fetchPage(): " + e);  */
 
-    page.used = true;
     /* System.out.println(VMKernel.pageTable); */
     System.out.println("TLB MISS");
     // TODO:
