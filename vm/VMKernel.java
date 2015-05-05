@@ -95,7 +95,7 @@ public class VMKernel extends UserKernel {
     // TODO: sync the translation entries in the page table with the ones in TLB 
     System.out.println("pid: "+pid);
     System.out.println("vpn: "+vpn);
-    GenericPair<Integer,TranslationEntry> pair = clockReplacement();
+    GenericPair<Integer,TranslationEntry> pair = clockReplacement(pid);
     TranslationEntry replacedPage = pair.val2;
     TranslationEntry replacedTLBPage = null;
 
@@ -123,7 +123,7 @@ public class VMKernel extends UserKernel {
     return replacedPage;
   }
 
-  public static GenericPair<Integer, TranslationEntry> clockReplacement(){
+  public static GenericPair<Integer, TranslationEntry> clockReplacement(int curPid){
     Iterator<SwapFile.Pair> itr = VMKernel.pageTable.keySet().iterator();
 
     pageTableLock.acquire();
@@ -134,7 +134,7 @@ public class VMKernel extends UserKernel {
 
       SwapFile.Pair pidVpn = itr.next();
       TranslationEntry entry = VMKernel.pageTable.get(pidVpn);
-      int curPid = VMKernel.currentProcess().pid;
+      //int curPid = VMKernel.currentProcess().pid;
 
       if(entry.used && entry.valid) {
         entry.used = false;
