@@ -22,6 +22,7 @@ public class VMProcess extends UserProcess {
    */
   public VMProcess() {
     super();
+    lockOnBeforeSwitch = false;
   }
 
   /**
@@ -30,6 +31,10 @@ public class VMProcess extends UserProcess {
    */
   public void saveState() {
     super.saveState();
+    if (VMKernel.pageTableLock.isHeldByCurrentThread()){
+      VMKernel.pageTableLock.release();
+      lockOnBeforeSwitch = true;
+    }
     VMKernel.contextSwitch();
     // sync the TLB with entries in page table, invalidate all entries in TLB
     // we can call VMKernel contextSwitch() for this
@@ -43,6 +48,11 @@ public class VMProcess extends UserProcess {
    */
   public void restoreState() {
     /* super.restoreState(); */
+    if (lockOnBeforeSwitch){
+      lockOnBeforeSwitch = false;
+      VMKernel.pageTableLock.acquire();
+    }
+
   }
 
   private TranslationEntry findEntryInTLB(int pid, int pageNumber){
@@ -79,10 +89,16 @@ public class VMProcess extends UserProcess {
   }
 
   protected boolean loadSections() {
+    //System.out.println("load sections");
     for (int i=0; i<numPages; i++){
-      VMKernel.GenericPair<Integer, TranslationEntry> replaced = VMKernel.clockReplacement();
+      VMKernel.pageTableLock.acquire();
+      VMKernel.GenericPair<Integer, TranslationEntry> replaced = VMKernel.clockReplacement(pid);
       SwapFile.Pair key = swapFile.new Pair(pid, i);
-      VMKernel.pageTable.put(key, new TranslationEntry(i,replaced.val2.ppn,true,false,false,false));
+      SwapFile.Pair replacedEntry = swapFile.new Pair(replaced.val1,replaced.val2.vpn);
+      //System.out.println(replacedEntry);
+      //System.out.println(VMKernel.pageTable.remove(replacedEntry));
+      VMKernel.pageTable.put(key, new TranslationEntry(i,replaced.val2.ppn,true,false,false,false)); 
+      VMKernel.pageTableLock.release();
     }
 
     for (int s=0; s<coff.getNumSections(); s++) {
@@ -92,16 +108,20 @@ public class VMProcess extends UserProcess {
           + " section (" + section.getLength() + " pages)");  
 
       for (int i=0; i<section.getLength(); i++) {
+        VMKernel.pageTableLock.acquire();
         int vpn = section.getFirstVPN()+i;    
         SwapFile.Pair key = swapFile.new Pair(pid, i);
+        //System.out.println(VMKernel.pageTable); //BUG we have way too many things in page table
         VMKernel.pageTable.get(key).readOnly = section.isReadOnly();
         section.loadPage(i, VMKernel.pageTable.get(key).ppn);
+        VMKernel.pageTableLock.release();
       }
     }
     return true;
   }
 
   private void handleTLBMiss(int vpn){
+    //System.out.println("handle tlb miss");
     //TODO: make getPage always return the correct page.
     /* int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
        int pid = VMKernel.currentProcess().pid;
@@ -116,6 +136,9 @@ public class VMProcess extends UserProcess {
     page = VMKernel.swapInPage(pid, pageNumber);
        }
        */
+    //System.out.println("hi");
+    VMKernel.pageTableLock.acquire();
+    //System.out.println("wut");
     TranslationEntry page = null;
     int pageNumber = pageFromAddress(vpn);
     /* System.out.println(pageNumber); */
@@ -140,6 +163,9 @@ public class VMProcess extends UserProcess {
     //    memory, and add to global page table.
     //    maybe we can use swapInPage(TranslationEntry newEntry) function
     //    in VMKernel, which I just made up but has not been implemented
+    VMKernel.pageTableLock.release();
+    //System.out.println("lock release in handle tlb miss");
+    //System.out.println("bye");
   }
 
   /**
@@ -163,6 +189,7 @@ public class VMProcess extends UserProcess {
 
     switch (cause) {
       case exceptionTLBMiss:
+        VMKernel.printTLB();
         handleTLBMiss();
         break;
       default:
@@ -177,4 +204,5 @@ public class VMProcess extends UserProcess {
   private static final char dbgProcess = 'a';
   private static final char dbgVM = 'v';
   private static SwapFile swapFile = VMKernel.swapFile;
+  private boolean lockOnBeforeSwitch;
 }

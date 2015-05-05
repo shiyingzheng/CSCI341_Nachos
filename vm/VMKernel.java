@@ -24,15 +24,18 @@ public class VMKernel extends UserKernel {
    * Initialize this kernel.
    */
   public void initialize(String[] args) {
+    //System.out.println("initialize");
     super.initialize(args);
     pageTable = new HashMap<Pair, TranslationEntry>();
     swapFile = new SwapFile();
     pageTableLock = new Lock();
 
+    pageTableLock.acquire();
     for(int i=0; i<Machine.processor().getNumPhysPages(); i++) {
       SwapFile.Pair pageTableKey = swapFile.new Pair(0, 0);
-      pageTable.put(pageTableKey, new TranslationEntry());
+      VMKernel.pageTable.put(pageTableKey, new TranslationEntry(i,0,false,false,false,false));
     }
+    pageTableLock.release();
 
     for(int i=0; i<Machine.processor().getTLBSize(); i++) {
       Machine.processor().writeTLBEntry(i, new TranslationEntry());
@@ -61,6 +64,7 @@ public class VMKernel extends UserKernel {
   }
 
   public static void contextSwitch(){
+    //System.out.println("why");
     syncTables();
     for(int i=0;i<Machine.processor().getTLBSize();i++){
       TranslationEntry entry = Machine.processor().readTLBEntry(i);
@@ -72,12 +76,13 @@ public class VMKernel extends UserKernel {
   }
 
   private static void syncTables(){
+    //System.out.println("synctables");
     // TODO: sync entries in TLB with the page table
+    pageTableLock.acquire(); //may have problems
     for(int i=0;i < Machine.processor().getTLBSize(); i++) {
       TranslationEntry entry = Machine.processor().readTLBEntry(i);
       int curPid = currentProcess().pid;
       SwapFile.Pair pageTableEntry = swapFile.new Pair(curPid, entry.vpn);
-      /* pageTableLock.acquire(); */
       TranslationEntry pEntry = VMKernel.pageTable.get(pageTableEntry);
 
       pEntry.valid = entry.valid;
@@ -86,12 +91,13 @@ public class VMKernel extends UserKernel {
       pEntry.dirty = entry.dirty;
 
       VMKernel.pageTable.put(pageTableEntry, pEntry);
-      /* pageTableLock.release(); */
     } 
+    pageTableLock.release(); //may have problems
   }
 
   // Swap a page in from disk to physical memory
   public static TranslationEntry swapInPage(int pid, int vpn){
+    //System.out.println("swap in page");
     // TODO: sync the translation entries in the page table with the ones in TLB 
     System.out.println("pid: "+pid);
     System.out.println("vpn: "+vpn);
@@ -114,19 +120,26 @@ public class VMKernel extends UserKernel {
     if(replacedPage.valid){
       swapFile.swapPageOut(pair.val1,replacedPage.vpn,replacedPage.ppn);
     }
+    System.out.println("Removing: "+VMKernel.pageTable.remove(pair));
 
+    //pageTableLock.acquire(); // so far we are only using swapInPage in VMProcess.handleTLBMiss, 
+    // which already acquires the lock
     swapFile.swapPageIn(pid, vpn, replacedPage.ppn);
     TranslationEntry entry = new TranslationEntry(vpn,replacedPage.ppn,true, false, true, false);
     Machine.processor().writeTLBEntry(replacedTLBPage.vpn,entry);
     VMKernel.pageTable.put(swapFile.new Pair(VMKernel.currentProcess().pid,vpn),entry);
 
+    //pageTableLock.release();
+
     return replacedPage;
   }
 
   public static GenericPair<Integer, TranslationEntry> clockReplacement(int curPid){
+    //System.out.println(curPid + " clock");
+    //System.out.println(VMKernel.pageTable);
+    //pageTableLock.acquire();
     Iterator<SwapFile.Pair> itr = VMKernel.pageTable.keySet().iterator();
 
-    pageTableLock.acquire();
     while(true) {
       if(!itr.hasNext()) {
         itr = VMKernel.pageTable.keySet().iterator();
@@ -139,7 +152,7 @@ public class VMKernel extends UserKernel {
       if(entry.used && entry.valid) {
         entry.used = false;
       } else {
-        pageTableLock.release();
+        //pageTableLock.release();
         return new GenericPair<Integer,TranslationEntry>(pidVpn.pid,entry);
       }
     }
@@ -150,6 +163,14 @@ public class VMKernel extends UserKernel {
     public GenericPair(E x, T y){
       this.val1 = x;
       this.val2 = y;
+    }
+  }
+
+  public static void printTLB(){
+    System.out.println("tlb!");
+    for(int i=0; i<Machine.processor().getTLBSize(); i++) {
+      TranslationEntry entry = Machine.processor().readTLBEntry(i);
+      System.out.println(entry);
     }
   }
   private static TranslationEntry TLBEntryReplacement(){
