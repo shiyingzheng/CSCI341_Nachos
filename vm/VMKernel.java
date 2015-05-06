@@ -191,6 +191,7 @@ public class VMKernel extends UserKernel {
     System.out.println("print tlb!");
     for(int i=0; i<Machine.processor().getTLBSize(); i++) {
       TranslationEntry entry = Machine.processor().readTLBEntry(i);
+      System.out.print("TLB entry: ");
       System.out.println(entry);
     }
   }

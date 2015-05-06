@@ -1,0 +1,2653 @@
+nachos 5.0j initializing... config interrupt timer processor console user-check grader
+VM kernel constructor
+initialize
+Testing the console device. Typed characters
+will be echoed until q is typed.
+q
+run
+VMProcess init
+load sections
+i is 0
+entry to replace:0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+Inserting (1, 0)
+Replacing (0, 0)
+i is 1
+entry to replace:0 -> 0, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:0 -> 2, valid=false, readOnly=false, used=false, dirty=false
+Inserting (1, 1)
+Replacing (2, 0)
+i is 2
+entry to replace:0 -> 0, valid=true, readOnly=false, used=false, dirty=false
+Inserting (1, 2)
+Replacing (1, 0)
+i is 3
+entry to replace:0 -> 3, valid=false, readOnly=false, used=false, dirty=false
+Inserting (1, 3)
+Replacing (3, 0)
+i is 4
+entry to replace:0 -> 4, valid=false, readOnly=false, used=false, dirty=false
+Inserting (1, 4)
+Replacing (4, 0)
+i is 5
+entry to replace:4 -> 4, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:2 -> 0, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:0 -> 5, valid=false, readOnly=false, used=false, dirty=false
+Inserting (1, 5)
+Replacing (5, 0)
+i is 6
+entry to replace:4 -> 4, valid=true, readOnly=false, used=false, dirty=false
+Inserting (1, 6)
+Replacing (1, 4)
+i is 7
+entry to replace:2 -> 0, valid=true, readOnly=false, used=false, dirty=false
+Inserting (1, 7)
+Replacing (1, 2)
+i is 8
+entry to replace:0 -> 6, valid=false, readOnly=false, used=false, dirty=false
+Inserting (1, 8)
+Replacing (6, 0)
+i is 9
+entry to replace:8 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:0 -> 7, valid=false, readOnly=false, used=false, dirty=false
+Inserting (1, 9)
+Replacing (7, 0)
+i is 10
+entry to replace:8 -> 6, valid=true, readOnly=false, used=false, dirty=false
+Inserting (1, 10)
+Replacing (1, 8)
+i is 11
+entry to replace:10 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:0 -> 8, valid=false, readOnly=false, used=false, dirty=false
+Inserting (1, 11)
+Replacing (8, 0)
+i is 12
+entry to replace:10 -> 6, valid=true, readOnly=false, used=false, dirty=false
+Inserting (1, 12)
+Replacing (1, 10)
+i is 13
+entry to replace:12 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:0 -> 9, valid=false, readOnly=false, used=false, dirty=false
+Inserting (1, 13)
+Replacing (9, 0)
+i is 14
+entry to replace:12 -> 6, valid=true, readOnly=false, used=false, dirty=false
+Inserting (1, 14)
+Replacing (1, 12)
+i is 0
+get page
+find entry in tlb
+handle tlb miss
+pid 1 vpn 0in handle TLB miss
+swap in page
+pid: 1
+vpn: 0
+entry to replace:0 -> 10, valid=false, readOnly=false, used=false, dirty=false
+page: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+page: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+page: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+page: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 0
+entry to replace:0 -> 10, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:0 -> 11, valid=false, readOnly=false, used=false, dirty=false
+page: 0 -> 10, valid=true, readOnly=false, used=true, dirty=false
+page: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+page: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+page: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 0
+entry to replace:0 -> 11, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:0 -> 12, valid=false, readOnly=false, used=false, dirty=false
+page: 0 -> 10, valid=true, readOnly=false, used=true, dirty=false
+page: 0 -> 11, valid=true, readOnly=false, used=true, dirty=false
+page: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+page: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 0
+entry to replace:0 -> 12, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:6 -> 4, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:0 -> 13, valid=false, readOnly=false, used=false, dirty=false
+page: 0 -> 10, valid=true, readOnly=false, used=true, dirty=false
+page: 0 -> 11, valid=true, readOnly=false, used=true, dirty=false
+page: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+page: 0 -> 12, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 0
+entry to replace:0 -> 13, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:6 -> 4, valid=true, readOnly=false, used=false, dirty=false
+page: 0 -> 10, valid=true, readOnly=false, used=true, dirty=false
+page: 0 -> 11, valid=true, readOnly=false, used=true, dirty=false
+page: 0 -> 13, valid=true, readOnly=false, used=true, dirty=false
+page: 0 -> 12, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+TLB MISS
+i is 1
+get page
+find entry in tlb
+handle tlb miss
+pid 1 vpn 0in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+i is 2
+get page
+find entry in tlb
+handle tlb miss
+pid 1 vpn 0in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+i is 3
+get page
+find entry in tlb
+handle tlb miss
+pid 1 vpn 0in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+i is 0
+get page
+find entry in tlb
+handle tlb miss
+pid 1 vpn 0in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+i is 0
+get page
+find entry in tlb
+handle tlb miss
+pid 1 vpn 0in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+restore state
+restore state
+PAGE FAULT: 1168
+handle exception
+print tlb!
+TLB entry: 0 -> 4, valid=true, readOnly=true, used=true, dirty=false
+TLB entry: 0 -> 4, valid=true, readOnly=true, used=true, dirty=false
+TLB entry: 0 -> 4, valid=true, readOnly=true, used=true, dirty=false
+TLB entry: 0 -> 4, valid=true, readOnly=true, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 1in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 1496
+handle exception
+print tlb!
+TLB entry: 0 -> 4, valid=false, readOnly=true, used=true, dirty=false
+TLB entry: 0 -> 4, valid=false, readOnly=true, used=true, dirty=false
+TLB entry: 0 -> 4, valid=false, readOnly=true, used=true, dirty=false
+TLB entry: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 1in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 2048
+handle exception
+print tlb!
+TLB entry: 1 -> 2, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 4, valid=false, readOnly=true, used=true, dirty=false
+TLB entry: 0 -> 4, valid=false, readOnly=true, used=true, dirty=false
+TLB entry: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 2in handle TLB miss
+swap in page
+pid: 1
+vpn: 2
+entry to replace:0 -> 4, valid=false, readOnly=true, used=true, dirty=false
+page: 1 -> 2, valid=true, readOnly=false, used=true, dirty=false
+page: 0 -> 4, valid=false, readOnly=true, used=true, dirty=false
+page: 0 -> 4, valid=false, readOnly=true, used=true, dirty=false
+page: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 2
+entry to replace:2 -> 4, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:0 -> 14, valid=false, readOnly=false, used=false, dirty=false
+page: 1 -> 2, valid=true, readOnly=false, used=true, dirty=false
+page: 0 -> 4, valid=false, readOnly=true, used=true, dirty=false
+page: 2 -> 4, valid=true, readOnly=false, used=true, dirty=false
+page: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 2
+entry to replace:2 -> 14, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:0 -> 15, valid=false, readOnly=false, used=false, dirty=false
+page: 2 -> 14, valid=true, readOnly=false, used=true, dirty=false
+page: 0 -> 4, valid=false, readOnly=true, used=true, dirty=false
+page: 2 -> 4, valid=true, readOnly=false, used=true, dirty=false
+page: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 2
+entry to replace:2 -> 15, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:5 -> 5, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+page: 2 -> 15, valid=true, readOnly=false, used=true, dirty=false
+page: 0 -> 4, valid=false, readOnly=true, used=true, dirty=false
+page: 2 -> 4, valid=true, readOnly=false, used=true, dirty=false
+page: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 2
+entry to replace:2 -> 2, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:5 -> 5, valid=true, readOnly=false, used=false, dirty=false
+page: 2 -> 15, valid=true, readOnly=false, used=true, dirty=false
+page: 2 -> 2, valid=true, readOnly=false, used=true, dirty=false
+page: 2 -> 4, valid=true, readOnly=false, used=true, dirty=false
+page: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 2792
+handle exception
+print tlb!
+TLB entry: 2 -> 15, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 2 -> 5, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 2 -> 4, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 2in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 3072
+handle exception
+print tlb!
+TLB entry: 2 -> 15, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 2 -> 5, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 2 -> 5, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 3in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 4096
+handle exception
+print tlb!
+TLB entry: 2 -> 15, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 2 -> 5, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 3 -> 3, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 4in handle TLB miss
+swap in page
+pid: 1
+vpn: 4
+entry to replace:2 -> 5, valid=false, readOnly=false, used=true, dirty=false
+page: 2 -> 15, valid=false, readOnly=false, used=true, dirty=false
+page: 2 -> 5, valid=false, readOnly=false, used=true, dirty=false
+page: 3 -> 3, valid=true, readOnly=false, used=true, dirty=false
+page: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 4
+entry to replace:4 -> 5, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:13 -> 9, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:9 -> 7, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:3 -> 3, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:11 -> 8, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:14 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:7 -> 0, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:4 -> 5, valid=true, readOnly=false, used=false, dirty=false
+page: 2 -> 15, valid=false, readOnly=false, used=true, dirty=false
+page: 4 -> 5, valid=true, readOnly=false, used=true, dirty=false
+page: 4 -> 5, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 4212
+handle exception
+print tlb!
+TLB entry: 2 -> 15, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 3 -> 3, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 4in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 5120
+handle exception
+print tlb!
+TLB entry: 2 -> 15, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 4 -> 5, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 5in handle TLB miss
+swap in page
+pid: 1
+vpn: 5
+entry to replace:4 -> 5, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:13 -> 9, valid=true, readOnly=false, used=false, dirty=false
+page: 2 -> 15, valid=false, readOnly=false, used=true, dirty=false
+page: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+page: 4 -> 5, valid=true, readOnly=false, used=true, dirty=false
+page: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 5748
+handle exception
+print tlb!
+TLB entry: 2 -> 15, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 5 -> 9, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 5in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 6144
+handle exception
+print tlb!
+TLB entry: 2 -> 15, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 5 -> 9, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 6in handle TLB miss
+swap in page
+pid: 1
+vpn: 6
+entry to replace:4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+page: 2 -> 15, valid=false, readOnly=false, used=true, dirty=false
+page: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+page: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+page: 5 -> 9, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 6
+entry to replace:6 -> 5, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:5 -> 9, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:9 -> 7, valid=true, readOnly=false, used=false, dirty=false
+page: 2 -> 15, valid=false, readOnly=false, used=true, dirty=false
+page: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+page: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+page: 6 -> 5, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 7168
+handle exception
+print tlb!
+TLB entry: 2 -> 15, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 6 -> 7, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 6 -> 5, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 7in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 7184
+handle exception
+print tlb!
+TLB entry: 2 -> 15, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 6 -> 7, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 7in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 8192
+handle exception
+print tlb!
+TLB entry: 7 -> 0, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 6 -> 7, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 8in handle TLB miss
+swap in page
+pid: 1
+vpn: 8
+entry to replace:6 -> 7, valid=false, readOnly=false, used=true, dirty=false
+page: 7 -> 0, valid=true, readOnly=false, used=true, dirty=false
+page: 6 -> 7, valid=false, readOnly=false, used=true, dirty=false
+page: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+page: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 8
+entry to replace:8 -> 7, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:5 -> 9, valid=true, readOnly=false, used=false, dirty=false
+page: 7 -> 0, valid=true, readOnly=false, used=true, dirty=false
+page: 8 -> 7, valid=true, readOnly=false, used=true, dirty=false
+page: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+page: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 8604
+handle exception
+print tlb!
+TLB entry: 8 -> 9, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 8 -> 7, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 4 -> 5, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 8in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 9216
+handle exception
+print tlb!
+TLB entry: 8 -> 9, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 8 -> 7, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 8 -> 9, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 9in handle TLB miss
+swap in page
+pid: 1
+vpn: 9
+entry to replace:8 -> 9, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:3 -> 3, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:11 -> 8, valid=true, readOnly=false, used=false, dirty=false
+page: 8 -> 9, valid=false, readOnly=false, used=true, dirty=false
+page: 8 -> 7, valid=false, readOnly=false, used=true, dirty=false
+page: 8 -> 9, valid=true, readOnly=false, used=true, dirty=false
+page: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 10128
+handle exception
+print tlb!
+TLB entry: 8 -> 9, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 8 -> 7, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 9 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 9in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 10240
+handle exception
+print tlb!
+TLB entry: 9 -> 8, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 8 -> 7, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 9 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 10in handle TLB miss
+swap in page
+pid: 1
+vpn: 10
+entry to replace:8 -> 9, valid=false, readOnly=false, used=true, dirty=false
+page: 9 -> 8, valid=true, readOnly=false, used=true, dirty=false
+page: 8 -> 7, valid=false, readOnly=false, used=true, dirty=false
+page: 9 -> 8, valid=false, readOnly=false, used=true, dirty=false
+page: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 10
+entry to replace:10 -> 9, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:9 -> 8, valid=false, readOnly=false, used=true, dirty=false
+page: 9 -> 8, valid=true, readOnly=false, used=true, dirty=false
+page: 8 -> 7, valid=false, readOnly=false, used=true, dirty=false
+page: 10 -> 9, valid=true, readOnly=false, used=true, dirty=false
+page: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 10
+entry to replace:10 -> 8, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:3 -> 3, valid=true, readOnly=false, used=false, dirty=false
+page: 9 -> 8, valid=true, readOnly=false, used=true, dirty=false
+page: 8 -> 7, valid=false, readOnly=false, used=true, dirty=false
+page: 10 -> 8, valid=true, readOnly=false, used=true, dirty=false
+page: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 11264
+handle exception
+print tlb!
+TLB entry: 9 -> 8, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 8 -> 7, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 10 -> 3, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 11in handle TLB miss
+swap in page
+pid: 1
+vpn: 11
+entry to replace:10 -> 3, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:14 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 9 -> 8, valid=true, readOnly=false, used=true, dirty=false
+page: 8 -> 7, valid=false, readOnly=false, used=true, dirty=false
+page: 10 -> 3, valid=true, readOnly=false, used=true, dirty=false
+page: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 11400
+handle exception
+print tlb!
+TLB entry: 11 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 8 -> 7, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 10 -> 3, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 11in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 12288
+handle exception
+print tlb!
+TLB entry: 11 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 8 -> 7, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 10 -> 3, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 11 -> 6, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 12in handle TLB miss
+swap in page
+pid: 1
+vpn: 12
+entry to replace:10 -> 3, valid=false, readOnly=false, used=true, dirty=false
+page: 11 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 8 -> 7, valid=false, readOnly=false, used=true, dirty=false
+page: 10 -> 3, valid=false, readOnly=false, used=true, dirty=false
+page: 11 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 12
+entry to replace:12 -> 3, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:11 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:7 -> 0, valid=false, readOnly=false, used=true, dirty=false
+page: 11 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 12 -> 3, valid=true, readOnly=false, used=true, dirty=false
+page: 10 -> 3, valid=false, readOnly=false, used=true, dirty=false
+page: 11 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 12
+entry to replace:12 -> 0, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:11 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 11 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 12 -> 3, valid=true, readOnly=false, used=true, dirty=false
+page: 12 -> 0, valid=true, readOnly=false, used=true, dirty=false
+page: 11 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 11 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 12808
+handle exception
+print tlb!
+TLB entry: 11 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 12 -> 0, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 11 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 12in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 13312
+handle exception
+print tlb!
+TLB entry: 12 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 12 -> 0, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 11 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 13in handle TLB miss
+swap in page
+pid: 1
+vpn: 13
+entry to replace:12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 12 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 12 -> 0, valid=false, readOnly=false, used=true, dirty=false
+page: 11 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 13
+entry to replace:13 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:13 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 12 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 12 -> 0, valid=false, readOnly=false, used=true, dirty=false
+page: 13 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 13 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 14336
+handle exception
+print tlb!
+TLB entry: 13 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 12 -> 0, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 13 -> 6, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+save state
+context switch
+synctables
+restore state
+pid 1 vpn 14in handle TLB miss
+swap in page
+pid: 1
+vpn: 14
+entry to replace:13 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:13 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 13 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 12 -> 0, valid=false, readOnly=false, used=true, dirty=false
+page: 13 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 15360
+handle exception
+print tlb!
+TLB entry: 14 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 12 -> 0, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 13 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 15in handle TLB miss
+swap in page
+pid: 1
+vpn: 15
+entry to replace:14 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:14 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 14 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 14 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 15944
+handle exception
+print tlb!
+TLB entry: 15 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 12 -> 0, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 13 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 15in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 16384
+handle exception
+print tlb!
+TLB entry: 15 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 15 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 13 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 16in handle TLB miss
+swap in page
+pid: 1
+vpn: 16
+entry to replace:15 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:15 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 15 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 15 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 15 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 17408
+handle exception
+print tlb!
+TLB entry: 15 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 16 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 13 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 17in handle TLB miss
+swap in page
+pid: 1
+vpn: 17
+entry to replace:16 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:16 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 15 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 16 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 16 -> 6, valid=true, readOnly=false, used=true, dirty=false
+save state
+context switch
+synctables
+restore state
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 18432
+handle exception
+print tlb!
+TLB entry: 17 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 16 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 13 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 18in handle TLB miss
+swap in page
+pid: 1
+vpn: 18
+entry to replace:17 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:17 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 17 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 17 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 19108
+handle exception
+print tlb!
+TLB entry: 17 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 12 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 16 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 18in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 19456
+handle exception
+print tlb!
+TLB entry: 17 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 16 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 19in handle TLB miss
+swap in page
+pid: 1
+vpn: 19
+entry to replace:18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 17 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 18 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 16 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 19
+entry to replace:19 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:19 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 19 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 19 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 20480
+handle exception
+print tlb!
+TLB entry: 19 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 19 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 20in handle TLB miss
+swap in page
+pid: 1
+vpn: 20
+entry to replace:19 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:19 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 19 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 19 -> 6, valid=true, readOnly=false, used=true, dirty=false
+save state
+context switch
+synctables
+restore state
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 21504
+handle exception
+print tlb!
+TLB entry: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 20 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 21in handle TLB miss
+swap in page
+pid: 1
+vpn: 21
+entry to replace:20 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:20 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 20 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 20 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 22068
+handle exception
+print tlb!
+TLB entry: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 21 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 21in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 22528
+handle exception
+print tlb!
+TLB entry: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 21 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 21 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 22in handle TLB miss
+swap in page
+pid: 1
+vpn: 22
+entry to replace:21 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:21 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 21 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 21 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 21 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 23552
+handle exception
+print tlb!
+TLB entry: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 22 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 21 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 23in handle TLB miss
+swap in page
+pid: 1
+vpn: 23
+entry to replace:22 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:22 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 22 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 22 -> 6, valid=true, readOnly=false, used=true, dirty=false
+save state
+context switch
+synctables
+restore state
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 24576
+handle exception
+print tlb!
+TLB entry: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 23 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 21 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 24in handle TLB miss
+swap in page
+pid: 1
+vpn: 24
+entry to replace:23 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:23 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 23 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 23 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 25180
+handle exception
+print tlb!
+TLB entry: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 24 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 21 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 24in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 25600
+handle exception
+print tlb!
+TLB entry: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 24 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 24 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 25in handle TLB miss
+swap in page
+pid: 1
+vpn: 25
+entry to replace:24 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:24 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 24 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 24 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 24 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 26624
+handle exception
+print tlb!
+TLB entry: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 25 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 24 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 26in handle TLB miss
+swap in page
+pid: 1
+vpn: 26
+entry to replace:25 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:25 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 25 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 25 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 26624
+handle exception
+print tlb!
+TLB entry: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 26 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 24 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 26in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 27648
+handle exception
+print tlb!
+TLB entry: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 26 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 24 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 27in handle TLB miss
+swap in page
+pid: 1
+vpn: 27
+entry to replace:26 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:26 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 19 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 26 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 26 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 28288
+handle exception
+print tlb!
+TLB entry: 27 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 26 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 24 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 27in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 28672
+handle exception
+print tlb!
+TLB entry: 27 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 26 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 24 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 28in handle TLB miss
+swap in page
+pid: 1
+vpn: 28
+entry to replace:27 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:27 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 27 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 27 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 29696
+handle exception
+print tlb!
+TLB entry: 28 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 26 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 24 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 29in handle TLB miss
+swap in page
+pid: 1
+vpn: 29
+entry to replace:28 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:28 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 28 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 28 -> 6, valid=true, readOnly=false, used=true, dirty=false
+save state
+context switch
+synctables
+restore state
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 30720
+handle exception
+print tlb!
+TLB entry: 28 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 26 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 29 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 18 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 30in handle TLB miss
+swap in page
+pid: 1
+vpn: 30
+entry to replace:29 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:29 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 28 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 26 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 29 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 29 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 31296
+handle exception
+print tlb!
+TLB entry: 28 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 26 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 29 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 30 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 30in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 31744
+handle exception
+print tlb!
+TLB entry: 28 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 26 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 30 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 30 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 31in handle TLB miss
+swap in page
+pid: 1
+vpn: 31
+entry to replace:30 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 28 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 26 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 30 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 30 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 31
+entry to replace:31 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:31 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 31 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 31 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 32768
+handle exception
+print tlb!
+TLB entry: 31 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 31 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 30 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 30 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 32in handle TLB miss
+swap in page
+pid: 1
+vpn: 32
+entry to replace:31 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:31 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 31 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 31 -> 6, valid=true, readOnly=false, used=true, dirty=false
+save state
+context switch
+synctables
+restore state
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 33792
+handle exception
+print tlb!
+TLB entry: 31 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 31 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 30 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 32 -> 6, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 33in handle TLB miss
+swap in page
+pid: 1
+vpn: 33
+entry to replace:32 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:32 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 31 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 31 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 30 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 32 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 32 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 34288
+handle exception
+print tlb!
+TLB entry: 31 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 33 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 30 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 32 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 33in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 34816
+handle exception
+print tlb!
+TLB entry: 31 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 33 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 33 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 32 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 34in handle TLB miss
+swap in page
+pid: 1
+vpn: 34
+entry to replace:33 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:33 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 31 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 33 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 33 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 33 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 35840
+handle exception
+print tlb!
+TLB entry: 31 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 33 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 34 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 32 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 35in handle TLB miss
+swap in page
+pid: 1
+vpn: 35
+entry to replace:34 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:34 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 31 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 33 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 34 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 34 -> 6, valid=true, readOnly=false, used=true, dirty=false
+save state
+context switch
+synctables
+restore state
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 36864
+handle exception
+print tlb!
+TLB entry: 35 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 33 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 34 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 32 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 36in handle TLB miss
+swap in page
+pid: 1
+vpn: 36
+entry to replace:35 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:35 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 35 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 35 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 37452
+handle exception
+print tlb!
+TLB entry: 35 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 34 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 32 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 36in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 37888
+handle exception
+print tlb!
+TLB entry: 35 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 34 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 37in handle TLB miss
+swap in page
+pid: 1
+vpn: 37
+entry to replace:36 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:36 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 35 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 34 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 36 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 36 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 38912
+handle exception
+print tlb!
+TLB entry: 37 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 34 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 38in handle TLB miss
+swap in page
+pid: 1
+vpn: 38
+entry to replace:37 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:37 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 37 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 37 -> 6, valid=true, readOnly=false, used=true, dirty=false
+save state
+context switch
+synctables
+restore state
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 39936
+handle exception
+print tlb!
+TLB entry: 37 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 38 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 39in handle TLB miss
+swap in page
+pid: 1
+vpn: 39
+entry to replace:38 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:38 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 37 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 38 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 38 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 40572
+handle exception
+print tlb!
+TLB entry: 39 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 38 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 39in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 40960
+handle exception
+print tlb!
+TLB entry: 39 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 38 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 40in handle TLB miss
+swap in page
+pid: 1
+vpn: 40
+entry to replace:39 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:39 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 39 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 39 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 41984
+handle exception
+print tlb!
+TLB entry: 40 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 38 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 41in handle TLB miss
+swap in page
+pid: 1
+vpn: 41
+entry to replace:40 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:40 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 40 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 40 -> 6, valid=true, readOnly=false, used=true, dirty=false
+save state
+context switch
+synctables
+restore state
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 43008
+handle exception
+print tlb!
+TLB entry: 40 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 38 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 41 -> 6, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 42in handle TLB miss
+swap in page
+pid: 1
+vpn: 42
+entry to replace:41 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:41 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 40 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 38 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 41 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 41 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 43612
+handle exception
+print tlb!
+TLB entry: 40 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 38 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 42 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 42in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 44032
+handle exception
+print tlb!
+TLB entry: 40 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 38 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 42 -> 6, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 43in handle TLB miss
+swap in page
+pid: 1
+vpn: 43
+entry to replace:42 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:42 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 40 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 38 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 42 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 42 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 45056
+handle exception
+print tlb!
+TLB entry: 43 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 38 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 42 -> 6, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 44in handle TLB miss
+swap in page
+pid: 1
+vpn: 44
+entry to replace:43 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:43 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 43 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 43 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+save state
+context switch
+synctables
+restore state
+TLB MISS
+PAGE FAULT: 45056
+handle exception
+print tlb!
+TLB entry: 44 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 38 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 42 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 44in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 46080
+handle exception
+print tlb!
+TLB entry: 44 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 38 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 42 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 45in handle TLB miss
+swap in page
+pid: 1
+vpn: 45
+entry to replace:44 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:44 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 44 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 44 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 46544
+handle exception
+print tlb!
+TLB entry: 44 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 45 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 42 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 45in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 47104
+handle exception
+print tlb!
+TLB entry: 45 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 45 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 42 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 46in handle TLB miss
+swap in page
+pid: 1
+vpn: 46
+entry to replace:45 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 45 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 45 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 42 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 46
+entry to replace:46 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:46 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 46 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 46 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 48128
+handle exception
+print tlb!
+TLB entry: 46 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 45 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 42 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+save state
+context switch
+synctables
+restore state
+pid 1 vpn 47in handle TLB miss
+swap in page
+pid: 1
+vpn: 47
+entry to replace:46 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:46 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 46 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 45 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 42 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 49152
+handle exception
+print tlb!
+TLB entry: 46 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 47 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 42 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 48in handle TLB miss
+swap in page
+pid: 1
+vpn: 48
+entry to replace:47 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:47 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 46 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 47 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 47 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 49620
+handle exception
+print tlb!
+TLB entry: 46 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 47 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 48 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 48in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 50176
+handle exception
+print tlb!
+TLB entry: 46 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 48 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 48 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 49in handle TLB miss
+swap in page
+pid: 1
+vpn: 49
+entry to replace:48 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 46 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 36 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 48 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 48 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 49
+entry to replace:49 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:49 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 49 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 49 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 51040
+handle exception
+print tlb!
+TLB entry: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 48 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 48 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 49in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 51200
+handle exception
+print tlb!
+TLB entry: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 49 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 48 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 48 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 50in handle TLB miss
+swap in page
+pid: 1
+vpn: 50
+entry to replace:49 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:49 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 49 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 49 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 52224
+handle exception
+print tlb!
+TLB entry: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 49 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 50 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 48 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 51in handle TLB miss
+swap in page
+pid: 1
+vpn: 51
+entry to replace:50 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:50 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 49 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 50 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 50 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 52332
+handle exception
+print tlb!
+TLB entry: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 50 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 48 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 51in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 53248
+handle exception
+print tlb!
+TLB entry: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 50 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 51 -> 6, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 52in handle TLB miss
+swap in page
+pid: 1
+vpn: 52
+entry to replace:51 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:51 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 50 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 51 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 51 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 53944
+handle exception
+print tlb!
+TLB entry: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 50 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 52 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 52in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 54272
+handle exception
+print tlb!
+TLB entry: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 52 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 52 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 53in handle TLB miss
+swap in page
+pid: 1
+vpn: 53
+entry to replace:52 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 52 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 52 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 53
+entry to replace:53 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:53 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 53 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 53 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 55296
+handle exception
+print tlb!
+TLB entry: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 53 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 52 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 54in handle TLB miss
+swap in page
+pid: 1
+vpn: 54
+entry to replace:53 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:53 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 53 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 53 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 55308
+handle exception
+print tlb!
+TLB entry: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 49 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 54 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 52 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 54in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 56320
+handle exception
+print tlb!
+TLB entry: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 54 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 54 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 52 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 55in handle TLB miss
+swap in page
+pid: 1
+vpn: 55
+entry to replace:54 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 54 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 54 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 52 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 55
+entry to replace:55 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:55 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 55 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 55 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 56860
+handle exception
+print tlb!
+TLB entry: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 55 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 55 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 52 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 55in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 57344
+handle exception
+print tlb!
+TLB entry: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 55 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 55 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 52 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 56in handle TLB miss
+swap in page
+pid: 1
+vpn: 56
+entry to replace:55 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 55 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 55 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 52 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 56
+entry to replace:56 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:56 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 55 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 56 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 56 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 58340
+handle exception
+print tlb!
+TLB entry: 51 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 56 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 56 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 52 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 56in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 58368
+handle exception
+print tlb!
+TLB entry: 56 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 56 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 56 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 52 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 57in handle TLB miss
+swap in page
+pid: 1
+vpn: 57
+entry to replace:56 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 56 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 56 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 56 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 52 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 57
+entry to replace:57 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:57 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 57 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 57 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 59392
+handle exception
+print tlb!
+TLB entry: 57 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 56 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 56 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 57 -> 6, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 58in handle TLB miss
+swap in page
+pid: 1
+vpn: 58
+entry to replace:57 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:57 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 57 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 57 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 59572
+handle exception
+print tlb!
+TLB entry: 57 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 58 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 56 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 57 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 58in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 60416
+handle exception
+print tlb!
+TLB entry: 58 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 58 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 56 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 57 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 59in handle TLB miss
+swap in page
+pid: 1
+vpn: 59
+entry to replace:58 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 58 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 58 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 56 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 57 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 59
+entry to replace:59 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:59 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 58 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 58 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 56 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 59 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 59 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 60988
+handle exception
+print tlb!
+TLB entry: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 58 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 56 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 59in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 61440
+handle exception
+print tlb!
+TLB entry: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 58 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 59 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 60in handle TLB miss
+swap in page
+pid: 1
+vpn: 60
+entry to replace:59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 58 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 59 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 60
+entry to replace:60 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:60 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 58 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 60 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 60 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 62420
+handle exception
+print tlb!
+TLB entry: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 60 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 60 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 60in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 62464
+handle exception
+print tlb!
+TLB entry: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 60 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 60 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 61in handle TLB miss
+swap in page
+pid: 1
+vpn: 61
+entry to replace:60 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 60 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 60 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 61
+entry to replace:61 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:61 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 61 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 61 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 63488
+handle exception
+print tlb!
+TLB entry: 61 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 60 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 61 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 62in handle TLB miss
+swap in page
+pid: 1
+vpn: 62
+entry to replace:61 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:61 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 61 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 61 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 63668
+handle exception
+print tlb!
+TLB entry: 61 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 60 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 62 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 62in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 64512
+handle exception
+print tlb!
+TLB entry: 62 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 60 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 62 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 63in handle TLB miss
+swap in page
+pid: 1
+vpn: 63
+entry to replace:62 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 62 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 60 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 62 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 59 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 63
+entry to replace:63 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:63 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 62 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 60 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 62 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 63 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 63 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 65208
+handle exception
+print tlb!
+TLB entry: 62 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 60 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 63 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 63 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 63in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 65536
+handle exception
+print tlb!
+TLB entry: 62 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 60 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 63 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 63 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 64in handle TLB miss
+swap in page
+pid: 1
+vpn: 64
+entry to replace:63 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 62 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 60 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 63 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 63 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 64
+entry to replace:64 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:64 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 62 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 64 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 64 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 66560
+handle exception
+print tlb!
+TLB entry: 62 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 64 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 63 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 63 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 65in handle TLB miss
+swap in page
+pid: 1
+vpn: 65
+entry to replace:64 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:64 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 62 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 64 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 64 -> 6, valid=true, readOnly=false, used=true, dirty=false
+save state
+context switch
+synctables
+restore state
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 67584
+handle exception
+print tlb!
+TLB entry: 62 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 64 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 65 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 63 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 66in handle TLB miss
+swap in page
+pid: 1
+vpn: 66
+entry to replace:65 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:65 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 62 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 64 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 65 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 65 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 68316
+handle exception
+print tlb!
+TLB entry: 66 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 64 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 65 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 63 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 66in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 68608
+handle exception
+print tlb!
+TLB entry: 66 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 64 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 65 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 63 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 67in handle TLB miss
+swap in page
+pid: 1
+vpn: 67
+entry to replace:66 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:66 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 66 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 66 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 69632
+handle exception
+print tlb!
+TLB entry: 66 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 64 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 67 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 63 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 68in handle TLB miss
+swap in page
+pid: 1
+vpn: 68
+entry to replace:67 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:67 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 66 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 64 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 67 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 67 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+save state
+context switch
+synctables
+restore state
+TLB MISS
+PAGE FAULT: 69632
+handle exception
+print tlb!
+TLB entry: 68 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 64 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 67 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 63 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 68in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 70656
+handle exception
+print tlb!
+TLB entry: 68 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 64 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 67 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 63 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 69in handle TLB miss
+swap in page
+pid: 1
+vpn: 69
+entry to replace:68 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:68 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 68 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 68 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 71204
+handle exception
+print tlb!
+TLB entry: 68 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 69 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 67 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 63 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 69in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 71680
+handle exception
+print tlb!
+TLB entry: 68 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 69 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 67 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 69 -> 6, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 70in handle TLB miss
+swap in page
+pid: 1
+vpn: 70
+entry to replace:69 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:69 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 68 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 69 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 67 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 69 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 69 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 72704
+handle exception
+print tlb!
+TLB entry: 68 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 69 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 67 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 70 -> 6, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 71in handle TLB miss
+swap in page
+pid: 1
+vpn: 71
+entry to replace:70 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:70 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 68 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 69 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 67 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 70 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 70 -> 6, valid=true, readOnly=false, used=true, dirty=false
+save state
+context switch
+synctables
+restore state
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 73728
+handle exception
+print tlb!
+TLB entry: 68 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 69 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 67 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 71 -> 6, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 72in handle TLB miss
+swap in page
+pid: 1
+vpn: 72
+entry to replace:71 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:71 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 68 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 69 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 67 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 71 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 71 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+save state
+context switch
+synctables
+restore state
+PAGE FAULT: 74348
+handle exception
+print tlb!
+TLB entry: 68 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 69 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 72 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 71 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 72in handle TLB miss
+tlb entry replacement index
+synctables
+TLB MISS
+PAGE FAULT: 74752
+handle exception
+print tlb!
+TLB entry: 72 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 69 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 72 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 71 -> 6, valid=false, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+pid 1 vpn 73in handle TLB miss
+swap in page
+pid: 1
+vpn: 73
+entry to replace:72 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 72 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 69 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 72 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 71 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+swap in page
+pid: 1
+vpn: 73
+entry to replace:73 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:73 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 72 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 69 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 72 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 73 -> 6, valid=true, readOnly=false, used=true, dirty=false
+page: 73 -> 6, valid=true, readOnly=false, used=true, dirty=false
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 75776
+handle exception
+print tlb!
+TLB entry: 72 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 69 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 72 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 73 -> 6, valid=true, readOnly=false, used=true, dirty=false
+handle tlb miss no arg
+handle tlb miss
+save state
+context switch
+synctables
+restore state
+pid 1 vpn 74in handle TLB miss
+swap in page
+pid: 1
+vpn: 74
+entry to replace:73 -> 6, valid=true, readOnly=false, used=true, dirty=false
+entry to replace:73 -> 6, valid=true, readOnly=false, used=false, dirty=false
+page: 72 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 69 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 72 -> 6, valid=false, readOnly=false, used=true, dirty=false
+page: 73 -> 6, valid=false, readOnly=false, used=true, dirty=false
+tlb entry replacement
+tlb entry replacement index
+TLB MISS
+PAGE FAULT: 76800
+handle exception
+print tlb!
