@@ -34,7 +34,7 @@ public class VMKernel extends UserKernel {
     pageTableLock.acquire();
     for(int i=0; i<Machine.processor().getNumPhysPages(); i++) {
       SwapFile.Pair pageTableKey = swapFile.new Pair(i, 0);
-      VMKernel.pageTable.put(pageTableKey, new TranslationEntry(0,0,false,false,false,false));
+      VMKernel.pageTable.put(pageTableKey, new TranslationEntry(0,i,false,false,false,false));
     }
     pageTableLock.release();
 
@@ -162,6 +162,7 @@ public class VMKernel extends UserKernel {
 
       SwapFile.Pair pidVpn = itr.next();
       TranslationEntry entry = VMKernel.pageTable.get(pidVpn);
+      System.out.println("entry to replace:"+entry);
       if(entry.vpn != pidVpn.vPageNum){
         System.out.println("Something's wrong in clockReplacement");
       }

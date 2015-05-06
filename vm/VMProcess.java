@@ -140,7 +140,7 @@ public class VMProcess extends UserProcess {
     return true;
   }
 
-  private TranslationEntry handleTLBMiss(int vpn){
+  private TranslationEntry handleTLBMiss(int vaddr){
     System.out.println("handle tlb miss");
     //TODO: make getPage always return the correct page.
     /* int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
@@ -158,12 +158,12 @@ public class VMProcess extends UserProcess {
        */
     //System.out.println("hi");
     // we need to know if the page is coming from memory or disk
-    System.out.println("pid " + pid + " vpn " + vpn + "in handle TLB miss");
     boolean fromDisk = false;
     VMKernel.pageTableLock.acquire();
     //System.out.println("wut");
     TranslationEntry page = null;
-    int pageNumber = pageFromAddress(vpn);
+    int pageNumber = pageFromAddress(vaddr);
+    System.out.println("pid " + pid + " vpn " + pageNumber + "in handle TLB miss");
     /* System.out.println(pageNumber); */
     /* System.out.println(VMKernel.pageTable); */
     SwapFile.Pair pageTableKey = swapFile.new Pair(pid, pageNumber);
@@ -171,7 +171,7 @@ public class VMProcess extends UserProcess {
     page = VMKernel.pageTable.get(pageTableKey);
     //System.out.println("This should be null: "+page);
 
-    while(page == null) {
+    while(page == null || !page.valid) {
       page = VMKernel.swapInPage(pid, pageNumber);
       fromDisk = true;
     }
