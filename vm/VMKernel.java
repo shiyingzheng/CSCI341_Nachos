@@ -113,7 +113,7 @@ public class VMKernel extends UserKernel {
       TranslationEntry page = Machine.processor().readTLBEntry(i);
       System.out.println("page: "+page);
       if(page.valid && page.vpn == replacedPage.vpn && replacedPage.valid){
-        System.out.println("page: "+page);
+        System.out.println("page already in tlb: "+page);
         replacedTLBPage = page;
         break;
       }
@@ -200,7 +200,8 @@ public class VMKernel extends UserKernel {
     System.out.println("tlb entry replacement");
     Random r = new Random();
     int randIndex = r.nextInt(Machine.processor().getTLBSize());
-    return Machine.processor().readTLBEntry(randIndex);
+    TranslationEntry entry = Machine.processor().readTLBEntry(randIndex);
+    return entry;
   }
 
   public static int TLBEntryReplacementIndex(){
