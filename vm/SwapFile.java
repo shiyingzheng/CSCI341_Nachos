@@ -30,6 +30,13 @@ public class SwapFile{
     highestDiskPage = 1;
   }
 
+  public void removePage(Pair key) {
+    Integer diskPageNum = diskPageMap.remove(key);
+    if(diskPageNum != null) {
+      freeDiskPages.add(diskPageNum);
+    }
+  }
+
 	public boolean swapPageIn(int pid, int vpn, int ppn){
 		// swap in the page indicated by pid,vpn. Store it in the space ppn in physical memory
     Integer dpn;

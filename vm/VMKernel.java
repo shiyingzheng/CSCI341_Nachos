@@ -103,17 +103,17 @@ public class VMKernel extends UserKernel {
   public static TranslationEntry swapInPage(int pid, int vpn){
     System.out.println("swap in page");
     // TODO: sync the translation entries in the page table with the ones in TLB 
-    System.out.println("pid: "+pid);
-    System.out.println("vpn: "+vpn);
+    /* System.out.println("pid: "+pid); */
+    /* System.out.println("vpn: "+vpn); */
     GenericPair<Integer,TranslationEntry> pair = clockReplacement();
     TranslationEntry replacedPage = pair.val2;
     TranslationEntry replacedTLBPage = null;
 
     for(int i=0;i<Machine.processor().getTLBSize();i++){
       TranslationEntry page = Machine.processor().readTLBEntry(i);
-      System.out.println("page: "+page);
+      /* System.out.println("page: "+page); */
       if(page.valid && page.vpn == replacedPage.vpn && replacedPage.valid){
-        System.out.println("page already in tlb: "+page);
+        /* System.out.println("page already in tlb: "+page); */
         replacedTLBPage = page;
         break;
       }
@@ -143,7 +143,8 @@ public class VMKernel extends UserKernel {
 
     //pageTableLock.release();
 
-    return replacedPage;
+    /* return replacedPage; // probably wrong....*/
+    return entry; // maybe not wrong....
   }
   // returns a pair that represents the pid and the translation entry of the page to replace
   public static GenericPair<Integer, TranslationEntry> clockReplacement(){
@@ -162,9 +163,9 @@ public class VMKernel extends UserKernel {
 
       SwapFile.Pair pidVpn = itr.next();
       TranslationEntry entry = VMKernel.pageTable.get(pidVpn);
-      System.out.println("entry to replace:"+entry);
+      /* System.out.println("entry to replace:"+entry); */
       if(entry.vpn != pidVpn.vPageNum){
-        System.out.println("Something's wrong in clockReplacement");
+        /* System.out.println("Something's wrong in clockReplacement"); */
       }
       //System.out.println("Should replace "+pidVpn);
       //System.out.println("pageTable "+ VMKernel.pageTable);
@@ -212,7 +213,6 @@ public class VMKernel extends UserKernel {
     return randIndex;
   }
 
-  // dummy variables to make javac smarter
   private static VMProcess dummy1 = null;
 
   private static final char dbgVM = 'v';
