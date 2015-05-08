@@ -200,6 +200,7 @@ public class VMProcess extends UserProcess {
       VMKernel.GenericPair pair = VMKernel.clockReplacement();
       TranslationEntry entry = (TranslationEntry) pair.val2;
       System.out.println("replacement: "+entry);
+      System.out.println(VMKernel.pageTable);
       invalidateTLBEntry(entry);
       int pid = (Integer) pair.val1;
       Pair key = new Pair(pid, entry.vpn);
