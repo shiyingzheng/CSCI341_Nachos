@@ -583,7 +583,7 @@ public final class Processor {
       writeRegister(regCause, cause);    
 
       if (hasBadVAddr){
-        System.out.println("PAGE FAULT: "+badVAddr);
+        System.out.println("PAGE FAULT: "+pageFromAddress(badVAddr));
         writeRegister(regBadVAddr, badVAddr); 
       }
 
