@@ -18,7 +18,7 @@ public class SwapFile{
   private HashMap<Pair,Integer> diskPageMap;
   private LinkedList<Integer> freeDiskPages;
   private int highestDiskPage;
-  private final int pageSize = 1024;
+  private final int pageSize = Machine.processor().pageSize;
   private final String filename = ".swp";
 
 	public SwapFile(){
@@ -37,6 +37,11 @@ public class SwapFile{
     }
   }
 
+  public boolean containsPage(int pid, int vpn){
+    Integer dpn;
+    return (dpn = diskPageMap.get(new Pair(pid,vpn))) != null;
+  }
+
 	public boolean swapPageIn(int pid, int vpn, int ppn){
     System.out.println("sf page in");
     // Store it in the space ppn in physical memory
@@ -44,6 +49,7 @@ public class SwapFile{
     Integer dpn;
     fileLock.acquire();
     if((dpn = diskPageMap.get(new Pair(pid,vpn))) == null){
+      System.out.println("Weird! cannot find pid " + pid + " ppn " + ppn + "in swap file");
       fileLock.release();
       return false;
     }

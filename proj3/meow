@@ -1,0 +1,596 @@
+nachos 5.0j initializing... config interrupt timer processor console user-check grader
+VM kernel constructor
+START kernel initialize
+END kernel initialize
+Testing the console device. Typed characters
+will be echoed until q is typed.
+q
+run
+START VMProcess init, pid 1
+END VMProcess init, pid 1
+START load sections, pid 1
+START clock replacement
+END clock replacement
+START clock replacement
+END clock replacement
+START clock replacement
+END clock replacement
+START clock replacement
+END clock replacement
+START clock replacement
+END clock replacement
+START clock replacement
+END clock replacement
+START clock replacement
+END clock replacement
+START clock replacement
+END clock replacement
+START clock replacement
+END clock replacement
+START clock replacement
+END clock replacement
+START clock replacement
+END clock replacement
+START get page pid 1 page number 0 write? false
+START find entry in tlb for pid 1 for page 0
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+did not find page 0
+END find entry in tlb for pid 1 for page 0
+START handle tlb miss pid 1 vaddr 0
+START find entry in tlb for pid 1 for page 0
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+did not find page 0
+END find entry in tlb for pid 1 for page 0
+START swap in page pid 1 vpn 0
+START clock replacement
+END clock replacement
+START tlb entry replacement
+END tlb entry replacement
+sf page in
+Weird! cannot find pid 1 ppn 8in swap file
+OH NO!!! page swap in failed
+END swap in page pid 1 vpn 0
+TLB MISS
+page: 0 -> 8, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+END handle tlb miss pid 1 vaddr 0
+END get page pid 1 page number 0 write? false
+START get page pid 1 page number 1 write? false
+START find entry in tlb for pid 1 for page 1
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+did not find page 1
+END find entry in tlb for pid 1 for page 1
+START handle tlb miss pid 1 vaddr 1
+START find entry in tlb for pid 1 for page 0
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+found page 0
+END find entry in tlb for pid 1 for page 0
+END get page pid 1 page number 1 write? false
+END load sections, pid 1
+START restore state, pid 1
+cur thread: testRead.coff (#2)
+START context switch pid 1
+START synctables, pid 1
+END synctables, pid 1
+END context switch pid 1
+END restore state, pid 1
+START restore state, pid 1
+cur thread: testRead.coff (#2)
+START context switch pid 1
+START synctables, pid 1
+END synctables, pid 1
+END context switch pid 1
+END restore state, pid 1
+PC=0x00000220	PAGE FAULT: 0
+exception: TLB miss     
+START handle exception, pid 1 cause 2
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+START handle tlb miss no arg, pid 1
+END handle tlb miss no arg, pid 1
+START handle tlb miss pid 1 vaddr 544
+START find entry in tlb for pid 1 for page 0
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+did not find page 0
+END find entry in tlb for pid 1 for page 0
+TLB MISS
+page: 0 -> 8, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+END handle tlb miss pid 1 vaddr 544
+END handle exception, pid 1 cause 2
+PC=0x00000220	sll	$0, $0, 0       				
+PC=0x00000224	sll	$0, $0, 0       				
+PC=0x00000228	sll	$0, $0, 0       				
+PC=0x0000022C	sll	$0, $0, 0       				
+PC=0x00000230	sll	$0, $0, 0       				
+PC=0x00000234	sll	$0, $0, 0       				
+PC=0x00000238	sll	$0, $0, 0       				
+PC=0x0000023C	sll	$0, $0, 0       				
+PC=0x00000240	sll	$0, $0, 0       				
+PC=0x00000244	sll	$0, $0, 0       				
+PC=0x00000248	sll	$0, $0, 0       				
+PC=0x0000024C	sll	$0, $0, 0       				
+PC=0x00000250	sll	$0, $0, 0       				
+PC=0x00000254	sll	$0, $0, 0       				
+PC=0x00000258	sll	$0, $0, 0       				
+PC=0x0000025C	sll	$0, $0, 0       				
+PC=0x00000260	sll	$0, $0, 0       				
+PC=0x00000264	sll	$0, $0, 0       				
+PC=0x00000268	sll	$0, $0, 0       				
+PC=0x0000026C	sll	$0, $0, 0       				
+PC=0x00000270	sll	$0, $0, 0       				
+PC=0x00000274	sll	$0, $0, 0       				
+PC=0x00000278	sll	$0, $0, 0       				
+PC=0x0000027C	sll	$0, $0, 0       				
+PC=0x00000280	sll	$0, $0, 0       				
+PC=0x00000284	sll	$0, $0, 0       				
+PC=0x00000288	sll	$0, $0, 0       				
+PC=0x0000028C	sll	$0, $0, 0       				
+PC=0x00000290	sll	$0, $0, 0       				
+PC=0x00000294	sll	$0, $0, 0       				
+PC=0x00000298	sll	$0, $0, 0       				
+PC=0x0000029C	sll	$0, $0, 0       				
+PC=0x000002A0	sll	$0, $0, 0       				
+PC=0x000002A4	sll	$0, $0, 0       				
+PC=0x000002A8	sll	$0, $0, 0       				
+PC=0x000002AC	sll	$0, $0, 0       				
+PC=0x000002B0	sll	$0, $0, 0       				
+PC=0x000002B4	sll	$0, $0, 0       				
+PC=0x000002B8	sll	$0, $0, 0       				
+PC=0x000002BC	sll	$0, $0, 0       				
+PC=0x000002C0	sll	$0, $0, 0       				
+PC=0x000002C4	sll	$0, $0, 0       				
+PC=0x000002C8	sll	$0, $0, 0       				
+PC=0x000002CC	sll	$0, $0, 0       				
+PC=0x000002D0	sll	$0, $0, 0       				
+PC=0x000002D4	sll	$0, $0, 0       				
+PC=0x000002D8	sll	$0, $0, 0       				
+PC=0x000002DC	sll	$0, $0, 0       				
+PC=0x000002E0	sll	$0, $0, 0       				
+PC=0x000002E4	sll	$0, $0, 0       				
+PC=0x000002E8	sll	$0, $0, 0       				
+PC=0x000002EC	sll	$0, $0, 0       				
+PC=0x000002F0	sll	$0, $0, 0       				
+PC=0x000002F4	sll	$0, $0, 0       				
+PC=0x000002F8	sll	$0, $0, 0       				
+PC=0x000002FC	sll	$0, $0, 0       				
+PC=0x00000300	sll	$0, $0, 0       				
+PC=0x00000304	sll	$0, $0, 0       				
+PC=0x00000308	sll	$0, $0, 0       				
+PC=0x0000030C	sll	$0, $0, 0       				
+PC=0x00000310	sll	$0, $0, 0       				
+PC=0x00000314	sll	$0, $0, 0       				
+PC=0x00000318	sll	$0, $0, 0       				
+PC=0x0000031C	sll	$0, $0, 0       				
+PC=0x00000320	sll	$0, $0, 0       				
+PC=0x00000324	sll	$0, $0, 0       				
+PC=0x00000328	sll	$0, $0, 0       				
+PC=0x0000032C	sll	$0, $0, 0       				
+PC=0x00000330	sll	$0, $0, 0       				
+PC=0x00000334	sll	$0, $0, 0       				
+PC=0x00000338	sll	$0, $0, 0       				
+PC=0x0000033C	sll	$0, $0, 0       				
+PC=0x00000340	sll	$0, $0, 0       				
+PC=0x00000344	sll	$0, $0, 0       				
+PC=0x00000348	sll	$0, $0, 0       				
+PC=0x0000034C	sll	$0, $0, 0       				
+PC=0x00000350	sll	$0, $0, 0       				
+PC=0x00000354	sll	$0, $0, 0       				
+PC=0x00000358	sll	$0, $0, 0       				
+PC=0x0000035C	sll	$0, $0, 0       				
+PC=0x00000360	sll	$0, $0, 0       				
+PC=0x00000364	sll	$0, $0, 0       				
+PC=0x00000368	sll	$0, $0, 0       				
+PC=0x0000036C	sll	$0, $0, 0       				
+PC=0x00000370	sll	$0, $0, 0       				
+PC=0x00000374	sll	$0, $0, 0       				
+PC=0x00000378	sll	$0, $0, 0       				
+PC=0x0000037C	sll	$0, $0, 0       				
+PC=0x00000380	sll	$0, $0, 0       				
+PC=0x00000384	sll	$0, $0, 0       				
+PC=0x00000388	sll	$0, $0, 0       				
+PC=0x0000038C	sll	$0, $0, 0       				
+PC=0x00000390	sll	$0, $0, 0       				
+PC=0x00000394	sll	$0, $0, 0       				
+PC=0x00000398	sll	$0, $0, 0       				
+PC=0x0000039C	sll	$0, $0, 0       				
+PC=0x000003A0	sll	$0, $0, 0       				
+PC=0x000003A4	sll	$0, $0, 0       				
+PC=0x000003A8	sll	$0, $0, 0       				
+PC=0x000003AC	sll	$0, $0, 0       				
+PC=0x000003B0	sll	$0, $0, 0       				
+PC=0x000003B4	sll	$0, $0, 0       				
+PC=0x000003B8	sll	$0, $0, 0       				
+PC=0x000003BC	sll	$0, $0, 0       				
+PC=0x000003C0	sll	$0, $0, 0       				
+PC=0x000003C4	sll	$0, $0, 0       				
+PC=0x000003C8	sll	$0, $0, 0       				
+PC=0x000003CC	sll	$0, $0, 0       				
+PC=0x000003D0	sll	$0, $0, 0       				
+PC=0x000003D4	sll	$0, $0, 0       				
+PC=0x000003D8	sll	$0, $0, 0       				
+PC=0x000003DC	sll	$0, $0, 0       				
+PC=0x000003E0	sll	$0, $0, 0       				
+PC=0x000003E4	sll	$0, $0, 0       				
+PC=0x000003E8	sll	$0, $0, 0       				
+PC=0x000003EC	sll	$0, $0, 0       				
+PC=0x000003F0	sll	$0, $0, 0       				
+PC=0x000003F4	sll	$0, $0, 0       				
+PC=0x000003F8	sll	$0, $0, 0       				
+PC=0x000003FC	sll	$0, $0, 0       				
+PC=0x00000400	PAGE FAULT: 1
+exception: TLB miss     
+START handle exception, pid 1 cause 2
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+START handle tlb miss no arg, pid 1
+END handle tlb miss no arg, pid 1
+START handle tlb miss pid 1 vaddr 1024
+START find entry in tlb for pid 1 for page 1
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+did not find page 1
+END find entry in tlb for pid 1 for page 1
+TLB MISS
+page: 1 -> 2, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 1 -> 2, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+END handle tlb miss pid 1 vaddr 1024
+END handle exception, pid 1 cause 2
+PC=0x00000400	sll	$0, $0, 0       				
+PC=0x00000404	sll	$0, $0, 0       				
+PC=0x00000408	sll	$0, $0, 0       				
+PC=0x0000040C	sll	$0, $0, 0       				
+PC=0x00000410	sll	$0, $0, 0       				
+PC=0x00000414	sll	$0, $0, 0       				
+PC=0x00000418	sll	$0, $0, 0       				
+PC=0x0000041C	sll	$0, $0, 0       				
+PC=0x00000420	sll	$0, $0, 0       				
+PC=0x00000424	sll	$0, $0, 0       				
+PC=0x00000428	sll	$0, $0, 0       				
+PC=0x0000042C	sll	$0, $0, 0       				
+PC=0x00000430	sll	$0, $0, 0       				
+PC=0x00000434	sll	$0, $0, 0       				
+PC=0x00000438	sll	$0, $0, 0       				
+PC=0x0000043C	sll	$0, $0, 0       				
+PC=0x00000440	sll	$0, $0, 0       				
+PC=0x00000444	sll	$0, $0, 0       				
+PC=0x00000448	sll	$0, $0, 0       				
+PC=0x0000044C	sll	$0, $0, 0       				
+PC=0x00000450	sll	$0, $0, 0       				
+PC=0x00000454	sll	$0, $0, 0       				
+PC=0x00000458	sll	$0, $0, 0       				
+PC=0x0000045C	sll	$0, $0, 0       				
+PC=0x00000460	sll	$0, $0, 0       				
+PC=0x00000464	sll	$0, $0, 0       				
+PC=0x00000468	sll	$0, $0, 0       				
+PC=0x0000046C	sll	$0, $0, 0       				
+PC=0x00000470	sll	$0, $0, 0       				
+PC=0x00000474	sll	$0, $0, 0       				
+PC=0x00000478	sll	$0, $0, 0       				
+PC=0x0000047C	sll	$0, $0, 0       				
+PC=0x00000480	sll	$0, $0, 0       				
+PC=0x00000484	sll	$0, $0, 0       				
+PC=0x00000488	sll	$0, $0, 0       				
+PC=0x0000048C	sll	$0, $0, 0       				
+PC=0x00000490	sll	$0, $0, 0       				
+PC=0x00000494	sll	$0, $0, 0       				
+PC=0x00000498	sll	$0, $0, 0       				
+PC=0x0000049C	sll	$0, $0, 0       				
+PC=0x000004A0	sll	$0, $0, 0       				
+PC=0x000004A4	sll	$0, $0, 0       				
+PC=0x000004A8	sll	$0, $0, 0       				
+PC=0x000004AC	sll	$0, $0, 0       				
+PC=0x000004B0	sll	$0, $0, 0       				
+PC=0x000004B4	sll	$0, $0, 0       				
+PC=0x000004B8	sll	$0, $0, 0       				
+PC=0x000004BC	sll	$0, $0, 0       				
+PC=0x000004C0	sll	$0, $0, 0       				
+PC=0x000004C4	sll	$0, $0, 0       				
+PC=0x000004C8	sll	$0, $0, 0       				
+PC=0x000004CC	sll	$0, $0, 0       				
+PC=0x000004D0	sll	$0, $0, 0       				
+PC=0x000004D4	sll	$0, $0, 0       				
+PC=0x000004D8	sll	$0, $0, 0       				
+PC=0x000004DC	sll	$0, $0, 0       				
+PC=0x000004E0	sll	$0, $0, 0       				
+PC=0x000004E4	sll	$0, $0, 0       				
+PC=0x000004E8	sll	$0, $0, 0       				
+PC=0x000004EC	sll	$0, $0, 0       				
+PC=0x000004F0	sll	$0, $0, 0       				
+PC=0x000004F4	sll	$0, $0, 0       				
+PC=0x000004F8	sll	$0, $0, 0       				
+PC=0x000004FC	sll	$0, $0, 0       				
+PC=0x00000500	sll	$0, $0, 0       				
+PC=0x00000504	sll	$0, $0, 0       				
+PC=0x00000508	sll	$0, $0, 0       				
+PC=0x0000050C	sll	$0, $0, 0       				
+PC=0x00000510	sll	$0, $0, 0       				
+PC=0x00000514	sll	$0, $0, 0       				
+PC=0x00000518	sll	$0, $0, 0       				
+PC=0x0000051C	sll	$0, $0, 0       				
+PC=0x00000520	sll	$0, $0, 0       				
+PC=0x00000524	sll	$0, $0, 0       				
+PC=0x00000528	sll	$0, $0, 0       				
+PC=0x0000052C	sll	$0, $0, 0       				
+PC=0x00000530	sll	$0, $0, 0       				
+PC=0x00000534	sll	$0, $0, 0       				
+PC=0x00000538	sll	$0, $0, 0       				
+PC=0x0000053C	sll	$0, $0, 0       				
+PC=0x00000540	sll	$0, $0, 0       				
+PC=0x00000544	sll	$0, $0, 0       				
+PC=0x00000548	sll	$0, $0, 0       				
+PC=0x0000054C	sll	$0, $0, 0       				
+PC=0x00000550	sll	$0, $0, 0       				
+PC=0x00000554	sll	$0, $0, 0       				
+PC=0x00000558	sll	$0, $0, 0       				
+PC=0x0000055C	sll	$0, $0, 0       				
+PC=0x00000560	sll	$0, $0, 0       				
+PC=0x00000564	sll	$0, $0, 0       				
+PC=0x00000568	sll	$0, $0, 0       				
+PC=0x0000056C	sll	$0, $0, 0       				
+PC=0x00000570	sll	$0, $0, 0       				
+PC=0x00000574	sll	$0, $0, 0       				
+PC=0x00000578	sll	$0, $0, 0       				
+PC=0x0000057C	sll	$0, $0, 0       				
+PC=0x00000580	sll	$0, $0, 0       				
+PC=0x00000584	sll	$0, $0, 0       				
+PC=0x00000588	sll	$0, $0, 0       				
+PC=0x0000058C	sll	$0, $0, 0       				
+PC=0x00000590	sll	$0, $0, 0       				
+PC=0x00000594	sll	$0, $0, 0       				
+PC=0x00000598	sll	$0, $0, 0       				
+PC=0x0000059C	sll	$0, $0, 0       				
+PC=0x000005A0	sll	$0, $0, 0       				
+PC=0x000005A4	sll	$0, $0, 0       				
+PC=0x000005A8	sll	$0, $0, 0       				
+PC=0x000005AC	sll	$0, $0, 0       				
+PC=0x000005B0	sll	$0, $0, 0       				
+PC=0x000005B4	sll	$0, $0, 0       				
+PC=0x000005B8	sll	$0, $0, 0       				
+PC=0x000005BC	sll	$0, $0, 0       				
+PC=0x000005C0	sll	$0, $0, 0       				
+PC=0x000005C4	sll	$0, $0, 0       				
+PC=0x000005C8	sll	$0, $0, 0       				
+PC=0x000005CC	sll	$0, $0, 0       				
+PC=0x000005D0	sll	$0, $0, 0       				
+PC=0x000005D4	sll	$0, $0, 0       				
+PC=0x000005D8	sll	$0, $0, 0       				
+PC=0x000005DC	sll	$0, $0, 0       				
+PC=0x000005E0	sll	$0, $0, 0       				
+PC=0x000005E4	sll	$0, $0, 0       				
+PC=0x000005E8	sll	$0, $0, 0       				
+PC=0x000005EC	sll	$0, $0, 0       				
+PC=0x000005F0	sll	$0, $0, 0       				
+PC=0x000005F4	sll	$0, $0, 0       				
+PC=0x000005F8	sll	$0, $0, 0       				
+PC=0x000005FC	sll	$0, $0, 0       				
+PC=0x00000600	sll	$0, $0, 0       				
+PC=0x00000604	sll	$0, $0, 0       				
+PC=0x00000608	sll	$0, $0, 0       				
+PC=0x0000060C	sll	$0, $0, 0       				
+PC=0x00000610	sll	$0, $0, 0       				
+PC=0x00000614	sll	$0, $0, 0       				
+PC=0x00000618	sll	$0, $0, 0       				
+PC=0x0000061C	sll	$0, $0, 0       				
+PC=0x00000620	sll	$0, $0, 0       				
+PC=0x00000624	sll	$0, $0, 0       				
+PC=0x00000628	sll	$0, $0, 0       				
+PC=0x0000062C	sll	$0, $0, 0       				
+PC=0x00000630	sll	$0, $0, 0       				
+PC=0x00000634	sll	$0, $0, 0       				
+PC=0x00000638	sll	$0, $0, 0       				
+PC=0x0000063C	sll	$0, $0, 0       				
+PC=0x00000640	sll	$0, $0, 0       				
+START save state, pid 1
+END save state, pid 1
+START restore state, pid 1
+cur thread: testRead.coff (#2)
+START context switch pid 1
+START synctables, pid 1
+END synctables, pid 1
+END context switch pid 1
+END restore state, pid 1
+PC=0x00000644	PAGE FAULT: 1
+exception: TLB miss     
+START handle exception, pid 1 cause 2
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+START handle tlb miss no arg, pid 1
+END handle tlb miss no arg, pid 1
+START handle tlb miss pid 1 vaddr 1604
+START find entry in tlb for pid 1 for page 1
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 1 -> 2, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+did not find page 1
+END find entry in tlb for pid 1 for page 1
+TLB MISS
+page: 1 -> 2, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 1 -> 2, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+END handle tlb miss pid 1 vaddr 1604
+END handle exception, pid 1 cause 2
+PC=0x00000644	sll	$0, $0, 0       				
+PC=0x00000648	sll	$0, $0, 0       				
+PC=0x0000064C	sll	$0, $0, 0       				
+PC=0x00000650	sll	$0, $0, 0       				
+PC=0x00000654	sll	$0, $0, 0       				
+PC=0x00000658	sll	$0, $0, 0       				
+PC=0x0000065C	sll	$0, $0, 0       				
+PC=0x00000660	sll	$0, $0, 0       				
+PC=0x00000664	sll	$0, $0, 0       				
+PC=0x00000668	sll	$0, $0, 0       				
+PC=0x0000066C	sll	$0, $0, 0       				
+PC=0x00000670	sll	$0, $0, 0       				
+PC=0x00000674	sll	$0, $0, 0       				
+PC=0x00000678	sll	$0, $0, 0       				
+PC=0x0000067C	sll	$0, $0, 0       				
+PC=0x00000680	sll	$0, $0, 0       				
+PC=0x00000684	sll	$0, $0, 0       				
+PC=0x00000688	sll	$0, $0, 0       				
+PC=0x0000068C	sll	$0, $0, 0       				
+PC=0x00000690	sll	$0, $0, 0       				
+PC=0x00000694	sll	$0, $0, 0       				
+PC=0x00000698	sll	$0, $0, 0       				
+PC=0x0000069C	sll	$0, $0, 0       				
+PC=0x000006A0	sll	$0, $0, 0       				
+PC=0x000006A4	sll	$0, $0, 0       				
+PC=0x000006A8	sll	$0, $0, 0       				
+PC=0x000006AC	sll	$0, $0, 0       				
+PC=0x000006B0	sll	$0, $0, 0       				
+PC=0x000006B4	sll	$0, $0, 0       				
+PC=0x000006B8	sll	$0, $0, 0       				
+PC=0x000006BC	sll	$0, $0, 0       				
+PC=0x000006C0	sll	$0, $0, 0       				
+PC=0x000006C4	sll	$0, $0, 0       				
+PC=0x000006C8	sll	$0, $0, 0       				
+PC=0x000006CC	sll	$0, $0, 0       				
+PC=0x000006D0	sll	$0, $0, 0       				
+PC=0x000006D4	sll	$0, $0, 0       				
+PC=0x000006D8	sll	$0, $0, 0       				
+PC=0x000006DC	sll	$0, $0, 0       				
+PC=0x000006E0	sll	$0, $0, 0       				
+PC=0x000006E4	sll	$0, $0, 0       				
+PC=0x000006E8	sll	$0, $0, 0       				
+PC=0x000006EC	sll	$0, $0, 0       				
+PC=0x000006F0	sll	$0, $0, 0       				
+PC=0x000006F4	sll	$0, $0, 0       				
+PC=0x000006F8	sll	$0, $0, 0       				
+PC=0x000006FC	sll	$0, $0, 0       				
+PC=0x00000700	sll	$0, $0, 0       				
+PC=0x00000704	sll	$0, $0, 0       				
+PC=0x00000708	sll	$0, $0, 0       				
+PC=0x0000070C	sll	$0, $0, 0       				
+PC=0x00000710	sll	$0, $0, 0       				
+PC=0x00000714	sll	$0, $0, 0       				
+PC=0x00000718	sll	$0, $0, 0       				
+PC=0x0000071C	sll	$0, $0, 0       				
+PC=0x00000720	sll	$0, $0, 0       				
+PC=0x00000724	sll	$0, $0, 0       				
+PC=0x00000728	sll	$0, $0, 0       				
+PC=0x0000072C	sll	$0, $0, 0       				
+PC=0x00000730	sll	$0, $0, 0       				
+PC=0x00000734	sll	$0, $0, 0       				
+PC=0x00000738	sll	$0, $0, 0       				
+PC=0x0000073C	sll	$0, $0, 0       				
+PC=0x00000740	sll	$0, $0, 0       				
+PC=0x00000744	sll	$0, $0, 0       				
+PC=0x00000748	sll	$0, $0, 0       				
+PC=0x0000074C	sll	$0, $0, 0       				
+PC=0x00000750	sll	$0, $0, 0       				
+PC=0x00000754	sll	$0, $0, 0       				
+PC=0x00000758	sll	$0, $0, 0       				
+PC=0x0000075C	sll	$0, $0, 0       				
+PC=0x00000760	sll	$0, $0, 0       				
+PC=0x00000764	sll	$0, $0, 0       				
+PC=0x00000768	sll	$0, $0, 0       				
+PC=0x0000076C	sll	$0, $0, 0       				
+PC=0x00000770	sll	$0, $0, 0       				
+PC=0x00000774	sll	$0, $0, 0       				
+PC=0x00000778	sll	$0, $0, 0       				
+PC=0x0000077C	sll	$0, $0, 0       				
+PC=0x00000780	sll	$0, $0, 0       				
+PC=0x00000784	sll	$0, $0, 0       				
+PC=0x00000788	sll	$0, $0, 0       				
+PC=0x0000078C	sll	$0, $0, 0       				
+PC=0x00000790	sll	$0, $0, 0       				
+PC=0x00000794	sll	$0, $0, 0       				
+PC=0x00000798	sll	$0, $0, 0       				
+PC=0x0000079C	sll	$0, $0, 0       				
+PC=0x000007A0	sll	$0, $0, 0       				
+PC=0x000007A4	sll	$0, $0, 0       				
+PC=0x000007A8	sll	$0, $0, 0       				
+PC=0x000007AC	sll	$0, $0, 0       				
+PC=0x000007B0	sll	$0, $0, 0       				
+PC=0x000007B4	sll	$0, $0, 0       				
+PC=0x000007B8	sll	$0, $0, 0       				
+PC=0x000007BC	sll	$0, $0, 0       				
+PC=0x000007C0	sll	$0, $0, 0       				
+PC=0x000007C4	sll	$0, $0, 0       				
+PC=0x000007C8	sll	$0, $0, 0       				
+PC=0x000007CC	sll	$0, $0, 0       				
+PC=0x000007D0	sll	$0, $0, 0       				
+PC=0x000007D4	sll	$0, $0, 0       				
+PC=0x000007D8	sll	$0, $0, 0       				
+PC=0x000007DC	sll	$0, $0, 0       				
+PC=0x000007E0	sll	$0, $0, 0       				
+PC=0x000007E4	sll	$0, $0, 0       				
+PC=0x000007E8	sll	$0, $0, 0       				
+PC=0x000007EC	sll	$0, $0, 0       				
+PC=0x000007F0	sll	$0, $0, 0       				
+PC=0x000007F4	sll	$0, $0, 0       				
+PC=0x000007F8	sll	$0, $0, 0       				
+PC=0x000007FC	sll	$0, $0, 0       				
+PC=0x00000800	PAGE FAULT: 2
+exception: TLB miss     
+START handle exception, pid 1 cause 2
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 1 -> 2, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+START handle tlb miss no arg, pid 1
+END handle tlb miss no arg, pid 1
+START handle tlb miss pid 1 vaddr 2048
+START find entry in tlb for pid 1 for page 2
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 1 -> 2, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+did not find page 2
+END find entry in tlb for pid 1 for page 2
+START swap in page pid 1 vpn 2
+START clock replacement
+END clock replacement
+START tlb entry replacement
+END tlb entry replacement
+sf page in
+Weird! cannot find pid 1 ppn 8in swap file
+OH NO!!! page swap in failed
+END swap in page pid 1 vpn 2
+TLB MISS
+page: 2 -> 8, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 1 -> 2, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 2 -> 8, valid=true, readOnly=false, used=true, dirty=false
+END handle tlb miss pid 1 vaddr 2048
+END handle exception, pid 1 cause 2
+PC=0x00000800	invalid: op=1D rs=1B rt=0F rd=0C sh=15 func=2D
+exception: illegal inst 
+START handle exception, pid 1 cause 7
+

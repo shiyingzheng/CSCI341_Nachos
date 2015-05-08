@@ -23,8 +23,9 @@ public class VMProcess extends UserProcess {
    */
   public VMProcess() {
     super();
-    System.out.println("VMProcess init");
+    System.out.println("START VMProcess init, pid " + pid);
     lockOnBeforeSwitch = false;
+    System.out.println("END VMProcess init, pid " + pid);
   }
 
   /**
@@ -32,13 +33,15 @@ public class VMProcess extends UserProcess {
    * Called by <tt>UThread.saveState()</tt>.
    */
   public void saveState() {
-    System.out.println("save state");
+    System.out.println("START save state, pid " + pid);
     /* super.saveState(); */
     if (VMKernel.pageTableLock.isHeldByCurrentThread()){
+      System.out.println("release lock in save state");
       VMKernel.pageTableLock.release();
       lockOnBeforeSwitch = true;
     }
-    VMKernel.contextSwitch(pid);
+    //VMKernel.contextSwitch(pid);
+    System.out.println("END save state, pid " + pid);
     // sync the TLB with entries in page table, invalidate all entries in TLB
     // we can call VMKernel contextSwitch() for this
   }
@@ -50,19 +53,21 @@ public class VMProcess extends UserProcess {
    * <tt>UThread.restoreState()</tt>.
    */
   public void restoreState() {
-    System.out.println("restore state");
-    System.out.println("pid: "+pid);
+    System.out.println("START restore state, pid " +pid);
     System.out.println("cur thread: "+(UThread) KThread.currentThread());
     /* super.restoreState(); */
     VMKernel.contextSwitch(pid);
     if (lockOnBeforeSwitch){
+      System.out.println("acquire lock in restore state");
       lockOnBeforeSwitch = false;
       VMKernel.pageTableLock.acquire();
     }
+    System.out.println("END restore state, pid " + pid);
   }
 
   private TranslationEntry findEntryInTLB(int pid, int pageNumber){
-    System.out.println("find entry in tlb");
+    System.out.println("START find entry in tlb for pid " + pid + " for page " + pageNumber);
+    VMKernel.printTLB();
     TranslationEntry page = null;
     for(int i=0; i<Machine.processor().getTLBSize(); i++) {
       TranslationEntry entry = Machine.processor().readTLBEntry(i);
@@ -72,6 +77,13 @@ public class VMProcess extends UserProcess {
         break;
       }
     }
+    if (page == null){
+      System.out.println("did not find page " + pageNumber);
+    }
+    else{
+      System.out.println("found page " + pageNumber);
+    }
+    System.out.println("END find entry in tlb for pid " + pid + " for page " + pageNumber);
     return page;
   }
 
@@ -80,7 +92,7 @@ public class VMProcess extends UserProcess {
   // then bring that page into the TLB
   // handleTLBMiss() will be called
   public TranslationEntry getPage(int pid, int pageNumber, boolean write) {
-    System.out.println("get page");
+    System.out.println("START get page pid " + pid + " page number " + pageNumber + " write? " + write);
     TranslationEntry page = findEntryInTLB(pid, pageNumber);
     while(page == null) {
       page = handleTLBMiss(pageNumber);
@@ -93,11 +105,12 @@ public class VMProcess extends UserProcess {
     if(write){
       page.dirty = true; // ;)
     }
+    System.out.println("END get page pid " + pid + " page number " + pageNumber + " write? " + write);
     return page;
   }
 
   protected boolean loadSections() {
-    System.out.println("load sections");
+    System.out.println("START load sections, pid " + pid);
     for (int i=0; i<numPages; i++){
       /* System.out.println("i is "+i); */
       VMKernel.pageTableLock.acquire();
@@ -140,11 +153,12 @@ public class VMProcess extends UserProcess {
         VMKernel.pageTableLock.release();
       }
     }
+    System.out.println("END load sections, pid " + pid);
     return true;
   }
 
   private TranslationEntry handleTLBMiss(int vaddr){
-    System.out.println("handle tlb miss");
+    System.out.println("START handle tlb miss pid " + pid + " vaddr " + vaddr);
     //TODO: make getPage always return the correct page.
     /* int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
        int pid = VMKernel.currentProcess().pid;
@@ -161,11 +175,16 @@ public class VMProcess extends UserProcess {
        */
     //System.out.println("hi");
     // we need to know if the page is coming from memory or disk
+    int pageNumber = pageFromAddress(vaddr);
+    TranslationEntry maybeEntryIsThere = findEntryInTLB(pid, pageNumber);
+    if (maybeEntryIsThere != null){
+      return maybeEntryIsThere;
+    }
+
     boolean fromDisk = false;
     VMKernel.pageTableLock.acquire();
     //System.out.println("wut");
     TranslationEntry page = null;
-    int pageNumber = pageFromAddress(vaddr);
     /* System.out.println("pid " + pid + " vpn " + pageNumber + "in handle TLB miss"); */
     /* System.out.println(pageNumber); */
     /* System.out.println(VMKernel.pageTable); */
@@ -204,6 +223,7 @@ public class VMProcess extends UserProcess {
     //    in VMKernel, which I just made up but has not been implemented
     //System.out.println("lock release in handle tlb miss");
     //System.out.println("bye");
+    System.out.println("END handle tlb miss pid " + pid + " vaddr " + vaddr);
     return page;
   }
 
@@ -211,8 +231,9 @@ public class VMProcess extends UserProcess {
    * A function to handle TLB misses. 
    */
   private TranslationEntry handleTLBMiss(){
-    System.out.println("handle tlb miss no arg");
+    System.out.println("START handle tlb miss no arg, pid " + pid);
     int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
+    System.out.println("END handle tlb miss no arg, pid " + pid);
     return handleTLBMiss(badAddress);
   }
 
@@ -225,7 +246,7 @@ public class VMProcess extends UserProcess {
    * @param	cause	the user exception that occurred.
    */
   public void handleException(int cause){
-    System.out.println("handle exception");
+    System.out.println("START handle exception, pid " + pid + " cause " + cause);
     Processor processor = Machine.processor();
 
     switch (cause) {
@@ -234,14 +255,14 @@ public class VMProcess extends UserProcess {
         handleTLBMiss();
         break;
       default:
-        /* System.out.println("cause: "+cause); */
         super.handleException(cause);
         break;
     }
+    System.out.println("END handle exception, pid " + pid + " cause " + cause);
   }
 
   protected void unloadSections() {
-    System.out.println("unload vm");
+    System.out.println("START unload sections, pid " + pid);
     VMKernel.pageTableLock.acquire();
     Set<SwapFile.Pair> keySet = VMKernel.pageTable.keySet();
     Object[] keys = keySet.toArray();
@@ -254,6 +275,7 @@ public class VMProcess extends UserProcess {
       }
     }
     VMKernel.pageTableLock.release();
+    System.out.println("END unload sections, pid " + pid);
   }    
 
   private static final int exceptionTLBMiss = 2; 

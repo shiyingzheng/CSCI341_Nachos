@@ -232,9 +232,9 @@ public class UserProcess {
    * @return	the number of bytes successfully transferred.
    */
   public int readVirtualMemory(int vaddr, byte[] data, int offset, int length) {
+    System.out.println("START read virtual memory of size " + length);
     int pageOffset = offsetFromAddress(vaddr);
     int pageNum = pageFromAddress(vaddr);
-    System.out.println("UserProcess.readVirtualMemory()");
     System.out.println("Page number = " + pageNum + ", page offset = " + pageOffset);
     TranslationEntry page = getPage(pid, pageNum, false);
     if (!(page.valid == true && vaddr+length <= numPages*pageSize && pageNum < numPages )){
@@ -284,7 +284,7 @@ public class UserProcess {
       System.out.println(data[i]);
     }
     */
-
+    System.out.println("END read virtual memory of size " + amount);
     return amount;
   }
 
@@ -815,6 +815,7 @@ public class UserProcess {
   }
 
   protected int handleRead(int a0, int a1, int a2){
+    System.out.println("START handle read " + a0 + " " + a1 + " " + a2);
     int fd = a0; //file descriptor
     int length = a2; //how much we want to read from file
 
@@ -853,6 +854,7 @@ public class UserProcess {
     int transferredLength = writeVirtualMemory(a1, bytes, 0, readLength);
     //System.out.println("transferred " + transferredLength + " bytes to virtual mem");
 
+    System.out.println("END handle read " + a0 + " " + a1 + " " + a2);
     return transferredLength;
   }
 

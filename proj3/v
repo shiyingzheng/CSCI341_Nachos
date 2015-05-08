@@ -1,0 +1,198 @@
+nachos 5.0j initializing... config interrupt timer processor console user-check grader
+VM kernel constructor
+initialize
+Testing the console device. Typed characters
+will be echoed until q is typed.
+q
+run
+VMProcess init
+load sections
+get page
+find entry in tlb
+handle tlb miss
+find entry in tlb
+swap in page
+tlb entry replacement
+sf page in
+tlb entry replacement index
+TLB MISS
+page: 0 -> 8, valid=true, readOnly=false, used=true, dirty=false
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+get page
+find entry in tlb
+handle tlb miss
+find entry in tlb
+restore state
+pid: 1
+cur thread: testRead.coff (#2)
+context switch
+synctables
+restore state
+pid: 1
+cur thread: testRead.coff (#2)
+context switch
+synctables
+PAGE FAULT: 0
+handle exception
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+handle tlb miss no arg
+handle tlb miss
+find entry in tlb
+save state
+context switch
+synctables
+restore state
+pid: 1
+cur thread: testRead.coff (#2)
+context switch
+synctables
+tlb entry replacement index
+TLB MISS
+page: 0 -> 8, valid=true, readOnly=false, used=true, dirty=false
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 8, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+PAGE FAULT: 1
+handle exception
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 8, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+handle tlb miss no arg
+handle tlb miss
+find entry in tlb
+tlb entry replacement index
+TLB MISS
+page: 1 -> 2, valid=true, readOnly=false, used=true, dirty=false
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 1 -> 2, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+PAGE FAULT: 2
+handle exception
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 1 -> 2, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+handle tlb miss no arg
+handle tlb miss
+find entry in tlb
+swap in page
+tlb entry replacement
+sf page out
+sf page in
+tlb entry replacement index
+TLB MISS
+page: 2 -> 6, valid=true, readOnly=false, used=true, dirty=false
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 2 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+save state
+context switch
+synctables
+restore state
+pid: 1
+cur thread: testRead.coff (#2)
+context switch
+synctables
+PAGE FAULT: 2
+handle exception
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 0 -> 8, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 2 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+handle tlb miss no arg
+handle tlb miss
+find entry in tlb
+tlb entry replacement index
+TLB MISS
+page: 2 -> 6, valid=true, readOnly=false, used=true, dirty=false
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 2 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 2 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+PAGE FAULT: 3
+handle exception
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 2 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 2 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+handle tlb miss no arg
+handle tlb miss
+find entry in tlb
+tlb entry replacement index
+TLB MISS
+page: 3 -> 3, valid=true, readOnly=false, used=true, dirty=false
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 2 -> 6, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 3 -> 3, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+save state
+context switch
+synctables
+restore state
+pid: 1
+cur thread: testRead.coff (#2)
+context switch
+synctables
+PAGE FAULT: 3
+handle exception
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 2 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 3 -> 3, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+handle tlb miss no arg
+handle tlb miss
+find entry in tlb
+tlb entry replacement index
+TLB MISS
+page: 3 -> 3, valid=true, readOnly=false, used=true, dirty=false
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 2 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 3 -> 3, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+PAGE FAULT: 4
+handle exception
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 2 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 3 -> 3, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+handle tlb miss no arg
+handle tlb miss
+find entry in tlb
+swap in page
+tlb entry replacement
+sf page out
+sf page in
+tlb entry replacement index
+TLB MISS
+page: 4 -> 8, valid=true, readOnly=false, used=true, dirty=false
+print tlb!
+TLB entry: 0 -> 0, valid=false, readOnly=false, used=false, dirty=false
+TLB entry: 2 -> 6, valid=false, readOnly=false, used=true, dirty=false
+TLB entry: 3 -> 3, valid=true, readOnly=false, used=true, dirty=false
+TLB entry: 4 -> 8, valid=true, readOnly=false, used=true, dirty=false
+handle exception
+
