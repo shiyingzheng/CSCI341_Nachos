@@ -183,19 +183,15 @@ public class VMProcess extends UserProcess {
 
     boolean fromDisk = false;
     VMKernel.pageTableLock.acquire();
-    //System.out.println("wut");
+
     TranslationEntry page = null;
-    /* System.out.println("pid " + pid + " vpn " + pageNumber + "in handle TLB miss"); */
-    /* System.out.println(pageNumber); */
-    /* System.out.println(VMKernel.pageTable); */
     Pair pageTableKey = new Pair(pid, pageNumber);
 
     page = VMKernel.pageTable.get(pageTableKey);
     //System.out.println("This should be null: "+page);
 
-    while(page == null || !page.valid) {
-      page = VMKernel.swapInPage(pid, pageNumber);
-      fromDisk = true;
+    System.out.println(VMKernel.pageTable);
+    if(page == null || !page.valid) {
     }
 
     // may need to do this in swapInPage?
