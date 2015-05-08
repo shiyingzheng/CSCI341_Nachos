@@ -31,14 +31,15 @@ public class VMKernel extends UserKernel {
 
     pageTableLock.acquire();
     for(int i=0; i<Machine.processor().getNumPhysPages(); i++) {
-      Pair pageTableKey = new Pair(0, i);
-      VMKernel.pageTable.put(pageTableKey, new TranslationEntry(0,i,false,false,false,false));
+      Pair pageTableKey = new Pair(0, (-1*i));
+      VMKernel.pageTable.put(pageTableKey, new TranslationEntry((-1*i),i,false,false,false,false));
     }
     pageTableLock.release();
 
     for(int i=0; i<Machine.processor().getTLBSize(); i++) {
       Machine.processor().writeTLBEntry(i, new TranslationEntry());
     }
+    System.out.println(pageTable);
     System.out.println("END kernel initialize");
   }
 
@@ -92,6 +93,7 @@ public class VMKernel extends UserKernel {
         pEntry.readOnly = entry.readOnly;
         pEntry.used = entry.used;
         pEntry.dirty = entry.dirty;
+        VMKernel.pageTable.remove(pageTableEntry);
         VMKernel.pageTable.put(pageTableEntry, pEntry);
       }
 

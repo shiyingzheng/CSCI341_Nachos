@@ -94,7 +94,7 @@ public class VMProcess extends UserProcess {
   public TranslationEntry getPage(int pid, int pageNumber, boolean write) {
     System.out.println("START get page pid " + pid + " page number " + pageNumber + " write? " + write);
     TranslationEntry page = findEntryInTLB(pid, pageNumber);
-    while(page == null) {
+    if(page == null) {
       page = handleTLBMiss(pageNumber);
       //page = findEntryInTLB(pid, pageNumber);
     }
@@ -121,17 +121,21 @@ public class VMProcess extends UserProcess {
       SwapFile.Pair key3 = swapFile.new Pair(pid, i+1);
       System.out.println("equals:" + key.equals(key3) + " hashcode:" + (key.hashCode()== key3.hashCode()));
       */
+      System.out.println("AH: "+replaced.val2);
       Pair replacedEntry = new Pair(replaced.val1,replaced.val2.vpn);
       /* System.out.println("Inserting "+key); */
       /* System.out.println("Replacing "+replacedEntry); */
       //System.out.println("equals:" + key.equals(replacedEntry) + " hashcode:" + (key.hashCode()== replacedEntry.hashCode()));
+      System.out.println("Entry to be replaced: "+replacedEntry);
       TranslationEntry removed = VMKernel.pageTable.remove(replacedEntry);
 
       if(removed == null){
+        System.out.println("THIS IS SO BAD");
         /* System.out.println("Page table is "+ VMKernel.pageTable); */
       }
       VMKernel.pageTable.put(key, new TranslationEntry(i,replaced.val2.ppn,true,false,true,false)); 
       
+      System.out.println(VMKernel.pageTable);
       VMKernel.pageTableLock.release();
     }
 
@@ -157,8 +161,9 @@ public class VMProcess extends UserProcess {
     return true;
   }
 
-  private TranslationEntry handleTLBMiss(int vaddr){
-    System.out.println("START handle tlb miss pid " + pid + " vaddr " + vaddr);
+  private TranslationEntry handleTLBMiss(int vpageNum){
+    System.out.println("START handle tlb miss pid " + pid + " vaddr " + vpageNum);
+    VMKernel.printTLB();
     //TODO: make getPage always return the correct page.
     /* int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
        int pid = VMKernel.currentProcess().pid;
@@ -175,8 +180,8 @@ public class VMProcess extends UserProcess {
        */
     //System.out.println("hi");
     // we need to know if the page is coming from memory or disk
-    int pageNumber = pageFromAddress(vaddr);
-    TranslationEntry maybeEntryIsThere = findEntryInTLB(pid, pageNumber);
+    /* int pageNumber = pageFromAddress(vaddr); */
+    TranslationEntry maybeEntryIsThere = findEntryInTLB(pid, vpageNum);
     if (maybeEntryIsThere != null){
       return maybeEntryIsThere;
     }
@@ -185,7 +190,7 @@ public class VMProcess extends UserProcess {
     VMKernel.pageTableLock.acquire();
 
     TranslationEntry page = null;
-    Pair pageTableKey = new Pair(pid, pageNumber);
+    Pair pageTableKey = new Pair(pid, vpageNum);
 
     page = VMKernel.pageTable.get(pageTableKey);
     //System.out.println("This should be null: "+page);
@@ -196,26 +201,39 @@ public class VMProcess extends UserProcess {
       TranslationEntry entry = (TranslationEntry) pair.val2;
       System.out.println("replacement: "+entry);
       invalidateTLBEntry(entry);
-      VMKernel.pageTable.remove(new Pair((int) pair.val1, entry.vpn));
-      page = new TranslationEntry(pageNumber, entry.ppn, true, false, true, false);
-      VMKernel.pageTable.put(new Pair(pid, pageNumber), page);
+      int pid = (Integer) pair.val1;
+      Pair key = new Pair(pid, entry.vpn);
+      System.out.println("replaced pid: "+pid+ " replaced vpn: "+entry.vpn);
+      TranslationEntry removed = (TranslationEntry) VMKernel.pageTable.remove(key);
+      System.out.println("remove key: "+key);
+      System.out.println("removed: "+removed);
+      page = new TranslationEntry(vpageNum, entry.ppn, true, false, true, false);
+      VMKernel.pageTable.put(new Pair(pid, vpageNum), page);
+      int tlbIndex = VMKernel.TLBEntryReplacementIndex();
+      Machine.processor().writeTLBEntry(tlbIndex, page);
+    } else {
+      System.out.println("from the page table");
+      System.out.println(VMKernel.pageTable);
+      int tlbIndex = VMKernel.TLBEntryReplacementIndex();
+      Machine.processor().writeTLBEntry(tlbIndex, page);
     }
 
     // may need to do this in swapInPage?
     page.used = true;
 
     VMKernel.pageTableLock.release();
-    if(!fromDisk) {
-      int index = VMKernel.TLBEntryReplacementIndex();
-      Machine.processor().writeTLBEntry(index, page);
+    /* if(!fromDisk) { */
+    /*   int index = VMKernel.TLBEntryReplacementIndex(); */
+    /*   Machine.processor().writeTLBEntry(index, page); */
       /* VMKernel.syncTables(pid); */
-    }
+    /* } */
 
     /* System.out.println("fetchPage(): " + e);  */
 
     /* System.out.println(VMKernel.pageTable); */
-    System.out.println("TLB MISS");
-    System.out.println("page: "+page);
+    /* System.out.println("TLB MISS"); */
+    /* System.out.println("page: "+page); */
+    VMKernel.syncTables(this.pid);
     VMKernel.printTLB();
     // TODO:
     // 1. check the global page table to see if we can find the page; if so,
@@ -226,7 +244,7 @@ public class VMProcess extends UserProcess {
     //    in VMKernel, which I just made up but has not been implemented
     //System.out.println("lock release in handle tlb miss");
     //System.out.println("bye");
-    System.out.println("END handle tlb miss pid " + pid + " vaddr " + vaddr);
+    System.out.println("END handle tlb miss pid " + pid + " vpage " + vpageNum);
     return page;
   }
 
@@ -248,7 +266,9 @@ public class VMProcess extends UserProcess {
    */
   private TranslationEntry handleTLBMiss(){
     System.out.println("START handle tlb miss no arg, pid " + pid);
-    int badAddress = Machine.processor().readRegister(Machine.processor().regBadVAddr);
+    int badAddress = pageFromAddress(Machine.processor().readRegister(Machine.processor().regBadVAddr));
+    System.out.println("END handle tlb miss no arg, pid addr" + Machine.processor().readRegister(Machine.processor().regBadVAddr));
+    System.out.println("END handle tlb miss no arg, pid addr" + badAddress);
     System.out.println("END handle tlb miss no arg, pid " + pid);
     return handleTLBMiss(badAddress);
   }
@@ -267,7 +287,6 @@ public class VMProcess extends UserProcess {
 
     switch (cause) {
       case exceptionTLBMiss:
-        VMKernel.printTLB();
         handleTLBMiss();
         break;
       default:
