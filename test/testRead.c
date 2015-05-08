@@ -16,10 +16,10 @@ int test1(){
     y[j] = 0;
     int f = creat(x);
     if(f == -1){
-      /* printf("Unable to create file\n"); */
+      printf("Unable to create file\n");
     }
     else{
-      /* write(f,"Four",4); */
+      write(f,"Four",4);
     }
     close(f);
   }
@@ -31,11 +31,11 @@ int test1(){
     x[j] = 0;
     int f = open(x);
     if(f == -1){
-      /* printf("Unable to open file\n"); */
+      printf("Unable to open file\n");
     }
     else{
       read(f,x,20);
-      /* printf("%s\n",x); */
+      printf("%s\n",x);
     }
   }
 }
@@ -44,14 +44,14 @@ int test2(){
   int f = open("meow");
   read(f,x,20);
   int g = creat("y");
-  /* write(g,x,20); */
+  write(g,x,20);
   read(f,x,20);
-  /* write(g,x,20); */
+  write(g,x,20);
 }
 int test3(){
   int c;
   while((c = getchar()) != EOF){
-    /* printf("You typed: %c\n",c); */
+    printf("You typed: %c\n",c);
   }
 }
 int test4(){
@@ -61,11 +61,11 @@ int test4(){
     int f = open("a");
     read(f,buf,i);
     buf[i] = 0;
-    /* printf("%s\n",buf); */
+    printf("%s\n",buf);
     close(f);
   }
 }
 int main(){
-  test1();
+  test4();
   exit(0);
 }

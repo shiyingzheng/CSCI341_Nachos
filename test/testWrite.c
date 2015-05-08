@@ -13,7 +13,7 @@ int test1(){
       x[j]='x';
     }
     x[j] = 0;
-    /* printf("APPLES: %s\n", x); */
+    printf("APPLES: %s\n", x);
     int f = creat(x);
     if(f == -1){
       printf("PANDAS!\n");
@@ -33,5 +33,5 @@ int test2(){
   close(f);
 }
 int main(){
-  test2();
+  test1();
 }

@@ -4,7 +4,7 @@
 int main(){
     int i;
     int j;
-    char x[1000];
+    char x[20];
     for(i=0;i<20;i++){
 	for(j=0;j<i+1;j++){
 	    x[j]='x';

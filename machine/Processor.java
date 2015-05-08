@@ -583,12 +583,12 @@ public final class Processor {
       writeRegister(regCause, cause);    
 
       if (hasBadVAddr){
-        System.out.println("PAGE FAULT: "+pageFromAddress(badVAddr));
+        /* System.out.println("PAGE FAULT: "+pageFromAddress(badVAddr)); */
         writeRegister(regBadVAddr, badVAddr); 
       }
 
       if (Lib.test(dbgDisassemble) || Lib.test(dbgFullDisassemble))
-        System.out.println("exception: " + exceptionNames[cause]);    
+        /* System.out.println("exception: " + exceptionNames[cause]);     */
 
       finishLoad();  
 
