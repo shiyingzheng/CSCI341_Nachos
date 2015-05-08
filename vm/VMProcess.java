@@ -57,7 +57,6 @@ public class VMProcess extends UserProcess {
       lockOnBeforeSwitch = false;
       VMKernel.pageTableLock.acquire();
     }
-
   }
 
   private TranslationEntry findEntryInTLB(int pid, int pageNumber){
