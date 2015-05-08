@@ -12,4 +12,5 @@ int main(){
 	x[j] = 0;
 	int f = creat(x);
     }
+    exit(0);
 }

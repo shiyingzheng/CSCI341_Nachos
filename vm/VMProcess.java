@@ -4,7 +4,7 @@ import nachos.machine.*;
 import nachos.threads.*;
 import nachos.userprog.*;
 import nachos.vm.*;
-import java.util.Iterator;
+import java.util.Set;
 
 /*TODO: 
   1. test all of this shit; 
@@ -33,7 +33,7 @@ public class VMProcess extends UserProcess {
    */
   public void saveState() {
     System.out.println("save state");
-    super.saveState();
+    /* super.saveState(); */
     if (VMKernel.pageTableLock.isHeldByCurrentThread()){
       VMKernel.pageTableLock.release();
       lockOnBeforeSwitch = true;
@@ -52,7 +52,9 @@ public class VMProcess extends UserProcess {
   public void restoreState() {
     System.out.println("restore state");
     System.out.println("pid: "+pid);
+    System.out.println("cur thread: "+(UThread) KThread.currentThread());
     /* super.restoreState(); */
+    VMKernel.contextSwitch(pid);
     if (lockOnBeforeSwitch){
       lockOnBeforeSwitch = false;
       VMKernel.pageTableLock.acquire();
@@ -192,6 +194,8 @@ public class VMProcess extends UserProcess {
 
     /* System.out.println(VMKernel.pageTable); */
     System.out.println("TLB MISS");
+    System.out.println("page: "+page);
+    VMKernel.printTLB();
     // TODO:
     // 1. check the global page table to see if we can find the page; if so,
     //    just use it
@@ -238,10 +242,12 @@ public class VMProcess extends UserProcess {
   }
 
   protected void unloadSections() {
+    System.out.println("unload vm");
     VMKernel.pageTableLock.acquire();
-    Iterator<SwapFile.Pair> itr = VMKernel.pageTable.keySet().iterator();
-    while(itr.hasNext()) {
-      SwapFile.Pair key =  itr.next();
+    Set<SwapFile.Pair> keySet = VMKernel.pageTable.keySet();
+    Object[] keys = keySet.toArray();
+    for(int i=0; i<keys.length; i++) {
+      SwapFile.Pair key =  (SwapFile.Pair) keys[i];
       if(key.pid == this.pid) {
         TranslationEntry entry = VMKernel.pageTable.get(key);
         VMKernel.pageTable.put(swapFile.new Pair(0,0), new TranslationEntry(SILLY, entry.ppn, false, false, false, false));

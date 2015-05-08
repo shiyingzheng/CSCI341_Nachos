@@ -316,6 +316,7 @@ public class UserProcess {
    * @return	the number of bytes successfully transferred.
    */
   public int writeVirtualMemory(int vaddr, byte[] data, int offset, int length) {
+    System.out.println("writing");
     /* System.out.println("address is " + data); */
     /* System.out.println("WRITING: vaddr: " + vaddr + " data: " + data + " offset: " + offset + " length: " + length + " page " + pageFromAddress(vaddr) + " maxPages: " + numPages); */
     /* if (!(offset >= 0 && length >= 0 && offset+length <= data.length && pageFromAddress(vaddr)*pageSize + offsetFromAddress(vaddr) + offset+ length< numPages * pageSize)){ */
@@ -345,12 +346,14 @@ public class UserProcess {
     /* System.out.println("LEN: "+length); */
     /* int pageOffset = offsetFromAddress(vaddr); */
     for (int i = 0; rem > 0; i++){
+      System.out.println("LOOP 1");
       // copy Math.min(pageSize, rem) number of bytes from data at offset + curLoc
       // to memory at ppn
       /*   System.out.println("on page: " + i);
            System.out.println("Amount remaining: "+ rem);
            System.out.println("current location is: "+ curLoc);*/
       if(pageOffset != 0){
+        System.out.println("page offset != 0");
         System.arraycopy(data, offset + curLoc, memory, getPage(pid,pageNum+i, true).ppn * pageSize + pageOffset,
             Math.min(pageSize - pageOffset, rem));
         curLoc += Math.min(pageSize - pageOffset, rem);
@@ -358,6 +361,7 @@ public class UserProcess {
         pageOffset = 0;
       }
       else{ 
+        System.out.println("page offset == 0");
         System.arraycopy(data, offset+curLoc, memory,  getPage(pid,pageNum+i, true).ppn * pageSize, Math.min(pageSize, rem));
         // set used bit
         /* pageTable[pageNumber+i].used = true; */
@@ -590,7 +594,9 @@ public class UserProcess {
    * Handle the creat() system call.
    */
   protected int handleCreat(int a0){
+    System.out.println("Handle Creat");
     String fileName = readVirtualMemoryString(a0, 256);
+    System.out.println("after read vm string");
     /* System.out.println("filename is: " +fileName + "a"); */
 
     if(fileName == null || fileName.equals("")) {
@@ -604,6 +610,7 @@ public class UserProcess {
       ArrayList<Integer> fileEntry = UserKernel.openFileList.get(fileName);
       if (fileEntry.get(1) == 1){
         //UserKernel.fileListLock.release();
+        System.out.println("NOT HERE PLEASE");
         return -1;
       }
     }
@@ -635,6 +642,7 @@ public class UserProcess {
     }
     UserKernel.fileListLock.release();
 
+    System.out.println("handle creat end");
     return nextFileDescriptor++;
   }
 
@@ -849,6 +857,7 @@ public class UserProcess {
   }
 
   protected int handleWrite(int a0, int a1, int a2){
+    System.out.println("HANDLE WRITE");
     int fd = a0; //file descriptor
     int length = a2; //how much we want to read from buffer
 
