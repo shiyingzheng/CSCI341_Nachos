@@ -28,6 +28,7 @@ public class VMKernel extends UserKernel {
     super.initialize(args);
     pageTable = new HashMap<Pair, TranslationEntry>();
     pageTableLock = new Lock();
+    swapFile = new SwapFile();
 
     pageTableLock.acquire();
     for(int i=0; i<Machine.processor().getNumPhysPages(); i++) {
@@ -133,12 +134,16 @@ public class VMKernel extends UserKernel {
     //System.out.println("Removed: "+ removed);
     boolean swappedOut = false;
     if(replacedPage.valid){
-      //TODO
+      swappedOut = swapFile.swapPageOut(pair.val1,replacedPage.vpn,replacedPage.ppn);
     }
 
     //pageTableLock.acquire(); // so far we are only using swapInPage in VMProcess.handleTLBMiss, 
     // which already acquires the lock
-    //TODO
+    boolean swappedIn = swapFile.swapPageIn(pid, vpn, replacedPage.ppn);
+    if (swappedIn == false){
+      System.out.println("OH NO!!! page swap in failed");
+      System.out.println("OH NO!!! page swap in failed");
+    }
 
     TranslationEntry entry = new TranslationEntry(vpn,replacedPage.ppn,true, false, true, false);
 
@@ -248,5 +253,6 @@ public class VMKernel extends UserKernel {
   /* A lock for the global page table. */
   public static Lock pageTableLock;
   public static boolean debug = false;
+  public static SwapFile swapFile;
 }
 
