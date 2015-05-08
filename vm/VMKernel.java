@@ -4,7 +4,6 @@ import nachos.machine.*;
 import nachos.threads.*;
 import nachos.userprog.*;
 import nachos.vm.*;
-import nachos.vm.SwapFile.Pair;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
@@ -28,12 +27,11 @@ public class VMKernel extends UserKernel {
     System.out.println("START kernel initialize");
     super.initialize(args);
     pageTable = new HashMap<Pair, TranslationEntry>();
-    swapFile = new SwapFile();
     pageTableLock = new Lock();
 
     pageTableLock.acquire();
     for(int i=0; i<Machine.processor().getNumPhysPages(); i++) {
-      SwapFile.Pair pageTableKey = swapFile.new Pair(i, 0);
+      Pair pageTableKey = new Pair(i, 0);
       VMKernel.pageTable.put(pageTableKey, new TranslationEntry(0,i,false,false,false,false));
     }
     pageTableLock.release();
@@ -86,7 +84,7 @@ public class VMKernel extends UserKernel {
     pageTableLock.acquire(); 
     for(int i=0;i < Machine.processor().getTLBSize(); i++) {
       TranslationEntry entry = Machine.processor().readTLBEntry(i);
-      SwapFile.Pair pageTableEntry = swapFile.new Pair(pid, entry.vpn);
+      Pair pageTableEntry = new Pair(pid, entry.vpn);
       TranslationEntry pEntry = VMKernel.pageTable.get(pageTableEntry);
 
       if (pEntry != null){
@@ -124,7 +122,7 @@ public class VMKernel extends UserKernel {
     if(replacedTLBPage == null){
       replacedTLBPage = TLBEntryReplacement();
     }
-    SwapFile.Pair keyToRemove = swapFile.new Pair(pair.val1,pair.val2.vpn);
+    Pair keyToRemove = new Pair(pair.val1,pair.val2.vpn);
     //SwapFile.Pair keyToRemove2 = swapFile.new Pair(pair.val1,pair.val2.vpn);
     //System.out.println("HashCodes "+keyToRemove.hashCode() + " " + keyToRemove2.hashCode());
     //System.out.println("Pair to remove: " + keyToRemove);
@@ -132,7 +130,7 @@ public class VMKernel extends UserKernel {
     //System.out.println("Removed: "+ removed);
     boolean swappedOut = false;
     if(replacedPage.valid){
-      swappedOut = swapFile.swapPageOut(pair.val1,replacedPage.vpn,replacedPage.ppn);
+      //TODO
     }
     if (swappedOut == false && replacedPage.valid){
       System.out.println("OH NO!!! page swap out failed");
@@ -140,7 +138,7 @@ public class VMKernel extends UserKernel {
 
     //pageTableLock.acquire(); // so far we are only using swapInPage in VMProcess.handleTLBMiss, 
     // which already acquires the lock
-    boolean swappedIn = swapFile.swapPageIn(pid, vpn, replacedPage.ppn);
+    //TODO
     if (swappedIn == false){
       System.out.println("OH NO!!! page swap in failed");
     }
@@ -148,7 +146,7 @@ public class VMKernel extends UserKernel {
 
     int tlbIndex = TLBEntryReplacementIndex();
     Machine.processor().writeTLBEntry(tlbIndex, entry);
-    VMKernel.pageTable.put(swapFile.new Pair(pid,vpn),entry);
+    VMKernel.pageTable.put(new Pair(pid,vpn),entry);
 
     //pageTableLock.release();
 
@@ -164,14 +162,14 @@ public class VMKernel extends UserKernel {
     //System.out.println(VMKernel.pageTable);
     //pageTableLock.acquire();
     System.out.println("START clock replacement");
-    Iterator<SwapFile.Pair> itr = VMKernel.pageTable.keySet().iterator();
+    Iterator<Pair> itr = VMKernel.pageTable.keySet().iterator();
 
     while(true) {
       if(!itr.hasNext()) {
         itr = VMKernel.pageTable.keySet().iterator();
       } 
 
-      SwapFile.Pair pidVpn = itr.next();
+      Pair pidVpn = itr.next();
       TranslationEntry entry = VMKernel.pageTable.get(pidVpn);
       /* System.out.println("entry to replace:"+entry); */
       if(entry.vpn != pidVpn.vPageNum){
@@ -238,6 +236,5 @@ public class VMKernel extends UserKernel {
   /* A lock for the global page table. */
   public static Lock pageTableLock;
   public static boolean debug = false;
-  public static SwapFile swapFile;
 }
 

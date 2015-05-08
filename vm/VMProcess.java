@@ -115,13 +115,13 @@ public class VMProcess extends UserProcess {
       /* System.out.println("i is "+i); */
       VMKernel.pageTableLock.acquire();
       VMKernel.GenericPair<Integer, TranslationEntry> replaced = VMKernel.clockReplacement();
-      SwapFile.Pair key = swapFile.new Pair(pid, i);
+      Pair key = new Pair(pid, i);
       /*
       SwapFile.Pair key2 = swapFile.new Pair(pid, i);
       SwapFile.Pair key3 = swapFile.new Pair(pid, i+1);
       System.out.println("equals:" + key.equals(key3) + " hashcode:" + (key.hashCode()== key3.hashCode()));
       */
-      SwapFile.Pair replacedEntry = swapFile.new Pair(replaced.val1,replaced.val2.vpn);
+      Pair replacedEntry = new Pair(replaced.val1,replaced.val2.vpn);
       /* System.out.println("Inserting "+key); */
       /* System.out.println("Replacing "+replacedEntry); */
       //System.out.println("equals:" + key.equals(replacedEntry) + " hashcode:" + (key.hashCode()== replacedEntry.hashCode()));
@@ -144,7 +144,7 @@ public class VMProcess extends UserProcess {
       for (int i=0; i<section.getLength(); i++) {
         /* System.out.println("i is "+i); */
         int vpn = section.getFirstVPN()+i;    
-        SwapFile.Pair key = swapFile.new Pair(pid, i);
+        Pair key = new Pair(pid, i);
         //System.out.println(VMKernel.pageTable); //BUG we have way too many things in page table
         TranslationEntry page = getPage(pid,vpn,false);
         VMKernel.pageTableLock.acquire();
@@ -188,7 +188,7 @@ public class VMProcess extends UserProcess {
     /* System.out.println("pid " + pid + " vpn " + pageNumber + "in handle TLB miss"); */
     /* System.out.println(pageNumber); */
     /* System.out.println(VMKernel.pageTable); */
-    SwapFile.Pair pageTableKey = swapFile.new Pair(pid, pageNumber);
+    Pair pageTableKey = new Pair(pid, pageNumber);
 
     page = VMKernel.pageTable.get(pageTableKey);
     //System.out.println("This should be null: "+page);
@@ -264,14 +264,14 @@ public class VMProcess extends UserProcess {
   protected void unloadSections() {
     System.out.println("START unload sections, pid " + pid);
     VMKernel.pageTableLock.acquire();
-    Set<SwapFile.Pair> keySet = VMKernel.pageTable.keySet();
+    Set<Pair> keySet = VMKernel.pageTable.keySet();
     Object[] keys = keySet.toArray();
     for(int i=0; i<keys.length; i++) {
-      SwapFile.Pair key =  (SwapFile.Pair) keys[i];
+      Pair key =  (Pair) keys[i];
       if(key.pid == this.pid) {
         TranslationEntry entry = VMKernel.pageTable.get(key);
-        VMKernel.pageTable.put(swapFile.new Pair(0,0), new TranslationEntry(SILLY, entry.ppn, false, false, false, false));
-        swapFile.removePage(key);
+        VMKernel.pageTable.put(new Pair(0,0), new TranslationEntry(SILLY, entry.ppn, false, false, false, false));
+        //TODO Swap
       }
     }
     VMKernel.pageTableLock.release();
@@ -282,7 +282,6 @@ public class VMProcess extends UserProcess {
   private static final int pageSize = Processor.pageSize;
   private static final char dbgProcess = 'a';
   private static final char dbgVM = 'v';
-  private static SwapFile swapFile = VMKernel.swapFile;
   private boolean lockOnBeforeSwitch;
   private final int SILLY = 69;
 }
