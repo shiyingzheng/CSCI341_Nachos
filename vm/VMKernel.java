@@ -39,7 +39,7 @@ public class VMKernel extends UserKernel {
     for(int i=0; i<Machine.processor().getTLBSize(); i++) {
       Machine.processor().writeTLBEntry(i, new TranslationEntry());
     }
-    System.out.println(pageTable);
+    /* System.out.println(pageTable); */
     System.out.println("END kernel initialize");
   }
 

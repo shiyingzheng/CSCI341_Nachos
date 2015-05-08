@@ -135,7 +135,7 @@ public class VMProcess extends UserProcess {
       }
       VMKernel.pageTable.put(key, new TranslationEntry(i,replaced.val2.ppn,true,false,true,false)); 
       
-      System.out.println(VMKernel.pageTable);
+      /* System.out.println(VMKernel.pageTable); */
       VMKernel.pageTableLock.release();
     }
 
@@ -213,7 +213,7 @@ public class VMProcess extends UserProcess {
       Machine.processor().writeTLBEntry(tlbIndex, page);
     } else {
       System.out.println("from the page table");
-      System.out.println(VMKernel.pageTable);
+      /* System.out.println(VMKernel.pageTable); */
       int tlbIndex = VMKernel.TLBEntryReplacementIndex();
       Machine.processor().writeTLBEntry(tlbIndex, page);
     }
@@ -267,8 +267,8 @@ public class VMProcess extends UserProcess {
   private TranslationEntry handleTLBMiss(){
     System.out.println("START handle tlb miss no arg, pid " + pid);
     int badAddress = pageFromAddress(Machine.processor().readRegister(Machine.processor().regBadVAddr));
-    System.out.println("END handle tlb miss no arg, pid addr" + Machine.processor().readRegister(Machine.processor().regBadVAddr));
-    System.out.println("END handle tlb miss no arg, pid addr" + badAddress);
+    /* System.out.println("END handle tlb miss no arg, pid addr" + Machine.processor().readRegister(Machine.processor().regBadVAddr)); */
+    /* System.out.println("END handle tlb miss no arg, pid addr" + badAddress); */
     System.out.println("END handle tlb miss no arg, pid " + pid);
     return handleTLBMiss(badAddress);
   }
