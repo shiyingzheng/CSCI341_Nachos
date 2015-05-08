@@ -309,6 +309,7 @@ public class VMProcess extends UserProcess {
         VMKernel.pageTable.put(new Pair(0,0), new TranslationEntry(SILLY, entry.ppn, false, false, false, false));
         VMKernel.freePageList.add(entry.ppn);
         //TODO Swap
+        swapFile.removePage(key);
       }
     }
     VMKernel.pageTableLock.release();
@@ -321,4 +322,5 @@ public class VMProcess extends UserProcess {
   private static final char dbgVM = 'v';
   private boolean lockOnBeforeSwitch;
   private final int SILLY = 69;
+  private static SwapFile swapFile = VMKernel.swapFile;
 }
