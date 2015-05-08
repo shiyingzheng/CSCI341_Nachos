@@ -190,8 +190,15 @@ public class VMProcess extends UserProcess {
     page = VMKernel.pageTable.get(pageTableKey);
     //System.out.println("This should be null: "+page);
 
-    System.out.println(VMKernel.pageTable);
+    /* System.out.println(VMKernel.pageTable); */
     if(page == null || !page.valid) {
+      VMKernel.GenericPair pair = VMKernel.clockReplacement();
+      TranslationEntry entry = (TranslationEntry) pair.val2;
+      System.out.println("replacement: "+entry);
+      invalidateTLBEntry(entry);
+      VMKernel.pageTable.remove(new Pair((int) pair.val1, entry.vpn));
+      page = new TranslationEntry(pageNumber, entry.ppn, true, false, true, false);
+      VMKernel.pageTable.put(new Pair(pid, pageNumber), page);
     }
 
     // may need to do this in swapInPage?
@@ -221,6 +228,19 @@ public class VMProcess extends UserProcess {
     //System.out.println("bye");
     System.out.println("END handle tlb miss pid " + pid + " vaddr " + vaddr);
     return page;
+  }
+
+  private void invalidateTLBEntry(TranslationEntry page) {
+    for(int i=0;i<Machine.processor().getTLBSize();i++){
+      TranslationEntry entry = Machine.processor().readTLBEntry(i);
+      /* System.out.println("page: "+page); */
+      if(entry.valid && entry.vpn == page.vpn && page.valid){
+        /* System.out.println("page already in tlb: "+page); */
+        entry.valid = false;
+        Machine.processor().writeTLBEntry(i, entry);
+        break;
+      }
+    }
   }
 
   /**
