@@ -24,7 +24,7 @@ public class VMKernel extends UserKernel {
    * Initialize this kernel.
    */
   public void initialize(String[] args) {
-    /* System.out.println("START kernel initialize"); */
+    System.out.println("START kernel initialize");
     super.initialize(args);
     pageTable = new HashMap<Pair, TranslationEntry>();
     pageTableLock = new Lock();
@@ -42,7 +42,7 @@ public class VMKernel extends UserKernel {
       Machine.processor().writeTLBEntry(i, new TranslationEntry());
     }
     /* System.out.println(pageTable); */
-    /* System.out.println("END kernel initialize"); */
+    System.out.println("END kernel initialize");
   }
 
   /**
@@ -56,7 +56,7 @@ public class VMKernel extends UserKernel {
    * Start running user programs.
    */
   public void run() {
-    /* System.out.println("run"); */
+    System.out.println("run");
     super.run();
   }
 
@@ -64,26 +64,26 @@ public class VMKernel extends UserKernel {
    * Terminate this kernel. Never returns.
    */
   public void terminate() {
-    /* System.out.println("terminate"); */
+    System.out.println("terminate");
     super.terminate();
   }
 
   // on context switch, sync tables, invalidate TLB entries
   // call syncTables() to sync tables
   public static void contextSwitch(int pid){
-    /* System.out.println("START context switch pid " + pid); */
+    System.out.println("START context switch pid " + pid);
     syncTables(pid);
     for(int i=0;i<Machine.processor().getTLBSize();i++){
       TranslationEntry entry = Machine.processor().readTLBEntry(i);
       entry.valid = false;
       Machine.processor().writeTLBEntry(i,entry);
     }
-    /* System.out.println("END context switch pid " + pid); */
+    System.out.println("END context switch pid " + pid);
   }
 
   // sync entries in TLB with the page table
   public static void syncTables(int pid){
-    /* System.out.println("START synctables, pid " + pid); */
+    System.out.println("START synctables, pid " + pid);
     pageTableLock.acquire(); 
     for(int i=0;i < Machine.processor().getTLBSize(); i++) {
       TranslationEntry entry = Machine.processor().readTLBEntry(i);
@@ -101,12 +101,13 @@ public class VMKernel extends UserKernel {
 
     } 
     pageTableLock.release(); 
-    /* System.out.println("END synctables, pid " + pid); */
+    System.out.println("END synctables, pid " + pid);
   }
 
   // Swap a page in from disk to physical memory
   public static TranslationEntry swapInPage(int pid, int vpn){
-    /* System.out.println("START swap in page pid " + pid + " vpn " + vpn); */
+    System.out.println("START swap in page pid " + pid + " vpn " + vpn);
+    System.out.println(pageTable);
     // TODO: sync the translation entries in the page table with the ones in TLB 
     /* System.out.println("pid: "+pid); */
     /* System.out.println("vpn: "+vpn); */
@@ -142,7 +143,6 @@ public class VMKernel extends UserKernel {
     boolean swappedIn = swapFile.swapPageIn(pid, vpn, replacedPage.ppn);
     if (swappedIn == false){
       System.out.println("OH NO!!! page swap in failed");
-      System.out.println("OH NO!!! page swap in failed");
     }
 
     TranslationEntry entry = new TranslationEntry(vpn,replacedPage.ppn,true, false, true, false);
@@ -155,7 +155,8 @@ public class VMKernel extends UserKernel {
 
     /* return replacedPage; // probably wrong....*/
 
-    /* System.out.println("END swap in page pid " + pid + " vpn " + vpn); */
+    System.out.println(pageTable);
+    System.out.println("END swap in page pid " + pid + " vpn " + vpn);
 
     return entry; // maybe not wrong....
   }
@@ -165,13 +166,13 @@ public class VMKernel extends UserKernel {
     //System.out.println(curPid + " clock");
     //System.out.println(VMKernel.pageTable);
     //pageTableLock.acquire();
-    /* System.out.println("START clock replacement"); */
+    System.out.println("START clock replacement");
     if(!freePageList.isEmpty()){
       int ppn = freePageList.pop();
       for(Pair pair:VMKernel.pageTable.keySet()){
         TranslationEntry entry = VMKernel.pageTable.get(pair);
         if(entry.ppn == ppn){
-          /* System.out.println("END clock replacement"); */
+          System.out.println("END clock replacement");
           return new GenericPair<Integer,TranslationEntry>(pair.pid,entry);
         }  
       }
@@ -194,13 +195,13 @@ public class VMKernel extends UserKernel {
       //int curPid = VMKernel.currentProcess().pid;
 
       if(!entry.valid) {
-        /* System.out.println("END clock replacement"); */
+        System.out.println("END clock replacement");
         return new GenericPair<Integer,TranslationEntry>(pidVpn.pid,entry);
       } else if(entry.used) {
         entry.used = false;
       } else {
         //pageTableLock.release();
-        /* System.out.println("END clock replacement"); */
+        System.out.println("END clock replacement");
         return new GenericPair<Integer,TranslationEntry>(pidVpn.pid,entry);
       }
     }
@@ -218,16 +219,16 @@ public class VMKernel extends UserKernel {
     for(int i=0; i<Machine.processor().getTLBSize(); i++) {
       TranslationEntry entry = Machine.processor().readTLBEntry(i);
       System.out.print("TLB entry: ");
-      /* System.out.println(entry); */
+      System.out.println(entry);
     }
   }
   public static TranslationEntry TLBEntryReplacement(){
     // randomly pick an entry to replace
-    /* System.out.println("START tlb entry replacement"); */
+    System.out.println("START tlb entry replacement");
     Random r = new Random();
     int randIndex = r.nextInt(Machine.processor().getTLBSize());
     TranslationEntry entry = Machine.processor().readTLBEntry(randIndex);
-    /* System.out.println("END tlb entry replacement"); */
+    System.out.println("END tlb entry replacement");
     return entry;
   }
 
